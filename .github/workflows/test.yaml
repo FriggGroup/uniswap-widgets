@@ -1,4 +1,4 @@
-name: "Unit test"
+name: Test
 
 on:
   push:
@@ -9,11 +9,23 @@ on:
       - main
 
 jobs:
-  unit-test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: ./.github/actions/setup
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org
+          cache: 'yarn'
 
-      - run: yarn test
+      - run: yarn install --frozen-lockfile
+
+      - id: unit-test
+        run: yarn test
+
+      - run: yarn hardhat &
+
+      - id: integration-test
+        run: yarn test:e2e
