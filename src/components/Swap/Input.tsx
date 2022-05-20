@@ -44,6 +44,7 @@ const InputColumn = styled(Column)<{ approved?: boolean }>`
 export interface InputProps {
   disabled: boolean
   focused: boolean
+  fixed?: boolean
 }
 
 interface UseFormattedFieldAmountArguments {
@@ -67,7 +68,7 @@ export function useFormattedFieldAmount({ disabled, currencyAmount, fieldAmount 
   }, [disabled, currencyAmount, fieldAmount])
 }
 
-export default function Input({ disabled, focused }: InputProps) {
+export default function Input({ disabled, focused, fixed }: InputProps) {
   const { i18n } = useLingui()
   const {
     [Field.INPUT]: { balance, amount: tradeCurrencyAmount, usdc },
@@ -117,6 +118,7 @@ export default function Input({ disabled, focused }: InputProps) {
         onChangeInput={updateInputAmount}
         onChangeCurrency={updateInputCurrency}
         loading={isLoading}
+        fixed={fixed}
       >
         <ThemedText.Body2 color="secondary" userSelect>
           <Row>

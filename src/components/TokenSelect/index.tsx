@@ -123,9 +123,10 @@ interface TokenSelectProps {
   collapsed: boolean
   disabled?: boolean
   onSelect: (value: Currency) => void
+  fixed?: boolean
 }
 
-export default memo(function TokenSelect({ value, collapsed, disabled, onSelect }: TokenSelectProps) {
+export default memo(function TokenSelect({ value, collapsed, disabled, onSelect, fixed }: TokenSelectProps) {
   usePrefetchBalances()
 
   const [open, setOpen] = useState(false)
@@ -139,7 +140,7 @@ export default memo(function TokenSelect({ value, collapsed, disabled, onSelect 
   )
   return (
     <>
-      <TokenButton value={value} collapsed={collapsed} disabled={disabled} onClick={onOpen} />
+      <TokenButton value={value} collapsed={collapsed} disabled={disabled} onClick={onOpen} fixed={fixed} />
       {open && <TokenSelectDialog value={value} onSelect={selectAndClose} onClose={() => setOpen(false)} />}
     </>
   )

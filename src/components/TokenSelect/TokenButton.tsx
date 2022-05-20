@@ -13,16 +13,20 @@ const transitionCss = css`
   transition: background-color 0.125s linear, border-color 0.125s linear, filter 0.125s linear, width 0.125s ease-out;
 `
 
-const StyledTokenButton = styled(Button)`
+const StyledTokenButton = styled(Button)<{ fixed?: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius}em;
   padding: 0.25em;
 
   :enabled {
     ${({ transition }) => transition && transitionCss};
   }
+
+  :enabled:hover {
+    pointer-events: ${({ fixed }) => (fixed ? 'none' : 'auto')};
+  }
 `
 
-const TokenButtonRow = styled(Row)<{ empty: boolean; collapsed: boolean }>`
+const TokenButtonRow = styled(Row)<{ empty: boolean; collapsed: boolean; fixed?: boolean }>`
   float: right;
   height: 1.2em;
   // max-width must have an absolute value in order to transition.
@@ -31,6 +35,8 @@ const TokenButtonRow = styled(Row)<{ empty: boolean; collapsed: boolean }>`
   width: fit-content;
   overflow: hidden;
   transition: max-width 0.25s linear;
+
+  padding-right: ${({ fixed }) => fixed && 0.2}em;
 
   img {
     min-width: 1.2em;
@@ -42,11 +48,12 @@ interface TokenButtonProps {
   collapsed: boolean
   disabled?: boolean
   onClick: () => void
+  fixed?: boolean
 }
 
-export default function TokenButton({ value, collapsed, disabled, onClick }: TokenButtonProps) {
-  const buttonBackgroundColor = useMemo(() => (value ? 'interactive' : 'accent'), [value])
-  const contentColor = useMemo(() => (value || disabled ? 'onInteractive' : 'onAccent'), [value, disabled])
+export default function TokenButton({ value, collapsed, disabled, onClick, fixed }: TokenButtonProps) {
+  const buttonBackgroundColor = useMemo(() => (value || fixed ? 'interactive' : 'accent'), [value])
+  const contentColor = useMemo(() => (value || disabled || fixed ? 'onInteractive' : 'onAccent'), [value, disabled])
 
   // Transition the button only if transitioning from a disabled state.
   // This makes initialization cleaner without adding distracting UX to normal swap flows.
@@ -66,12 +73,13 @@ export default function TokenButton({ value, collapsed, disabled, onClick }: Tok
 
   return (
     <StyledTokenButton
-      onClick={onClick}
+      onClick={fixed ? undefined : onClick}
       color={buttonBackgroundColor}
       disabled={disabled}
       style={style}
       transition={shouldTransition}
       onTransitionEnd={() => setShouldTransition(false)}
+      fixed={fixed}
     >
       <ThemedText.ButtonLarge color={contentColor}>
         <TokenButtonRow
@@ -82,16 +90,17 @@ export default function TokenButton({ value, collapsed, disabled, onClick }: Tok
           // To force this, value?.symbol is passed as a key.
           ref={setRow}
           key={value?.symbol}
+          fixed={fixed}
         >
           {value ? (
             <>
               <TokenImg token={value} size={1.2} />
               {value.symbol}
             </>
-          ) : (
+          ) : !fixed ? (
             <Trans>Select a token</Trans>
-          )}
-          <ChevronDown color={contentColor} strokeWidth={3} />
+          ) : null}
+          {!fixed ? <ChevronDown color={contentColor} strokeWidth={3} /> : <></>}
         </TokenButtonRow>
       </ThemedText.ButtonLarge>
     </StyledTokenButton>

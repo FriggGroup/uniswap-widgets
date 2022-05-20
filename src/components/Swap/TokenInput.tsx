@@ -60,6 +60,7 @@ interface TokenInputProps {
   onChangeCurrency: (currency: Currency) => void
   loading?: boolean
   children: ReactNode
+  fixed?: boolean
 }
 
 export default function TokenInput({
@@ -71,6 +72,7 @@ export default function TokenInput({
   onChangeCurrency,
   loading,
   children,
+  fixed,
 }: TokenInputProps) {
   const input = useRef<HTMLInputElement>(null)
   const onSelect = useCallback(
@@ -122,7 +124,7 @@ export default function TokenInput({
             </ThemedText.ButtonMedium>
           </MaxButton>
         )}
-        <TokenSelect value={currency} collapsed={showMax} disabled={disabled} onSelect={onSelect} />
+        <TokenSelect value={currency} collapsed={showMax} disabled={disabled} onSelect={onSelect} fixed={fixed} />
       </TokenInputRow>
       {children}
     </Column>

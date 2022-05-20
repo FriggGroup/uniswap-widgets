@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import BrandedFooter from 'components/BrandedFooter'
 import Rule from 'components/Rule'
-import { useIsSwapFieldIndependent, useSwapAmount, useSwapCurrency, useSwapInfo } from 'hooks/swap'
+import { useIsSwapFieldIndependent, useSwapAmount, useSwapCurrency } from 'hooks/swap'
 import useCurrencyColor from 'hooks/useCurrencyColor'
 import { atom } from 'jotai'
 import { useAtomValue } from 'jotai/utils'
@@ -13,6 +13,7 @@ import styled from 'styled-components/macro'
 import { DynamicThemeProvider, ThemedText } from 'theme'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 
+import useInvestInfo from '../../hooks/swap/useInvestInfo'
 import Column from '../Column'
 import Row from '../Row'
 import { Balance, InputProps, USDC, useFormattedFieldAmount } from './Input'
@@ -36,14 +37,13 @@ const OutputColumn = styled(Column)<{ hasColor: boolean | null }>`
   }
 `
 
-export default function Output({ disabled, focused, children, fixed }: PropsWithChildren<InputProps>) {
+export default function InvestOutput({ disabled, focused, children, fixed }: PropsWithChildren<InputProps>) {
   const { i18n } = useLingui()
 
   const {
     [Field.OUTPUT]: { balance, amount: outputCurrencyAmount, usdc: outputUSDC },
     trade: { state: tradeState },
-    impact,
-  } = useSwapInfo()
+  } = useInvestInfo()
 
   const [swapOutputAmount, updateSwapOutputAmount] = useSwapAmount(Field.OUTPUT)
   const [swapOutputCurrency, updateSwapOutputCurrency] = useSwapCurrency(Field.OUTPUT)
@@ -86,7 +86,6 @@ export default function Output({ disabled, focused, children, fixed }: PropsWith
             <Row>
               <USDC gap={0.5} isLoading={isRouteLoading}>
                 {outputUSDC ? `$${formatCurrencyAmount(outputUSDC, 6, 'en', 2)}` : '-'}{' '}
-                {impact && <ThemedText.Body2 color={impact.warning}>({impact.toString()})</ThemedText.Body2>}
               </USDC>
               {balance && (
                 <Balance focused={focused}>

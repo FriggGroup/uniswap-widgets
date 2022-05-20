@@ -11,15 +11,19 @@ import { useState } from 'react'
 import { displayTxHashAtom } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
 
+import { InvestInfoProvider } from '../../hooks/swap/useInvestInfo'
 import Dialog from '../Dialog'
 import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
 import Wallet from '../Wallet'
 import Input from './Input'
+import BuyButton from './InvestButton'
+import InvestOutput from './InvestOutput'
 import Output from './Output'
 import ReverseButton from './ReverseButton'
 import Settings from './Settings'
 import { StatusDialog } from './Status'
+import InvestArrow from './SwapArrow'
 import SwapButton from './SwapButton'
 import Toolbar from './Toolbar'
 import useValidate from './useValidate'
@@ -61,24 +65,41 @@ export default function Swap(props: SwapProps) {
 
   const focused = useHasFocus(wrapper)
 
+  const uniswapTokenPoolExists = false
+
   return (
     <>
-      <Header title={<Trans>Swap</Trans>}>
+      <Header title={<Trans>{uniswapTokenPoolExists ? 'Swap' : 'Invest'}</Trans>}>
         <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
         <Settings disabled={isDisabled} />
       </Header>
-      <div ref={setWrapper}>
-        <BoundaryProvider value={wrapper}>
-          <SwapInfoProvider disabled={isDisabled}>
-            <Input disabled={isDisabled} focused={focused} />
-            <ReverseButton disabled={isDisabled} />
-            <Output disabled={isDisabled} focused={focused}>
-              <Toolbar />
-              <SwapButton disabled={isDisabled} />
-            </Output>
-          </SwapInfoProvider>
-        </BoundaryProvider>
-      </div>
+      {uniswapTokenPoolExists ? (
+        <div ref={setWrapper}>
+          <BoundaryProvider value={wrapper}>
+            <SwapInfoProvider disabled={isDisabled}>
+              <Input disabled={isDisabled} focused={focused} />
+              <ReverseButton disabled={isDisabled} />
+              <Output disabled={isDisabled} focused={focused}>
+                <Toolbar />
+                <SwapButton disabled={isDisabled} />
+              </Output>
+            </SwapInfoProvider>
+          </BoundaryProvider>
+        </div>
+      ) : (
+        <div ref={setWrapper}>
+          <BoundaryProvider value={wrapper}>
+            <InvestInfoProvider disabled={isDisabled}>
+              <Input disabled={isDisabled} focused={focused} fixed />
+              <InvestArrow />
+              <InvestOutput disabled={isDisabled} focused={focused} fixed>
+                <Toolbar />
+                <BuyButton disabled={isDisabled} />
+              </InvestOutput>
+            </InvestInfoProvider>
+          </BoundaryProvider>
+        </div>
+      )}
       {displayTx && (
         <Dialog color="dialog">
           <StatusDialog tx={displayTx} onClose={() => setDisplayTxHash()} />
