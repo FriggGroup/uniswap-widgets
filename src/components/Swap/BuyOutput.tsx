@@ -36,7 +36,7 @@ const OutputColumn = styled(Column)<{ hasColor: boolean | null }>`
   }
 `
 
-export default function InvestOutput({ disabled, focused, children, fixed }: PropsWithChildren<InputProps>) {
+export default function BuyOutput({ disabled, focused, children, fixed }: PropsWithChildren<InputProps>) {
   const { i18n } = useLingui()
 
   const {

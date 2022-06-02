@@ -22,11 +22,11 @@ import Dialog from '../../Dialog'
 import { SummaryDialog } from '../Summary'
 import useApprovalData, { useIsPendingApproval } from '../SwapButton/useApprovalData'
 
-interface InvestButtonProps {
+interface BuyButtonProps {
   disabled?: boolean
 }
 
-export default memo(function BuyButton({ disabled }: InvestButtonProps) {
+export default memo(function BuyButton({ disabled }: BuyButtonProps) {
   const { account, chainId } = useActiveWeb3React()
   const {
     [Field.INPUT]: {
@@ -172,7 +172,7 @@ export default memo(function BuyButton({ disabled }: InvestButtonProps) {
         return <Trans>Wrap {inputCurrency?.symbol}</Trans>
       case WrapType.NONE:
       default:
-        return <Trans>Review investment</Trans>
+        return <Trans>Review buy</Trans>
     }
   }, [inputCurrency?.symbol, wrapType])
   const onClose = useCallback(() => setOpen(false), [])

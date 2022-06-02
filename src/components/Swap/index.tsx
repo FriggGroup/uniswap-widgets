@@ -16,13 +16,13 @@ import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
 import Wallet from '../Wallet'
 import BuyButton from './BuyButton'
+import BuyOutput from './BuyOutput'
 import Input from './Input'
-import InvestOutput from './InvestOutput'
 import Output from './Output'
 import ReverseButton from './ReverseButton'
 import Settings from './Settings'
 import { StatusDialog } from './Status'
-import InvestArrow from './SwapArrow'
+import BuyArrow from './SwapArrow'
 import SwapButton from './SwapButton'
 import Toolbar from './Toolbar'
 import useValidate from './useValidate'
@@ -64,11 +64,11 @@ export default function Swap(props: SwapProps) {
 
   const focused = useHasFocus(wrapper)
 
-  const uniswapTokenPoolExists = false
+  const uniswapTokenPoolExists = true
 
   return (
     <>
-      <Header title={<Trans>{uniswapTokenPoolExists ? 'Swap' : 'Invest'}</Trans>}>
+      <Header title={<Trans>{uniswapTokenPoolExists ? 'Swap' : 'Buy'}</Trans>}>
         <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
         <Settings disabled={isDisabled} />
       </Header>
@@ -90,11 +90,11 @@ export default function Swap(props: SwapProps) {
           <BoundaryProvider value={wrapper}>
             <SwapInfoProvider disabled={isDisabled}>
               <Input disabled={isDisabled} focused={focused} fixed />
-              <InvestArrow />
-              <InvestOutput disabled={isDisabled} focused={focused} fixed>
+              <BuyArrow />
+              <BuyOutput disabled={isDisabled} focused={focused} fixed>
                 <Toolbar />
                 <BuyButton disabled={isDisabled} />
-              </InvestOutput>
+              </BuyOutput>
             </SwapInfoProvider>
           </BoundaryProvider>
         </div>
