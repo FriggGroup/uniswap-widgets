@@ -26,7 +26,7 @@ interface InvestButtonProps {
   disabled?: boolean
 }
 
-export default memo(function InvestButton({ disabled }: InvestButtonProps) {
+export default memo(function BuyButton({ disabled }: InvestButtonProps) {
   const { account, chainId } = useActiveWeb3React()
   const {
     [Field.INPUT]: {
