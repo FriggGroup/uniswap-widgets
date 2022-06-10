@@ -1,5 +1,5 @@
 import { Trade } from '@uniswap/router-sdk'
-import { Currency, CurrencyAmount, Token, TradeType } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Percent, Price, Token, TradeType } from '@uniswap/sdk-core'
 import { Route as V2Route } from '@uniswap/v2-sdk'
 import { Route as V3Route } from '@uniswap/v3-sdk'
 
@@ -94,5 +94,54 @@ export class InterfaceTrade<
   }) {
     super(routes)
     this.gasUseEstimateUSD = gasUseEstimateUSD
+  }
+}
+
+export class InvestmentTrade<TInput extends Currency, TOutput extends Currency, TTradeType extends TradeType> {
+  gasUseEstimateUSD: CurrencyAmount<Token> | null | undefined
+  tradeType: TTradeType
+  outputAmount: CurrencyAmount<TOutput>
+  inputAmount: CurrencyAmount<TInput>
+  investment: {
+    issuancePrice: CurrencyAmount<TInput>
+    inputAmount: CurrencyAmount<TInput>
+    outputAmount: CurrencyAmount<TOutput>
+  }
+
+  get executionPrice(): Price<TInput, TOutput> {
+    return new Price(
+      this.inputAmount.currency,
+      this.outputAmount.currency,
+      this.inputAmount.quotient,
+      this.outputAmount.quotient
+    )
+  }
+
+  maximumAmountIn(slippageTolerance: Percent, amountIn?: CurrencyAmount<TInput>): CurrencyAmount<TInput> {
+    return this.inputAmount
+  }
+
+  constructor({
+    gasUseEstimateUSD,
+    tradeType,
+    outputAmount,
+    inputAmount,
+    investment,
+  }: {
+    gasUseEstimateUSD?: CurrencyAmount<Token> | undefined | null
+    investment: {
+      issuancePrice: CurrencyAmount<TInput>
+      inputAmount: CurrencyAmount<TInput>
+      outputAmount: CurrencyAmount<TOutput>
+    }
+    outputAmount: CurrencyAmount<TOutput>
+    inputAmount: CurrencyAmount<TInput>
+    tradeType: TTradeType
+  }) {
+    this.gasUseEstimateUSD = gasUseEstimateUSD
+    this.investment = investment
+    this.inputAmount = inputAmount
+    this.outputAmount = outputAmount
+    this.tradeType = tradeType
   }
 }

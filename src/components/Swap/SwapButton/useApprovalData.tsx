@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro'
-import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Token, TradeType } from '@uniswap/sdk-core'
 import { Action } from 'components/ActionButton'
 import EtherscanLink from 'components/EtherscanLink'
 import {
@@ -15,12 +15,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { TransactionType } from 'state/transactions'
 import { ExplorerDataType } from 'utils/getExplorerLink'
 
+import { InvestmentTrade } from '../../../state/routing/types'
+
 export function useIsPendingApproval(token?: Token, spender?: string): boolean {
   return Boolean(usePendingApproval(token, spender))
 }
 
 export default function useApprovalData(
-  trade: ReturnType<typeof useSwapApprovalOptimizedTrade>,
+  trade: ReturnType<typeof useSwapApprovalOptimizedTrade> | InvestmentTrade<Currency, Currency, TradeType>,
   slippage: Slippage,
   currencyAmount?: CurrencyAmount<Currency>
 ) {

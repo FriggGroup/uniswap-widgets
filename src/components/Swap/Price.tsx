@@ -7,10 +7,11 @@ import { ThemedText } from 'theme'
 import { formatCurrencyAmount, formatPrice } from 'utils/formatCurrencyAmount'
 import formatLocaleNumber from 'utils/formatLocaleNumber'
 
+import { InvestmentTrade } from '../../state/routing/types'
 import { TextButton } from '../Button'
 
 interface PriceProps {
-  trade: Trade<Currency, Currency, TradeType>
+  trade: Trade<Currency, Currency, TradeType> | InvestmentTrade<Currency, Currency, TradeType>
   outputUSDC?: CurrencyAmount<Currency>
 }
 

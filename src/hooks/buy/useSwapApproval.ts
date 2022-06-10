@@ -9,7 +9,6 @@ import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useCallback, useMemo } from 'react'
 import { getTxOptimizedSwapRouter, SwapRouterVersion } from 'utils/getTxOptimizedSwapRouter'
 
-import { InvestmentTrade } from '../../state/routing/types'
 import { ApprovalState, useApproval, useApprovalStateForSpender } from '../useApproval'
 export { ApprovalState } from '../useApproval'
 
@@ -41,7 +40,6 @@ export function useSwapRouterAddress(
     | V2Trade<Currency, Currency, TradeType>
     | V3Trade<Currency, Currency, TradeType>
     | Trade<Currency, Currency, TradeType>
-    | InvestmentTrade<Currency, Currency, TradeType>
     | undefined
 ) {
   const { chainId } = useActiveWeb3React()
@@ -64,7 +62,6 @@ export default function useSwapApproval(
     | V2Trade<Currency, Currency, TradeType>
     | V3Trade<Currency, Currency, TradeType>
     | Trade<Currency, Currency, TradeType>
-    | InvestmentTrade<Currency, Currency, TradeType>
     | undefined,
   allowedSlippage: Percent,
   useIsPendingApproval: (token?: Token, spender?: string) => boolean,
@@ -152,7 +149,6 @@ export const useApproveOrPermit = (
     | V2Trade<Currency, Currency, TradeType>
     | V3Trade<Currency, Currency, TradeType>
     | Trade<Currency, Currency, TradeType>
-    | InvestmentTrade<Currency, Currency, TradeType>
     | undefined,
   allowedSlippage: Percent,
   useIsPendingApproval: (token?: Token, spender?: string) => boolean,

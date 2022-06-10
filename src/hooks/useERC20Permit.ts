@@ -11,6 +11,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import JSBI from 'jsbi'
 import { useMemo, useState } from 'react'
 
+import { InvestmentTrade } from '../state/routing/types'
 import { useEIP2612Contract } from './useContract'
 import useIsArgentWallet from './useIsArgentWallet'
 
@@ -264,6 +265,7 @@ export function useERC20PermitFromTrade(
     | V2Trade<Currency, Currency, TradeType>
     | V3Trade<Currency, Currency, TradeType>
     | Trade<Currency, Currency, TradeType>
+    | InvestmentTrade<Currency, Currency, TradeType>
     | undefined,
   allowedSlippage: Percent,
   transactionDeadline: BigNumber | undefined

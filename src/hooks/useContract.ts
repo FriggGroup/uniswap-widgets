@@ -17,8 +17,10 @@ import ERC1155_ABI from 'abis/erc1155.json'
 import { ArgentWalletDetector, EnsPublicResolver, EnsRegistrar, Erc20, Erc721, Erc1155, Weth } from 'abis/types'
 import WETH_ABI from 'abis/weth.json'
 import {
+  AddressMap,
   ARGENT_WALLET_DETECTOR_ADDRESS,
   ENS_REGISTRAR_ADDRESSES,
+  FRIGG_ROUTER_ADDRESS,
   MULTICALL_ADDRESS,
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
   QUOTER_ADDRESSES,
@@ -32,6 +34,9 @@ import { useMemo } from 'react'
 import { NonfungiblePositionManager, Quoter, TickLens, UniswapInterfaceMulticall } from 'types/v3'
 import { V3Migrator } from 'types/v3/V3Migrator'
 import { getContract } from 'utils'
+
+import FriggErc20TokenJson from './buy/FriggErc20Token.json'
+import FriggRouterJson from './buy/FriggRouter.json'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: IUniswapV2Router02ABI } = IUniswapV2Router02Json
@@ -137,4 +142,19 @@ export function useTickLens(): TickLens | null {
   const { chainId } = useActiveWeb3React()
   const address = chainId ? TICK_LENS_ADDRESSES[chainId] : undefined
   return useContract(address, TickLensABI) as TickLens | null
+}
+
+/**
+ * Frigg adjustments
+ */
+
+const { abi: IFriggRouterABI } = FriggRouterJson
+const { abi: IFriggErc20TokenABI } = FriggErc20TokenJson
+
+export function useFriggRouterContract(): Contract | null {
+  return useContract(FRIGG_ROUTER_ADDRESS, IFriggRouterABI, true)
+}
+
+export function useFriggErc20TokenContract(address: AddressMap): Contract | null {
+  return useContract(address, IFriggErc20TokenABI, true)
 }

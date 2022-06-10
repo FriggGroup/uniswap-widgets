@@ -1,26 +1,25 @@
 import { Trans } from '@lingui/macro'
-import { useSwapInfo } from 'hooks/swap'
-import { useSwapApprovalOptimizedTrade } from 'hooks/swap/useSwapApproval'
-import { useSwapCallback } from 'hooks/swap/useSwapCallback'
+import { Percent } from '@uniswap/sdk-core'
 import useWrapCallback, { WrapType } from 'hooks/swap/useWrapCallback'
 import { useAddTransaction } from 'hooks/transactions'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSetOldestValidBlock } from 'hooks/useIsValidBlock'
-import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { Spinner } from 'icons'
-import { useAtomValue, useUpdateAtom } from 'jotai/utils'
+import { useUpdateAtom } from 'jotai/utils'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { TradeState } from 'state/routing/types'
-import { displayTxHashAtom, feeOptionsAtom, Field } from 'state/swap'
+import { displayTxHashAtom, Field } from 'state/swap'
 import { TransactionType } from 'state/transactions'
 import { useTheme } from 'styled-components/macro'
 import invariant from 'tiny-invariant'
 import { isAnimating } from 'utils/animations'
 
+import { useBuyCallback } from '../../../hooks/buy/useBuyCallback'
+import useBuyInfo from '../../../hooks/buy/useBuyInfo'
 import ActionButton, { ActionButtonProps } from '../../ActionButton'
 import Dialog from '../../Dialog'
-import { SummaryDialog } from '../Summary'
-import useApprovalData, { useIsPendingApproval } from '../SwapButton/useApprovalData'
+import { BuySummaryDialog } from '../BuySummary'
+import useApprovalData from '../SwapButton/useApprovalData'
 
 interface BuyButtonProps {
   disabled?: boolean
@@ -35,28 +34,34 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
       balance: inputCurrencyBalance,
       usdc: inputUSDC,
     },
-    [Field.OUTPUT]: { usdc: outputUSDC },
+    [Field.OUTPUT]: { amount: outputCurrencyAmount, usdc: outputUSDC },
     trade,
-    slippage,
-    impact,
-  } = useSwapInfo()
-  const feeOptions = useAtomValue(feeOptionsAtom)
+  } = useBuyInfo()
 
-  // TODO(zzmp): Return an optimized trade directly from useSwapInfo.
-  const optimizedTrade =
-    // Use trade.trade if there is no swap optimized trade. This occurs if approvals are still pending.
-    useSwapApprovalOptimizedTrade(trade.trade, slippage.allowed, useIsPendingApproval) || trade.trade
-  const deadline = useTransactionDeadline()
+  console.log(
+    'hallo',
+    inputCurrency,
+    inputCurrencyAmount?.toFixed(),
+    inputCurrencyBalance?.toFixed(),
+    inputUSDC?.toFixed(),
+    outputCurrencyAmount?.toFixed(),
+    outputUSDC?.toFixed()
+  )
 
   const { type: wrapType, callback: wrapCallback } = useWrapCallback()
-  const { approvalAction, signatureData } = useApprovalData(optimizedTrade, slippage, inputCurrencyAmount)
-  const { callback: swapCallback } = useSwapCallback({
-    trade: optimizedTrade,
-    allowedSlippage: slippage.allowed,
+  const { approvalAction, signatureData } = useApprovalData(
+    trade.trade,
+    // we set a 0% slippage to re-use the normal approval function
+    {
+      auto: false,
+      allowed: new Percent(0, 1),
+    },
+    inputCurrencyAmount
+  )
+  const { callback: swapCallback } = useBuyCallback({
+    buyAmount: outputCurrencyAmount,
     recipientAddressOrName: account ?? null,
     signatureData,
-    deadline,
-    feeOptions,
   })
 
   const [open, setOpen] = useState(false)
@@ -144,10 +149,10 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
     () =>
       disabled ||
       !chainId ||
-      (wrapType === WrapType.NONE && !optimizedTrade) ||
+      (wrapType === WrapType.NONE && !trade) ||
       !(inputCurrencyAmount && inputCurrencyBalance) ||
       inputCurrencyBalance.lessThan(inputCurrencyAmount),
-    [disabled, wrapType, optimizedTrade, chainId, inputCurrencyAmount, inputCurrencyBalance]
+    [disabled, chainId, wrapType, trade, inputCurrencyAmount, inputCurrencyBalance]
   )
   const actionProps = useMemo((): Partial<ActionButtonProps> | undefined => {
     if (disableSwap) {
@@ -185,14 +190,7 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
       </ActionButton>
       {open && trade.trade && (
         <Dialog color="dialog" onClose={onClose}>
-          <SummaryDialog
-            trade={trade.trade}
-            slippage={slippage}
-            inputUSDC={inputUSDC}
-            outputUSDC={outputUSDC}
-            impact={impact}
-            onConfirm={onSwap}
-          />
+          <BuySummaryDialog trade={trade.trade} inputUSDC={inputUSDC} outputUSDC={outputUSDC} onConfirm={onSwap} />
         </Dialog>
       )}
     </>

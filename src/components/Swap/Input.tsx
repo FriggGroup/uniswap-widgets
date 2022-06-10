@@ -17,6 +17,7 @@ import { ThemedText } from 'theme'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 
+import useBuyInfo from '../../hooks/buy/useBuyInfo'
 import Column from '../Column'
 import Row from '../Row'
 import TokenImg from '../TokenImg'
@@ -71,9 +72,35 @@ export function useFormattedFieldAmount({ disabled, currencyAmount, fieldAmount 
 export default function Input({ disabled, focused, fixed }: InputProps) {
   const { i18n } = useLingui()
   const {
-    [Field.INPUT]: { balance, amount: tradeCurrencyAmount, usdc },
-    trade: { state: tradeState },
+    [Field.INPUT]: { balance: swapBalance, amount: swapTradeCurrencyAmount, usdc: swapUsdc },
+    trade: { state: swapTradeState },
   } = useSwapInfo()
+
+  const {
+    [Field.INPUT]: { balance: buyBalance, amount: buyTradeCurrencyAmount, usdc: buyUsdc },
+    trade: { state: buyTradeState },
+  } = useBuyInfo()
+
+  const { balance, tradeCurrencyAmount, usdc, tradeState } = useMemo(() => {
+    return fixed
+      ? { balance: buyBalance, tradeCurrencyAmount: buyTradeCurrencyAmount, usdc: buyUsdc, tradeState: buyTradeState }
+      : {
+          balance: swapBalance,
+          tradeCurrencyAmount: swapTradeCurrencyAmount,
+          usdc: swapUsdc,
+          tradeState: swapTradeState,
+        }
+  }, [
+    buyBalance,
+    buyTradeCurrencyAmount,
+    buyTradeState,
+    buyUsdc,
+    fixed,
+    swapBalance,
+    swapTradeCurrencyAmount,
+    swapTradeState,
+    swapUsdc,
+  ])
 
   const [inputAmount, updateInputAmount] = useSwapAmount(Field.INPUT)
   const [inputCurrency, updateInputCurrency] = useSwapCurrency(Field.INPUT)

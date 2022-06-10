@@ -11,12 +11,14 @@ import { useState } from 'react'
 import { displayTxHashAtom } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
 
+import { BuyInfoProvider } from '../../hooks/buy/useBuyInfo'
 import Dialog from '../Dialog'
 import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
 import Wallet from '../Wallet'
 import BuyButton from './BuyButton'
 import BuyOutput from './BuyOutput'
+import BuyToolbar from './BuyToolbar'
 import Input from './Input'
 import Output from './Output'
 import ReverseButton from './ReverseButton'
@@ -64,7 +66,7 @@ export default function Swap(props: SwapProps) {
 
   const focused = useHasFocus(wrapper)
 
-  const uniswapTokenPoolExists = true
+  const uniswapTokenPoolExists = false
 
   return (
     <>
@@ -88,14 +90,14 @@ export default function Swap(props: SwapProps) {
       ) : (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
-            <SwapInfoProvider disabled={isDisabled}>
+            <BuyInfoProvider disabled={isDisabled}>
               <Input disabled={isDisabled} focused={focused} fixed />
               <BuyArrow />
               <BuyOutput disabled={isDisabled} focused={focused} fixed>
-                <Toolbar />
+                <BuyToolbar />
                 <BuyButton disabled={isDisabled} />
               </BuyOutput>
-            </SwapInfoProvider>
+            </BuyInfoProvider>
           </BoundaryProvider>
         </div>
       )}

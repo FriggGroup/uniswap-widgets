@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import BrandedFooter from 'components/BrandedFooter'
 import Rule from 'components/Rule'
-import { useIsSwapFieldIndependent, useSwapAmount, useSwapCurrency, useSwapInfo } from 'hooks/swap'
+import { useIsSwapFieldIndependent, useSwapAmount, useSwapCurrency } from 'hooks/swap'
 import useCurrencyColor from 'hooks/useCurrencyColor'
 import { atom } from 'jotai'
 import { useAtomValue } from 'jotai/utils'
@@ -13,6 +13,7 @@ import styled from 'styled-components/macro'
 import { DynamicThemeProvider, ThemedText } from 'theme'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 
+import useBuyInfo from '../../hooks/buy/useBuyInfo'
 import Column from '../Column'
 import Row from '../Row'
 import { Balance, InputProps, USDC, useFormattedFieldAmount } from './Input'
@@ -42,7 +43,7 @@ export default function BuyOutput({ disabled, focused, children, fixed }: PropsW
   const {
     [Field.OUTPUT]: { balance, amount: outputCurrencyAmount, usdc: outputUSDC },
     trade: { state: tradeState },
-  } = useSwapInfo()
+  } = useBuyInfo()
 
   const [swapOutputAmount, updateSwapOutputAmount] = useSwapAmount(Field.OUTPUT)
   const [swapOutputCurrency, updateSwapOutputCurrency] = useSwapCurrency(Field.OUTPUT)
