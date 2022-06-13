@@ -1,4 +1,4 @@
-# Uniswap Labs Widgets
+# Uniswap Labs Widgets*
 
 [![npm](https://img.shields.io/npm/v/@uniswap/widgets)](https://www.npmjs.com/package/@uniswap/widgets)
 [![Unit tests](https://github.com/Uniswap/interface/actions/workflows/test.yaml/badge.svg)](https://github.com/Uniswap/interface/actions/workflows/test.yaml)
