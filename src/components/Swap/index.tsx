@@ -47,9 +47,10 @@ function getTransactionFromMap(
 
 export interface SwapProps extends TokenDefaults, FeeOptions {
   onConnectWallet?: () => void
+  marketType: 'buy' | 'swap' | 'sell'
 }
 
-export default function Swap(props: SwapProps) {
+export default function Swap({ marketType, ...props }: SwapProps) {
   useValidate(props)
   useSyncConvenienceFee(props)
   useSyncTokenDefaults(props)
@@ -66,15 +67,13 @@ export default function Swap(props: SwapProps) {
 
   const focused = useHasFocus(wrapper)
 
-  const uniswapTokenPoolExists = false
-
   return (
     <>
-      <Header title={<Trans>{uniswapTokenPoolExists ? 'Swap' : 'Buy'}</Trans>}>
+      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : 'Buy'}</Trans>}>
         <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
         <Settings disabled={isDisabled} />
       </Header>
-      {uniswapTokenPoolExists ? (
+      {marketType === 'swap' ? (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
             <SwapInfoProvider disabled={isDisabled}>

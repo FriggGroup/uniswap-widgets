@@ -93,6 +93,7 @@ export type WidgetProps = {
   dialog?: HTMLElement | null
   className?: string
   onError?: ErrorHandler
+  marketType?: 'buy' | 'swap' | 'sell'
 }
 
 export default function Widget(props: PropsWithChildren<WidgetProps>) {

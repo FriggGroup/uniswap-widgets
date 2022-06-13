@@ -16,7 +16,7 @@ export { darkTheme, defaultTheme, lightTheme } from 'theme'
 
 export type SwapWidgetProps = SwapProps & WidgetProps
 
-export function SwapWidget(props: SwapWidgetProps) {
+export function SwapWidget({ marketType = 'swap', ...props }: SwapWidgetProps) {
   const [widgetProvider, setWidgetProvider] = useState<Web3Provider | undefined>(undefined)
 
   const connectWallet = async () => {
@@ -61,6 +61,7 @@ export function SwapWidget(props: SwapWidgetProps) {
         defaultInputAmount={1000}
         defaultOutputTokenAddress={{ 5: '0x1380DB7316f60d4e2A4E6Ca30E0B668a747E567b' }}
         onConnectWallet={connectWallet}
+        marketType={marketType}
       />
     </Widget>
   )
