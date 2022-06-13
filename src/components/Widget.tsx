@@ -84,6 +84,7 @@ const DialogWrapper = styled.div`
 `
 
 export type WidgetProps = {
+  marketType: 'buy' | 'swap' | 'sell'
   theme?: Theme
   locale?: SupportedLocale
   provider?: Eip1193Provider | JsonRpcProvider
@@ -93,7 +94,6 @@ export type WidgetProps = {
   dialog?: HTMLElement | null
   className?: string
   onError?: ErrorHandler
-  marketType?: 'buy' | 'swap' | 'sell'
 }
 
 export default function Widget(props: PropsWithChildren<WidgetProps>) {
