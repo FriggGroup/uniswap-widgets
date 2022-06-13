@@ -1,8 +1,9 @@
 {
-  "name": "@uniswap/widgets",
-  "description": "Uniswap Interface",
-  "homepage": "https://github.com/Uniswap/widgets#readme",
-  "repository": "https://github.com/Uniswap/widgets",
+  "name": "frigg-uniswap-widgets",
+  "version": "0.0.1",
+  "description": "Frigg's Uniswap Interface",
+  "homepage": "https://github.com/FriggGroup/uniswap-widgets#readme",
+  "repository": "https://github.com/FriggGroup/uniswap-widgets",
   "files": [
     "dist"
   ],
