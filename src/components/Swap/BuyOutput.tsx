@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import BrandedFooter from 'components/BrandedFooter'
 import Rule from 'components/Rule'
 import { useIsSwapFieldIndependent, useSwapAmount, useSwapCurrency } from 'hooks/swap'
 import useCurrencyColor from 'hooks/useCurrencyColor'
@@ -97,7 +96,6 @@ export default function BuyOutput({ disabled, focused, children, fixed }: PropsW
         </TokenInput>
         <Rule />
         {children}
-        <BrandedFooter />
       </OutputColumn>
     </DynamicThemeProvider>
   )
