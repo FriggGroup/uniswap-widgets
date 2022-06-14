@@ -15,7 +15,6 @@ import { BuyInfoProvider } from '../../hooks/buy/useBuyInfo'
 import Dialog from '../Dialog'
 import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
-import Wallet from '../Wallet'
 import BuyButton from './BuyButton'
 import BuyOutput from './BuyOutput'
 import BuyToolbar from './BuyToolbar'
@@ -55,7 +54,7 @@ export default function Swap({ marketType, ...props }: SwapProps) {
   useSyncConvenienceFee(props)
   useSyncTokenDefaults(props)
 
-  const { active, account } = useActiveWeb3React()
+  const { active } = useActiveWeb3React()
   const [wrapper, setWrapper] = useState<HTMLDivElement | null>(null)
 
   const [displayTxHash, setDisplayTxHash] = useAtom(displayTxHashAtom)
@@ -69,10 +68,7 @@ export default function Swap({ marketType, ...props }: SwapProps) {
 
   return (
     <>
-      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : 'Buy'}</Trans>}>
-        <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
-        <Settings disabled={isDisabled} />
-      </Header>
+      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : 'Buy'}</Trans>}>{null}</Header>
       {marketType === 'swap' ? (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
