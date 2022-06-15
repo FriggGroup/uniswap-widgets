@@ -29,6 +29,7 @@ const StyledReverseButton = styled(Button)`
   border-radius: 25px;
   color: rgb(255, 255, 255);
   height: 3em;
+  pointer-events: none;
   position: relative;
   width: 3em;
 `
@@ -37,7 +38,7 @@ export default function SwapArrow() {
   return (
     <ReverseRow justify="center">
       <Overlay>
-        <StyledReverseButton disabled>
+        <StyledReverseButton>
           <div>
             <ArrowDown strokeWidth={3} />
           </div>
