@@ -21,7 +21,7 @@ import TokenInput from './TokenInput'
 export const colorAtom = atom<string | undefined>(undefined)
 
 const OutputColumn = styled(Column)<{ hasColor: boolean | null }>`
-  background-color: ${({ theme }) => theme.module};
+  background-color: rgb(255, 255, 255);
   border-radius: ${({ theme }) => theme.borderRadius - 0.25}em;
   padding: 0.75em;
   padding-bottom: 0.5em;

@@ -28,6 +28,7 @@ import Toolbar from './Toolbar'
 import useValidate from './useValidate'
 import Wallet from '../Wallet'
 import Settings from './Settings'
+import Rule from '../Rule'
 
 function getTransactionFromMap(
   txs: { [hash: string]: Transaction },
@@ -90,7 +91,9 @@ export default function Swap({ marketType, ...props }: SwapProps) {
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
             <BuyInfoProvider disabled={isDisabled}>
+              <Rule padded />
               <Input disabled={isDisabled} focused={focused} fixed />
+              <Rule padded />
               <BuyArrow />
               <BuyOutput disabled={isDisabled} focused={focused} fixed>
                 <BuyToolbar />

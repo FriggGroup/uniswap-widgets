@@ -28,7 +28,7 @@ const stateColors = {
 export const lightTheme: Colors = {
   // surface
   accent: brandLight,
-  container: 'hsl(220, 23%, 97.5%)',
+  container: 'rgb(255, 255, 255)',
   module: 'hsl(231, 14%, 90%)',
   interactive: 'hsl(229, 13%, 83%)',
   outline: 'hsl(225, 7%, 78%)',
