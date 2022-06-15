@@ -72,13 +72,15 @@ export default function Swap({ marketType, ...props }: SwapProps) {
     <>
       <Header title={<Trans>{marketType === 'swap' ? 'Swap' : 'Buy'}</Trans>}>
         <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
-        <Settings disabled={isDisabled} />
+        {marketType === 'swap' && <Settings disabled={isDisabled} />}
       </Header>
       {marketType === 'swap' ? (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
             <SwapInfoProvider disabled={isDisabled}>
+              <Rule padded />
               <Input disabled={isDisabled} focused={focused} />
+              <Rule padded />
               <ReverseButton disabled={isDisabled} />
               <Output disabled={isDisabled} focused={focused}>
                 <Toolbar />

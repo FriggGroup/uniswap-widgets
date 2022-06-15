@@ -83,7 +83,7 @@ export default function TokenButton({ value, collapsed, disabled, onClick, fixed
     >
       <ThemedText.ButtonLarge color={contentColor}>
         <TokenButtonRow
-          gap={0.4}
+          gap={0.6}
           empty={!value}
           collapsed={collapsed}
           // ref is used to set an absolute width, so it must be reset for each value passed.

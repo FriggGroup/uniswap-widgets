@@ -31,17 +31,13 @@ const StyledReverseButton = styled(Button)`
   height: 3em;
   position: relative;
   width: 3em;
-
-  :enabled:hover {
-    pointer-events: none;
-  }
 `
 
 export default function SwapArrow() {
   return (
     <ReverseRow justify="center">
       <Overlay>
-        <StyledReverseButton>
+        <StyledReverseButton disabled>
           <div>
             <ArrowDown strokeWidth={3} />
           </div>

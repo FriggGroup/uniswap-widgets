@@ -49,4 +49,6 @@ export default styled(TokenImg)<{ size?: number }>`
   border-radius: 100%;
   height: ${({ size }) => size || 1}em;
   width: ${({ size }) => size || 1}em;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
 `
