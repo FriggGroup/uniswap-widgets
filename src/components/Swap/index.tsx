@@ -26,6 +26,8 @@ import BuyArrow from './SwapArrow'
 import SwapButton from './SwapButton'
 import Toolbar from './Toolbar'
 import useValidate from './useValidate'
+import Wallet from '../Wallet'
+import Settings from './Settings'
 
 function getTransactionFromMap(
   txs: { [hash: string]: Transaction },
@@ -53,7 +55,7 @@ export default function Swap({ marketType, ...props }: SwapProps) {
   useSyncConvenienceFee(props)
   useSyncTokenDefaults(props)
 
-  const { active } = useActiveWeb3React()
+  const { active, account } = useActiveWeb3React()
   const [wrapper, setWrapper] = useState<HTMLDivElement | null>(null)
 
   const [displayTxHash, setDisplayTxHash] = useAtom(displayTxHashAtom)
@@ -67,7 +69,10 @@ export default function Swap({ marketType, ...props }: SwapProps) {
 
   return (
     <>
-      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : 'Buy'}</Trans>}>{null}</Header>
+      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : 'Buy'}</Trans>}>
+        <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
+        <Settings disabled={isDisabled} />
+      </Header>
       {marketType === 'swap' ? (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>

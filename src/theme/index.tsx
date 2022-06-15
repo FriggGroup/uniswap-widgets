@@ -14,7 +14,7 @@ export * as ThemedText from './type'
 const white = 'hsl(0, 0%, 100%)'
 const black = 'hsl(0, 0%, 0%)'
 
-const brandLight = 'hsl(331.3, 100%, 50%)'
+const brandLight = 'rgb(113, 188, 146)'
 const brandDark = 'hsl(215, 79%, 51.4%)'
 export const brand = brandLight
 

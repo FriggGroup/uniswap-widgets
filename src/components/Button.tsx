@@ -38,10 +38,6 @@ export default styled(BaseButton)<{ color?: Color; transition?: boolean }>`
     ${({ transition = true }) => transition && transitionCss};
   }
 
-  :enabled:hover {
-    background-color: ${({ color = 'interactive', theme }) => theme.onHover(theme[color])};
-  }
-
   :disabled {
     border-color: ${({ theme }) => theme.outline};
     color: ${({ theme }) => theme.secondary};
@@ -50,10 +46,6 @@ export default styled(BaseButton)<{ color?: Color; transition?: boolean }>`
 
 const transparentButton = (defaultColor: Color) => styled(BaseButton)<{ color?: Color }>`
   color: ${({ color = defaultColor, theme }) => theme[color]};
-
-  :enabled:hover {
-    color: ${({ color = defaultColor, theme }) => theme.onHover(theme[color])};
-  }
 `
 
 export const TextButton = transparentButton('accent')
