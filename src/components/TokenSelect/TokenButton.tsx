@@ -20,10 +20,6 @@ const StyledTokenButton = styled(Button)<{ fixed?: boolean }>`
   :enabled {
     ${({ transition }) => transition && transitionCss};
   }
-
-  :enabled:hover {
-    pointer-events: ${({ fixed }) => (fixed ? 'none' : 'auto')};
-  }
 `
 
 const TokenButtonRow = styled(Row)<{ empty: boolean; collapsed: boolean; fixed?: boolean }>`

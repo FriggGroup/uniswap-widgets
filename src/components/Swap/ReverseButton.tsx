@@ -1,5 +1,5 @@
 import { useSwitchSwapCurrencies } from 'hooks/swap'
-import { ArrowDown as ArrowDownIcon, ArrowUp as ArrowUpIcon } from 'icons'
+import { ArrowDown as ArrowDownIcon, ArrowUp as ArrowUpIcon, ArrowUpDown } from 'icons'
 import { useCallback, useState } from 'react'
 import styled from 'styled-components/macro'
 import { Layer } from 'theme'
@@ -60,8 +60,7 @@ export default function ReverseButton({ disabled }: { disabled?: boolean }) {
       <Overlay>
         <StyledReverseButton disabled={disabled} onClick={onClick} turns={turns}>
           <div>
-            <ArrowUp strokeWidth={3} />
-            <ArrowDown strokeWidth={3} />
+            <ArrowUpDown strokeWidth={3} />
           </div>
         </StyledReverseButton>
       </Overlay>

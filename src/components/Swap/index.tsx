@@ -70,7 +70,7 @@ export default function Swap({ marketType, ...props }: SwapProps) {
 
   return (
     <>
-      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : 'Buy'}</Trans>}>
+      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : marketType === 'buy' ? 'Buy' : 'Sell'}</Trans>}>
         <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
         {marketType === 'swap' && <Settings disabled={isDisabled} />}
       </Header>
