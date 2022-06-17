@@ -62,6 +62,7 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
         if (!result) return currentBest
 
         const issuancePrice = new Price(currencyIn, currencyOut, 2500000, 10 ** (currencyOut.decimals - 1))
+        // const issuancePrice = new Price(currencyIn, currencyOut, result[0].toString(), 10 ** currencyOut.decimals)
         if (tradeType === TradeType.EXACT_INPUT) {
           const amountOut = issuancePrice.quote(amountSpecified)
           return {
