@@ -6,6 +6,8 @@ export enum TransactionType {
   APPROVAL,
   SWAP,
   WRAP,
+  BUY,
+  SELL,
 }
 
 interface BaseTransactionInfo {
@@ -20,7 +22,7 @@ export interface ApprovalTransactionInfo extends BaseTransactionInfo {
 }
 
 export interface SwapTransactionInfo extends BaseTransactionInfo {
-  type: TransactionType.SWAP
+  type: TransactionType.SWAP | TransactionType.BUY | TransactionType.SELL
   tradeType: TradeType
   inputCurrencyAmount: CurrencyAmount<Currency>
   outputCurrencyAmount: CurrencyAmount<Currency>

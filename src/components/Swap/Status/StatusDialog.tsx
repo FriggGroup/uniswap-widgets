@@ -69,6 +69,10 @@ function TransactionStatus({ tx, onClose }: TransactionStatusProps) {
   const heading = useMemo(() => {
     if (tx.info.type === TransactionType.SWAP) {
       return tx.receipt?.status ? <Trans>Swap confirmed</Trans> : <Trans>Swap pending</Trans>
+    } else if (tx.info.type === TransactionType.BUY) {
+      return tx.receipt?.status ? <Trans>Buy confirmed</Trans> : <Trans>Buy pending</Trans>
+    } else if (tx.info.type === TransactionType.SELL) {
+      return tx.receipt?.status ? <Trans>Sell confirmed</Trans> : <Trans>Sell pending</Trans>
     } else if (tx.info.type === TransactionType.WRAP) {
       if (tx.info.unwrapped) {
         return tx.receipt?.status ? <Trans>Unwrap confirmed</Trans> : <Trans>Unwrap pending</Trans>

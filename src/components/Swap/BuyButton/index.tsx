@@ -58,7 +58,7 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
     },
     inputCurrencyAmount
   )
-  const { callback: swapCallback } = useBuyCallback({
+  const { callback: buyCallback } = useBuyCallback({
     buyAmount: outputCurrencyAmount,
     recipientAddressOrName: account ?? null,
     signatureData,
@@ -110,12 +110,12 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
 
   const onSwap = useCallback(async () => {
     try {
-      const transaction = await swapCallback?.()
+      const transaction = await buyCallback?.()
       if (!transaction) return
       invariant(trade.trade)
       addTransaction({
         response: transaction,
-        type: TransactionType.SWAP,
+        type: TransactionType.BUY,
         tradeType: trade.trade.tradeType,
         inputCurrencyAmount: trade.trade.inputAmount,
         outputCurrencyAmount: trade.trade.outputAmount,
@@ -143,7 +143,7 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
       // TODO(zzmp): Surface errors from swap.
       console.log(e)
     }
-  }, [addTransaction, setDisplayTxHash, setOldestValidBlock, swapCallback, trade.trade])
+  }, [addTransaction, setDisplayTxHash, setOldestValidBlock, buyCallback, trade.trade])
 
   const disableSwap = useMemo(
     () =>

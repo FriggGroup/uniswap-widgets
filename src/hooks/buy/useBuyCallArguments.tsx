@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Trade } from '@uniswap/router-sdk'
-import { Currency, CurrencyAmount, TradeType } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Rounding, TradeType } from '@uniswap/sdk-core'
 import { Trade as V2Trade } from '@uniswap/v2-sdk'
 import { toHex, Trade as V3Trade } from '@uniswap/v3-sdk'
 import { useMemo } from 'react'
@@ -43,7 +43,9 @@ export function useBuyCallArguments(
     if (!buyAmount || !recipient || !account || !chainId || !FriggErc20Contract) return []
 
     const calldata = FriggErc20Contract.interface.encodeFunctionData('buyATTWithUSDC', [
-      BigNumber.from(buyAmount.quotient.toString()),
+      // todo 10 ** 18
+      // BigNumber.from(buyAmount.quotient.toString()),
+      BigNumber.from(buyAmount.toFixed(0, undefined, Rounding.ROUND_DOWN)),
     ])
 
     return [
