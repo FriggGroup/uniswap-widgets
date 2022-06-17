@@ -76,12 +76,6 @@ export function ActiveWeb3Provider({
   const error = hooks.useError()
   const library = hooks.useProvider(chainId)
 
-  // to show whats the problem with library
-  library
-    ?.getNetwork()
-    // @ts-ignore
-    .then((res) => console.log('providers', chainId, res.chainId, connector.customProvider._network.chainId))
-
   const web3 = useMemo(() => {
     if (connector === EMPTY || !(active || activating)) {
       return EMPTY_CONTEXT

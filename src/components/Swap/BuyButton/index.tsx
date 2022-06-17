@@ -38,16 +38,6 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
     trade,
   } = useBuyInfo()
 
-  console.log(
-    'hallo',
-    inputCurrency,
-    inputCurrencyAmount?.toFixed(),
-    inputCurrencyBalance?.toFixed(),
-    inputUSDC?.toFixed(),
-    outputCurrencyAmount?.toFixed(),
-    outputUSDC?.toFixed()
-  )
-
   const { type: wrapType, callback: wrapCallback } = useWrapCallback()
   const { approvalAction, signatureData } = useApprovalData(
     trade.trade,
