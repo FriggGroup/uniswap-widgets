@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, TradeType } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Price, TradeType } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
 import { InvestmentTrade, TradeState } from 'state/routing/types'
 
@@ -52,7 +52,7 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
     const { issuancePrice, amountIn, amountOut } = quotesResults.reduce(
       (
         currentBest: {
-          issuancePrice: CurrencyAmount<Currency> | null
+          issuancePrice: Price<Currency, Currency> | null
           amountIn: CurrencyAmount<Currency> | null
           amountOut: CurrencyAmount<Currency> | null
         },
@@ -61,22 +61,18 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
       ) => {
         if (!result) return currentBest
 
-        console.log('amountSpecified', amountSpecified)
-
-        const issuancePrice = CurrencyAmount.fromRawAmount(currencyIn, result[0].toString()).divide(
-          10 ** currencyIn.decimals
-        )
+        const issuancePrice = new Price(currencyIn, currencyOut, 2500000, 10 ** (currencyOut.decimals - 1))
         if (tradeType === TradeType.EXACT_INPUT) {
-          const amountOut = amountSpecified.divide(issuancePrice)
+          const amountOut = issuancePrice.quote(amountSpecified)
           return {
             issuancePrice,
             amountIn: amountSpecified,
             amountOut,
           }
         } else {
-          const amountIn = amountSpecified.multiply(issuancePrice)
+          const amountIn = issuancePrice.invert().quote(amountSpecified)
           return {
-            issuancePrice: CurrencyAmount.fromRawAmount(currencyIn, 1).divide(issuancePrice),
+            issuancePrice: issuancePrice.invert(),
             amountIn,
             amountOut: amountSpecified,
           }
