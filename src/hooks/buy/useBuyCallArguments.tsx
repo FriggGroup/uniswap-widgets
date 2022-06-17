@@ -43,7 +43,7 @@ export function useBuyCallArguments(
     if (!buyAmount || !recipient || !account || !chainId || !FriggErc20Contract) return []
 
     const calldata = FriggErc20Contract.interface.encodeFunctionData('buyATTWithUSDC', [
-      BigNumber.from(buyAmount.numerator.toString()),
+      BigNumber.from(buyAmount.quotient.toString()),
     ])
 
     return [
