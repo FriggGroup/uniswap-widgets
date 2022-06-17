@@ -6,15 +6,16 @@ import { ReactComponent as InlineSpinnerIcon } from 'assets/svg/inline_spinner.s
 import { ReactComponent as LogoIcon } from 'assets/svg/logo.svg'
 import { ReactComponent as SpinnerIcon } from 'assets/svg/spinner.svg'
 import { ReactComponent as WalletIcon } from 'assets/svg/wallet.svg'
+import { ReactComponent as ArrowUpDownIcon } from 'assets/svg/arrow-up-down.svg'
+import { ReactComponent as ArrowUpIcon } from 'assets/svg/arrow-up.svg'
+import { ReactComponent as ArrowDownIcon } from 'assets/svg/arrow-down.svg'
 import { loadingCss } from 'css/loading'
 import { FunctionComponent, SVGProps } from 'react'
 /* eslint-disable no-restricted-imports */
 import { Icon as FeatherIcon } from 'react-feather'
 import {
   AlertTriangle as AlertTriangleIcon,
-  ArrowDown as ArrowDownIcon,
   ArrowRight as ArrowRightIcon,
-  ArrowUp as ArrowUpIcon,
   BarChart2 as BarChart2Icon,
   CheckCircle as CheckCircleIcon,
   ChevronDown as ChevronDownIcon,
@@ -84,6 +85,7 @@ export const AlertTriangle = icon(AlertTriangleIcon)
 export const ArrowDown = icon(ArrowDownIcon)
 export const ArrowRight = icon(ArrowRightIcon)
 export const ArrowUp = icon(ArrowUpIcon)
+export const ArrowUpDown = icon(ArrowUpDownIcon)
 export const CheckCircle = icon(CheckCircleIcon)
 export const BarChart = icon(BarChart2Icon)
 export const ChevronDown = icon(ChevronDownIcon)
