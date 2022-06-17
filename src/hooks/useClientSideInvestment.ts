@@ -2,8 +2,6 @@ import { Currency, CurrencyAmount, TradeType } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
 import { InvestmentTrade, TradeState } from 'state/routing/types'
 
-import { AddressMap } from '../constants/addresses'
-import { constructSameAddressMap } from '../utils/constructSameAddressMap'
 import { useSingleContractWithCallData } from './multicall'
 import { useFriggErc20TokenContract } from './useContract'
 
@@ -18,9 +16,7 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
       : [otherCurrency, amountSpecified?.currency]
 
   // the contract where we get the price from
-  const erc20ContractAddress = '0x1380DB7316f60d4e2A4E6Ca30E0B668a747E567b'
-  const erc20ContractAddressMap: AddressMap = constructSameAddressMap(erc20ContractAddress)
-  const FriggErc20Contract = useFriggErc20TokenContract(erc20ContractAddressMap)
+  const FriggErc20Contract = useFriggErc20TokenContract()
 
   const callData = useMemo(() => {
     if (!FriggErc20Contract) return []

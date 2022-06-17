@@ -17,9 +17,9 @@ import ERC1155_ABI from 'abis/erc1155.json'
 import { ArgentWalletDetector, EnsPublicResolver, EnsRegistrar, Erc20, Erc721, Erc1155, Weth } from 'abis/types'
 import WETH_ABI from 'abis/weth.json'
 import {
-  AddressMap,
   ARGENT_WALLET_DETECTOR_ADDRESS,
   ENS_REGISTRAR_ADDRESSES,
+  FRIGG_ERC20_TOKEN_ADDRESS,
   FRIGG_ROUTER_ADDRESS,
   MULTICALL_ADDRESS,
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
@@ -155,6 +155,6 @@ export function useFriggRouterContract(): Contract | null {
   return useContract(FRIGG_ROUTER_ADDRESS, IFriggRouterABI, true)
 }
 
-export function useFriggErc20TokenContract(address: AddressMap): Contract | null {
-  return useContract(address, IFriggErc20TokenABI, true)
+export function useFriggErc20TokenContract(): Contract | null {
+  return useContract(FRIGG_ERC20_TOKEN_ADDRESS, IFriggErc20TokenABI, true)
 }

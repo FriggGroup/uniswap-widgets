@@ -114,3 +114,6 @@ export const TICK_LENS_ADDRESSES: AddressMap = {
 }
 
 export const FRIGG_ROUTER_ADDRESS: AddressMap = constructSameAddressMap('0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D')
+export const FRIGG_ERC20_TOKEN_ADDRESS: AddressMap = constructSameAddressMap(
+  '0x1380DB7316f60d4e2A4E6Ca30E0B668a747E567b'
+)

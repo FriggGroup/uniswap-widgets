@@ -5,8 +5,6 @@ import { Trade as V2Trade } from '@uniswap/v2-sdk'
 import { toHex, Trade as V3Trade } from '@uniswap/v3-sdk'
 import { useMemo } from 'react'
 
-import { AddressMap } from '../../constants/addresses'
-import { constructSameAddressMap } from '../../utils/constructSameAddressMap'
 import useActiveWeb3React from '../useActiveWeb3React'
 import { useFriggErc20TokenContract } from '../useContract'
 import useENS from '../useENS'
@@ -33,11 +31,7 @@ export function useBuyCallArguments(
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
 
-  // todo improve to have a sort of router Contract
-  // todo use chain id
-  const erc20ContractAddress = '0x1380DB7316f60d4e2A4E6Ca30E0B668a747E567b'
-  const erc20ContractAddressMap: AddressMap = constructSameAddressMap(erc20ContractAddress)
-  const FriggErc20Contract = useFriggErc20TokenContract(erc20ContractAddressMap)
+  const FriggErc20Contract = useFriggErc20TokenContract()
 
   return useMemo(() => {
     if (!buyAmount || !recipient || !account || !chainId || !FriggErc20Contract) return []
@@ -50,7 +44,7 @@ export function useBuyCallArguments(
 
     return [
       {
-        address: erc20ContractAddress,
+        address: FriggErc20Contract.address,
         calldata,
         value: toHex(0),
       },
