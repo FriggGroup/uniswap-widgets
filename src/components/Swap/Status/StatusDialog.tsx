@@ -86,7 +86,9 @@ function TransactionStatus({ tx, onClose }: TransactionStatusProps) {
     <Column flex padded gap={0.75} align="stretch" style={{ height: '100%' }}>
       <StatusHeader icon={Icon} iconColor={tx.receipt?.status ? 'success' : undefined}>
         <ThemedText.Subhead1>{heading}</ThemedText.Subhead1>
-        {tx.info.type === TransactionType.SWAP ? (
+        {tx.info.type === TransactionType.SWAP ||
+        tx.info.type === TransactionType.BUY ||
+        tx.info.type === TransactionType.SELL ? (
           <SwapSummary input={tx.info.inputCurrencyAmount} output={tx.info.outputCurrencyAmount} />
         ) : null}
       </StatusHeader>
