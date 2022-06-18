@@ -15,20 +15,20 @@ import { BuyInfoProvider } from '../../hooks/buy/useBuyInfo'
 import Dialog from '../Dialog'
 import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
+import Rule from '../Rule'
+import Wallet from '../Wallet'
 import BuyButton from './BuyButton'
 import BuyOutput from './BuyOutput'
 import BuyToolbar from './BuyToolbar'
 import Input from './Input'
 import Output from './Output'
 import ReverseButton from './ReverseButton'
+import Settings from './Settings'
 import { StatusDialog } from './Status'
 import BuyArrow from './SwapArrow'
 import SwapButton from './SwapButton'
 import Toolbar from './Toolbar'
 import useValidate from './useValidate'
-import Wallet from '../Wallet'
-import Settings from './Settings'
-import Rule from '../Rule'
 
 function getTransactionFromMap(
   txs: { [hash: string]: Transaction },
@@ -36,7 +36,11 @@ function getTransactionFromMap(
 ): Transaction<SwapTransactionInfo | WrapTransactionInfo> | undefined {
   if (hash) {
     const tx = txs[hash]
-    if (tx?.info?.type === TransactionType.SWAP) {
+    if (
+      tx?.info?.type === TransactionType.SWAP ||
+      tx?.info?.type === TransactionType.BUY ||
+      tx?.info?.type === TransactionType.SELL
+    ) {
       return tx as Transaction<SwapTransactionInfo>
     }
     if (tx?.info?.type === TransactionType.WRAP) {
