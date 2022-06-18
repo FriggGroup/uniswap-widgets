@@ -1,6 +1,6 @@
 {
-  "name": "frigg-uniswap-widgets",
-  "version": "0.0.4",
+  "name": "@axelraag/frigg-uniswap-widgets",
+  "version": "0.0.11",
   "description": "Frigg's Uniswap Interface",
   "homepage": "https://github.com/FriggGroup/uniswap-widgets#readme",
   "repository": "https://github.com/FriggGroup/uniswap-widgets",
@@ -41,7 +41,8 @@
     "lint": "eslint .",
     "hardhat": "hardhat node",
     "test": "jest --testPathIgnorePatterns=e2e",
-    "test:e2e": "jest --testPathPattern=e2e"
+    "test:e2e": "jest --testPathPattern=e2e",
+    "publish": "npm publish --access=public"
   },
   "browserslist": {
     "production": [
