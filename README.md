@@ -1,3 +1,9 @@
+### How to publish:
+
+```js
+npm publish --access=public
+```
+
 # Uniswap Labs Widgets*
 
 [![npm](https://img.shields.io/npm/v/@uniswap/widgets)](https://www.npmjs.com/package/@uniswap/widgets)
