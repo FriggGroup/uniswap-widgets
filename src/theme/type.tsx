@@ -6,9 +6,16 @@ import type { Color } from './styled'
 type TextProps = Omit<TextPropsWithCss, 'css' | 'color' | 'userSelect'> & {
   color?: Color
   userSelect?: true
+  orbikular?: boolean
 }
 
-const TextWrapper = styled(Text)<{ color?: Color; lineHeight: string; noWrap?: true; userSelect?: true }>`
+const TextWrapper = styled(Text)<{
+  color?: Color
+  lineHeight: string
+  noWrap?: true
+  userSelect?: true
+  orbikular?: false
+}>`
   color: ${({ color = 'currentColor', theme }) => theme[color as Color]};
   // Avoid the need for placeholders by setting min-height to line-height.
   min-height: ${({ lineHeight }) => lineHeight};
@@ -16,6 +23,7 @@ const TextWrapper = styled(Text)<{ color?: Color; lineHeight: string; noWrap?: t
   // user-select must be configured through styled-components for cross-browser compat (eg to auto-generate prefixed properties).
   user-select: ${({ userSelect }) => userSelect && 'text'};
   white-space: ${({ noWrap }) => noWrap && 'nowrap'};
+  font-family: ${({ orbikular }) => (orbikular ? 'Orbikular !important' : 0)};
 `
 
 const TransitionTextWrapper = styled(TextWrapper)`

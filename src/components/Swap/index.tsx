@@ -7,15 +7,17 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useHasFocus from 'hooks/useHasFocus'
 import useOnSupportedNetwork from 'hooks/useOnSupportedNetwork'
 import { useAtom } from 'jotai'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { displayTxHashAtom } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
+import { ThemedText } from 'theme'
 
 import { BuyInfoProvider } from '../../hooks/buy/useBuyInfo'
 import Dialog from '../Dialog'
 import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
 import Rule from '../Rule'
+import TextHeader from '../TextHeader'
 import Wallet from '../Wallet'
 import BuyButton from './BuyButton'
 import BuyOutput from './BuyOutput'
@@ -53,9 +55,11 @@ function getTransactionFromMap(
 export interface SwapProps extends TokenDefaults, FeeOptions {
   onConnectWallet?: () => void
   marketType: 'buy' | 'swap' | 'sell'
+  title?: string
+  subtitle?: string
 }
 
-export default function Swap({ marketType, ...props }: SwapProps) {
+export default function Swap({ marketType, title, subtitle, ...props }: SwapProps) {
   useValidate(props)
   useSyncConvenienceFee(props)
   useSyncTokenDefaults(props)
@@ -72,12 +76,39 @@ export default function Swap({ marketType, ...props }: SwapProps) {
 
   const focused = useHasFocus(wrapper)
 
+  const renderDifferentText = useMemo(() => {
+    switch (marketType) {
+      case 'buy':
+        return (
+          <TextHeader>
+            <ThemedText.H2>{title ? title : <Trans>Primary buyers</Trans>}</ThemedText.H2>
+            <ThemedText.H2 orbikular>{subtitle ? subtitle : <Trans>Be the first!</Trans>}</ThemedText.H2>
+          </TextHeader>
+        )
+      case 'sell':
+        return (
+          <TextHeader>
+            <ThemedText.H2>{title ? title : <Trans>Sell market</Trans>}</ThemedText.H2>
+            <ThemedText.H2 orbikular>{subtitle ? subtitle : <Trans>Claim your profits!</Trans>}</ThemedText.H2>
+          </TextHeader>
+        )
+      case 'swap':
+        return (
+          <TextHeader>
+            <ThemedText.H2>{title ? title : <Trans>Swap tokens</Trans>}</ThemedText.H2>
+            <ThemedText.H2 orbikular>{subtitle ? subtitle : <Trans>Swap for fun!</Trans>}</ThemedText.H2>
+          </TextHeader>
+        )
+    }
+  }, [marketType, subtitle, title])
+
   return (
     <>
-      <Header title={<Trans>{marketType === 'swap' ? 'Swap' : marketType === 'buy' ? 'Buy' : 'Sell'}</Trans>}>
+      <Header>
         <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
         {marketType === 'swap' && <Settings disabled={isDisabled} />}
       </Header>
+      {renderDifferentText}
       {marketType === 'swap' ? (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
