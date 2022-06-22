@@ -81,21 +81,21 @@ export default function Swap({ marketType, title, subtitle, ...props }: SwapProp
       case 'buy':
         return (
           <TextHeader>
-            <ThemedText.H2>{title ? title : <Trans>Primary buyers</Trans>}</ThemedText.H2>
+            <ThemedText.H2 fontWeight={500}>{title ? title : <Trans>Primary buyers</Trans>}</ThemedText.H2>
             <ThemedText.H2 orbikular>{subtitle ? subtitle : <Trans>Be the first!</Trans>}</ThemedText.H2>
           </TextHeader>
         )
       case 'sell':
         return (
           <TextHeader>
-            <ThemedText.H2>{title ? title : <Trans>Sell market</Trans>}</ThemedText.H2>
+            <ThemedText.H2 fontWeight={500}>{title ? title : <Trans>Sell market</Trans>}</ThemedText.H2>
             <ThemedText.H2 orbikular>{subtitle ? subtitle : <Trans>Claim your profits!</Trans>}</ThemedText.H2>
           </TextHeader>
         )
       case 'swap':
         return (
           <TextHeader>
-            <ThemedText.H2>{title ? title : <Trans>Swap tokens</Trans>}</ThemedText.H2>
+            <ThemedText.H2 fontWeight={500}>{title ? title : <Trans>Swap tokens</Trans>}</ThemedText.H2>
             <ThemedText.H2 orbikular>{subtitle ? subtitle : <Trans>Swap for fun!</Trans>}</ThemedText.H2>
           </TextHeader>
         )
@@ -104,10 +104,12 @@ export default function Swap({ marketType, title, subtitle, ...props }: SwapProp
 
   return (
     <>
-      <Header>
-        <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
-        {marketType === 'swap' && <Settings disabled={isDisabled} />}
-      </Header>
+      {marketType === 'swap' && (
+        <Header>
+          <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
+          <Settings disabled={isDisabled} />
+        </Header>
+      )}
       {renderDifferentText}
       {marketType === 'swap' ? (
         <div ref={setWrapper}>
