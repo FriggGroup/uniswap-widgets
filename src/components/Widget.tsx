@@ -84,7 +84,6 @@ const DialogWrapper = styled.div`
 `
 
 export type WidgetProps = {
-  marketType: 'buy' | 'swap' | 'sell'
   theme?: Theme
   locale?: SupportedLocale
   provider?: Eip1193Provider | JsonRpcProvider
