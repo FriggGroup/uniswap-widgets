@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { displayTxHashAtom } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
 
-import { BuyInfoProvider } from '../../hooks/buy/useBuyInfo'
+import { BuySellInfoProvider } from '../../hooks/buy/useBuySellInfo'
 import Dialog from '../Dialog'
 import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
@@ -50,9 +50,11 @@ function getTransactionFromMap(
   return
 }
 
+export type MarketType = 'buy' | 'swap' | 'sell'
+
 export interface SwapProps extends TokenDefaults, FeeOptions {
   onConnectWallet?: () => void
-  marketType: 'buy' | 'swap' | 'sell'
+  marketType: MarketType
 }
 
 export default function Swap({ marketType, ...props }: SwapProps) {
@@ -96,7 +98,7 @@ export default function Swap({ marketType, ...props }: SwapProps) {
       ) : (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
-            <BuyInfoProvider disabled={isDisabled}>
+            <BuySellInfoProvider disabled={isDisabled} marketType={marketType}>
               <Rule padded />
               <Input disabled={isDisabled} focused={focused} fixed />
               <Rule padded />
@@ -105,7 +107,7 @@ export default function Swap({ marketType, ...props }: SwapProps) {
                 <BuyToolbar />
                 <BuyButton disabled={isDisabled} />
               </BuyOutput>
-            </BuyInfoProvider>
+            </BuySellInfoProvider>
           </BoundaryProvider>
         </div>
       )}

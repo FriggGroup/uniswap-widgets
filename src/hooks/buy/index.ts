@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react'
 import { pickAtom } from 'state/atoms'
 import { Field, swapAtom } from 'state/swap'
 import tryParseCurrencyAmount from 'utils/tryParseCurrencyAmount'
-export { default as useSwapInfo } from './useBuyInfo'
+export { default as useSwapInfo } from './useBuySellInfo'
 
 function otherField(field: Field) {
   switch (field) {

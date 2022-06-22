@@ -12,7 +12,7 @@ import styled from 'styled-components/macro'
 import { DynamicThemeProvider, ThemedText } from 'theme'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 
-import useBuyInfo from '../../hooks/buy/useBuyInfo'
+import useBuySellInfo from '../../hooks/buy/useBuySellInfo'
 import Column from '../Column'
 import Row from '../Row'
 import { Balance, InputProps, USDC, useFormattedFieldAmount } from './Input'
@@ -42,7 +42,7 @@ export default function BuyOutput({ disabled, focused, children, fixed }: PropsW
   const {
     [Field.OUTPUT]: { balance, amount: outputCurrencyAmount, usdc: outputUSDC },
     trade: { state: tradeState },
-  } = useBuyInfo()
+  } = useBuySellInfo()
 
   const [swapOutputAmount, updateSwapOutputAmount] = useSwapAmount(Field.OUTPUT)
   const [swapOutputCurrency, updateSwapOutputCurrency] = useSwapCurrency(Field.OUTPUT)

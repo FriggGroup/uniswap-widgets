@@ -14,8 +14,8 @@ import { useTheme } from 'styled-components/macro'
 import invariant from 'tiny-invariant'
 import { isAnimating } from 'utils/animations'
 
-import { useBuyCallback } from '../../../hooks/buy/useBuyCallback'
-import useBuyInfo from '../../../hooks/buy/useBuyInfo'
+import { useBuySellCallback } from '../../../hooks/buy/useBuySellCallback'
+import useBuySellInfo from '../../../hooks/buy/useBuySellInfo'
 import ActionButton, { ActionButtonProps } from '../../ActionButton'
 import Dialog from '../../Dialog'
 import { BuySummaryDialog } from '../BuySummary'
@@ -36,7 +36,7 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
     },
     [Field.OUTPUT]: { amount: outputCurrencyAmount, usdc: outputUSDC },
     trade,
-  } = useBuyInfo()
+  } = useBuySellInfo()
 
   const { type: wrapType, callback: wrapCallback } = useWrapCallback()
   const { approvalAction, signatureData } = useApprovalData(
@@ -48,8 +48,8 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
     },
     inputCurrencyAmount
   )
-  const { callback: buyCallback } = useBuyCallback({
-    buyAmount: outputCurrencyAmount,
+  const { callback: buyCallback } = useBuySellCallback({
+    amount: outputCurrencyAmount,
     recipientAddressOrName: account ?? null,
     signatureData,
   })

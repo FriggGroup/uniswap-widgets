@@ -17,7 +17,7 @@ import { ThemedText } from 'theme'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 
-import useBuyInfo from '../../hooks/buy/useBuyInfo'
+import useBuySellInfo from '../../hooks/buy/useBuySellInfo'
 import Column from '../Column'
 import Row from '../Row'
 import TokenImg from '../TokenImg'
@@ -79,7 +79,7 @@ export default function Input({ disabled, focused, fixed }: InputProps) {
   const {
     [Field.INPUT]: { balance: buyBalance, amount: buyTradeCurrencyAmount, usdc: buyUsdc },
     trade: { state: buyTradeState },
-  } = useBuyInfo()
+  } = useBuySellInfo()
 
   const { balance, tradeCurrencyAmount, usdc, tradeState } = useMemo(() => {
     return fixed

@@ -22,21 +22,21 @@ interface UseBuyCallbackReturns {
   error?: ReactNode
 }
 interface UseBuyCallbackArgs {
-  buyAmount: CurrencyAmount<Currency> | undefined
+  amount: CurrencyAmount<Currency> | undefined
   recipientAddressOrName: string | null | undefined // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
   signatureData: SignatureData | null | undefined
 }
 
 // returns a function that will execute a swap, if the parameters are all valid
 // and the user has approved the slippage adjusted input amount for the trade
-export function useBuyCallback({
-  buyAmount,
+export function useBuySellCallback({
+  amount,
   recipientAddressOrName,
   signatureData,
 }: UseBuyCallbackArgs): UseBuyCallbackReturns {
   const { account, chainId, library } = useActiveWeb3React()
 
-  const swapCalls = useBuyCallArguments(buyAmount, recipientAddressOrName, signatureData)
+  const swapCalls = useBuyCallArguments(amount, recipientAddressOrName, signatureData)
   const { callback } = useSendBuyTransaction(account, chainId, library, swapCalls)
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)

@@ -12,16 +12,16 @@ import { INVALID_TRADE } from '../swap/useBestTrade'
 import useWrapCallback, { WrapType } from '../swap/useWrapCallback'
 import { useInvestment } from './useInvestment'
 
-interface BuyField {
+interface BuySellField {
   currency?: Currency
   amount?: CurrencyAmount<Currency>
   balance?: CurrencyAmount<Currency>
   usdc?: CurrencyAmount<Currency>
 }
 
-interface BuyInfo {
-  [Field.INPUT]: BuyField
-  [Field.OUTPUT]: BuyField
+interface BuySellInfo {
+  [Field.INPUT]: BuySellField
+  [Field.OUTPUT]: BuySellField
   trade: {
     trade?: InvestmentTrade<Currency, Currency, TradeType>
     state: TradeState
@@ -29,8 +29,10 @@ interface BuyInfo {
   impact?: PriceImpact
 }
 
+export type BuySellMarketType = 'buy' | 'sell'
+
 // from the current swap inputs, compute the best trade and return it.
-function useComputeBuyInfo(): BuyInfo {
+function useComputeBuySellInfo(marketType: BuySellMarketType): BuySellInfo {
   const { type: wrapType } = useWrapCallback()
   const isWrapping = wrapType === WrapType.WRAP || wrapType === WrapType.UNWRAP
   const { independentField, amount, [Field.INPUT]: currencyIn, [Field.OUTPUT]: currencyOut } = useAtomValue(swapAtom)
@@ -43,6 +45,7 @@ function useComputeBuyInfo(): BuyInfo {
   const hasAmounts = currencyIn && currencyOut && parsedAmount && !isWrapping
   const trade = useInvestment(
     isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
+    marketType,
     hasAmounts ? parsedAmount : undefined,
     hasAmounts ? (isExactIn ? currencyOut : currencyIn) : undefined
   )
@@ -85,23 +88,27 @@ function useComputeBuyInfo(): BuyInfo {
   )
 }
 
-const DEFAULT_SWAP_INFO: BuyInfo = {
+const DEFAULT_SWAP_INFO: BuySellInfo = {
   [Field.INPUT]: {},
   [Field.OUTPUT]: {},
   trade: INVALID_TRADE,
 }
 
-const BuyInfoContext = createContext(DEFAULT_SWAP_INFO)
+const BuySellInfoContext = createContext(DEFAULT_SWAP_INFO)
 
-export function BuyInfoProvider({ children, disabled }: PropsWithChildren<{ disabled?: boolean }>) {
-  const buyInfo = useComputeBuyInfo()
+export function BuySellInfoProvider({
+  children,
+  disabled,
+  marketType,
+}: PropsWithChildren<{ disabled?: boolean; marketType: BuySellMarketType }>) {
+  const buyInfo = useComputeBuySellInfo(marketType)
   if (disabled) {
-    return <BuyInfoContext.Provider value={DEFAULT_SWAP_INFO}>{children}</BuyInfoContext.Provider>
+    return <BuySellInfoContext.Provider value={DEFAULT_SWAP_INFO}>{children}</BuySellInfoContext.Provider>
   }
-  return <BuyInfoContext.Provider value={buyInfo}>{children}</BuyInfoContext.Provider>
+  return <BuySellInfoContext.Provider value={buyInfo}>{children}</BuySellInfoContext.Provider>
 }
 
 /** Requires that SwapInfoUpdater be installed in the DOM tree. **/
-export default function useBuyInfo(): BuyInfo {
-  return useContext(BuyInfoContext)
+export default function useBuySellInfo(): BuySellInfo {
+  return useContext(BuySellInfoContext)
 }

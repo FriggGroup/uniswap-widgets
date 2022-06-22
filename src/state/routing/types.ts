@@ -103,7 +103,7 @@ export class InvestmentTrade<TInput extends Currency, TOutput extends Currency, 
   outputAmount: CurrencyAmount<TOutput>
   inputAmount: CurrencyAmount<TInput>
   investment: {
-    issuancePrice: Price<TInput, TOutput>
+    price: Price<TInput, TOutput>
     inputAmount: CurrencyAmount<TInput>
     outputAmount: CurrencyAmount<TOutput>
   }
@@ -130,7 +130,7 @@ export class InvestmentTrade<TInput extends Currency, TOutput extends Currency, 
   }: {
     gasUseEstimateUSD?: CurrencyAmount<Token> | undefined | null
     investment: {
-      issuancePrice: Price<TInput, TOutput>
+      price: Price<TInput, TOutput>
       inputAmount: CurrencyAmount<TInput>
       outputAmount: CurrencyAmount<TOutput>
     }

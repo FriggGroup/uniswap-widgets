@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { InvestmentTrade, TradeState } from 'state/routing/types'
 
 import { useClientSideInvestment } from '../useClientSideInvestment'
+import { BuySellMarketType } from './useBuySellInfo'
 
 export const INVALID_TRADE = { state: TradeState.INVALID, trade: undefined }
 
@@ -11,16 +12,18 @@ export const INVALID_TRADE = { state: TradeState.INVALID, trade: undefined }
  * @param tradeType whether the swap is an exact in/out
  * @param amountSpecified the exact amount to swap in/out
  * @param otherCurrency the desired output/payment currency
+ * @param marketType
  */
 export function useInvestment(
   tradeType: TradeType,
+  marketType: BuySellMarketType,
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency
 ): {
   state: TradeState
   trade: InvestmentTrade<Currency, Currency, TradeType> | undefined
 } {
-  const tradeObject = useClientSideInvestment(tradeType, amountSpecified, otherCurrency)
+  const tradeObject = useClientSideInvestment(tradeType, marketType, amountSpecified, otherCurrency)
 
   // this leads to an infinite loop
   // const lastTrade = useLast(tradeObject.trade, Boolean) ?? undefined

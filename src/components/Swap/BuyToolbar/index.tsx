@@ -9,7 +9,7 @@ import { Field } from 'state/swap'
 import styled from 'styled-components/macro'
 import { ThemedText } from 'theme'
 
-import useBuyInfo from '../../../hooks/buy/useBuyInfo'
+import useBuySellInfo from '../../../hooks/buy/useBuySellInfo'
 import Row from '../../Row'
 import * as Caption from './Caption'
 
@@ -25,7 +25,7 @@ export default memo(function BuyToolbar() {
     [Field.OUTPUT]: { currency: outputCurrency, usdc: outputUSDC },
     trade: { trade, state },
     impact,
-  } = useBuyInfo()
+  } = useBuySellInfo()
   const isAmountPopulated = useIsAmountPopulated()
   const { type: wrapType } = useWrapCallback()
   const caption = useMemo(() => {
