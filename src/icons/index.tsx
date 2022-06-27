@@ -42,9 +42,7 @@ const StyledImage = styled.img`
 function icon(Icon: FeatherIcon | SVGIcon) {
   return styled(Icon)<{ color?: Color }>`
     clip-path: stroke-box;
-    display: block;
     height: 1em;
-    margin: auto;
     stroke: ${({ color = 'currentColor', theme }) => theme[color]};
     width: 1em;
   `
