@@ -24,6 +24,7 @@ const TextWrapper = styled(Text)<{
   user-select: ${({ userSelect }) => userSelect && 'text'};
   white-space: ${({ noWrap }) => noWrap && 'nowrap'};
   font-family: ${({ orbikular }) => (orbikular ? 'Orbikular !important' : 0)};
+  font-feature-settings: normal;
 `
 
 const TransitionTextWrapper = styled(TextWrapper)`

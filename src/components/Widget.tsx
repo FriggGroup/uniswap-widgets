@@ -41,6 +41,7 @@ const WidgetWrapper = styled.div<{ width?: number | string }>`
   * {
     box-sizing: border-box;
     font-family: ${({ theme }) => (typeof theme.fontFamily === 'string' ? theme.fontFamily : theme.fontFamily.font)};
+    font-feature-settings: normal;
 
     @supports (font-variation-settings: normal) {
       font-family: ${({ theme }) => (typeof theme.fontFamily === 'string' ? undefined : theme.fontFamily.variable)};
