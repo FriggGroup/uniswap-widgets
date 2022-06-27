@@ -84,7 +84,7 @@ export default function BuyOutput({ disabled, focused, children, fixed }: PropsW
           <ThemedText.Body2 color="secondary" userSelect>
             <Row>
               <USDC gap={0.5} isLoading={isRouteLoading}>
-                {outputUSDC ? `$${formatCurrencyAmount(outputUSDC, 6, 'en', 2)}` : '-'}{' '}
+                {outputUSDC ? `$${formatCurrencyAmount(outputUSDC, 6, 'en', 2)}` : '—'}{' '}
               </USDC>
               {balance && (
                 <Balance focused={focused}>

@@ -29,7 +29,7 @@ export const lightTheme: Colors = {
   // surface
   accent: brandLight,
   container: 'rgb(255, 255, 255)',
-  module: 'hsl(231, 14%, 90%)',
+  module: 'rgb(255, 255, 255)',
   interactive: 'hsl(229, 13%, 83%)',
   outline: 'hsl(225, 7%, 78%)',
   dialog: white,

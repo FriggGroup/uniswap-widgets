@@ -48,7 +48,7 @@ const transparentButton = (defaultColor: Color) => styled(BaseButton)<{ color?: 
   color: ${({ color = defaultColor, theme }) => theme[color]};
 `
 
-export const TextButton = transparentButton('accent')
+export const TextButton = transparentButton('primary')
 
 const SecondaryButton = transparentButton('secondary')
 

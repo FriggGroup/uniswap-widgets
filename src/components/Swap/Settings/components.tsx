@@ -14,15 +14,15 @@ export const optionCss = (selected: boolean) => css`
   padding: calc(0.75em - 1px) 0.625em;
 
   :enabled {
-    border: 1px solid ${({ theme }) => (selected ? theme.active : theme.outline)};
+    border: 1px solid ${({ theme }) => theme.onHover(theme.outline)};
   }
 
   :enabled:hover {
-    border-color: ${({ theme }) => theme.onHover(selected ? theme.active : theme.outline)};
+    border-color: black;
   }
 
   :enabled:focus-within {
-    border-color: ${({ theme }) => theme.active};
+    border-color: rgb(0, 0, 0);
   }
 `
 

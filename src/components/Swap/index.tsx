@@ -104,9 +104,9 @@ export default function Swap({ marketType, title, subtitle, ...props }: SwapProp
 
   return (
     <>
-      {marketType === 'swap' && (
+      <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
+      {marketType === 'swap' && true && (
         <Header>
-          <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
           <Settings disabled={isDisabled} />
         </Header>
       )}

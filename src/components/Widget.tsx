@@ -32,7 +32,6 @@ const WidgetWrapper = styled.div<{ width?: number | string }>`
   font-size: 16px;
   font-smooth: always;
   font-variant: none;
-  height: 360px;
   min-width: 300px;
   padding: 0.25em;
   position: relative;
@@ -61,7 +60,7 @@ const slideOut = keyframes`
 `
 
 const DialogWrapper = styled.div`
-  border-radius: ${({ theme }) => theme.borderRadius * 0.75}em;
+  border-radius: 22px;
   height: calc(100% - 0.5em);
   left: 0;
   margin: 0.25em;
