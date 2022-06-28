@@ -25,6 +25,7 @@ const TextWrapper = styled(Text)<{
   white-space: ${({ noWrap }) => noWrap && 'nowrap'};
   font-family: ${({ orbikular }) => (orbikular ? 'Orbikular !important' : 0)};
   font-feature-settings: normal;
+  font-weight: 500;
 `
 
 const TransitionTextWrapper = styled(TextWrapper)`
