@@ -18,7 +18,7 @@ import { UNMOUNTING } from 'utils/animations'
 import { Modal, Provider as DialogProvider } from './Dialog'
 import ErrorBoundary, { ErrorHandler } from './Error/ErrorBoundary'
 
-const WidgetWrapper = styled.div<{ width?: number | string }>`
+const WidgetWrapper = styled.div`
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -95,13 +95,13 @@ export type WidgetProps = {
 
 export default function Widget(props: PropsWithChildren<WidgetProps>) {
   const { children, theme, provider, jsonRpcEndpoint, dialog: userDialog, className, onError } = props
-  const width = useMemo(() => {
+  /*const width = useMemo(() => {
     if (props.width && props.width < 300) {
       console.warn(`Widget width must be at least 300px (you set it to ${props.width}). Falling back to 300px.`)
       return 300
     }
     return props.width ?? 360
-  }, [props.width])
+  }, [props.width])*/
   const locale = useMemo(() => {
     if (props.locale && ![...SUPPORTED_LOCALES, 'pseudo'].includes(props.locale)) {
       console.warn(`Unsupported locale: ${props.locale}. Falling back to ${DEFAULT_LOCALE}.`)
@@ -114,7 +114,7 @@ export default function Widget(props: PropsWithChildren<WidgetProps>) {
   return (
     <StrictMode>
       <ThemeProvider theme={theme}>
-        <WidgetWrapper width={width} className={className}>
+        <WidgetWrapper className={className}>
           <I18nProvider locale={locale}>
             <DialogWrapper ref={setDialog} />
             <DialogProvider value={userDialog || dialog}>
