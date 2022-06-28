@@ -1,5 +1,5 @@
 import { useSwitchSwapCurrencies } from 'hooks/swap'
-import { ArrowDown as ArrowDownIcon, ArrowUp as ArrowUpIcon, ArrowUpDown } from 'icons'
+import { ArrowUpDown } from 'icons'
 import { useCallback, useState } from 'react'
 import styled from 'styled-components/macro'
 import { Layer } from 'theme'
@@ -14,18 +14,6 @@ const ReverseRow = styled(Row)`
   z-index: ${Layer.OVERLAY};
 `
 
-const ArrowUp = styled(ArrowUpIcon)`
-  left: calc(50% - 0.37em);
-  position: absolute;
-  top: calc(50% - 0.82em);
-`
-
-const ArrowDown = styled(ArrowDownIcon)`
-  bottom: calc(50% - 0.82em);
-  position: absolute;
-  right: calc(50% - 0.37em);
-`
-
 const Overlay = styled.div`
   background-color: ${({ theme }) => theme.container};
   border-radius: ${({ theme }) => theme.borderRadius}em;
@@ -36,7 +24,9 @@ const StyledReverseButton = styled(Button)<{ turns: number }>`
   background-color: rgb(113, 188, 146) !important;
   border-radius: 25px;
   color: rgb(255, 255, 255);
+  display: block;
   height: 3em;
+  margin: auto;
   position: relative;
   width: 3em;
 

@@ -13,7 +13,9 @@ const ReverseRow = styled(Row)`
 `
 
 const ArrowDown = styled(ArrowDownIcon)`
-  bottom: calc(50% - 0.7em);
+  bottom: calc(50% - 0.5em);
+  display: block;
+  margin: auto;
   position: absolute;
   right: calc(50% - 0.5em);
 `
@@ -28,7 +30,9 @@ const StyledReverseButton = styled(Button)`
   background-color: rgb(113, 188, 146) !important;
   border-radius: 25px;
   color: rgb(255, 255, 255);
+  display: block;
   height: 3em;
+  margin: auto;
   pointer-events: none;
   position: relative;
   width: 3em;

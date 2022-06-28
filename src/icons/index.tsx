@@ -1,4 +1,7 @@
 import MissingTokenIcon from 'assets/missing-token-image.png'
+import { ReactComponent as ArrowDownIcon } from 'assets/svg/arrow-down.svg'
+import { ReactComponent as ArrowUpIcon } from 'assets/svg/arrow-up.svg'
+import { ReactComponent as ArrowUpDownIcon } from 'assets/svg/arrow-up-down.svg'
 import { ReactComponent as RouterIcon } from 'assets/svg/auto_router.svg'
 import { ReactComponent as CheckIcon } from 'assets/svg/check.svg'
 import { ReactComponent as ExpandoIcon } from 'assets/svg/expando.svg'
@@ -6,9 +9,6 @@ import { ReactComponent as InlineSpinnerIcon } from 'assets/svg/inline_spinner.s
 import { ReactComponent as LogoIcon } from 'assets/svg/logo.svg'
 import { ReactComponent as SpinnerIcon } from 'assets/svg/spinner.svg'
 import { ReactComponent as WalletIcon } from 'assets/svg/wallet.svg'
-import { ReactComponent as ArrowUpDownIcon } from 'assets/svg/arrow-up-down.svg'
-import { ReactComponent as ArrowUpIcon } from 'assets/svg/arrow-up.svg'
-import { ReactComponent as ArrowDownIcon } from 'assets/svg/arrow-down.svg'
 import { loadingCss } from 'css/loading'
 import { FunctionComponent, SVGProps } from 'react'
 /* eslint-disable no-restricted-imports */
@@ -106,7 +106,7 @@ export const MissingToken = (props: React.ImgHTMLAttributes<HTMLImageElement>) =
 
 export const Check = styled(icon(CheckIcon))`
   circle {
-    fill: ${({ theme }) => theme.active};
+    fill: rgb(0, 0, 0);
     stroke: none;
   }
 `

@@ -18,7 +18,7 @@ import { UNMOUNTING } from 'utils/animations'
 import { Modal, Provider as DialogProvider } from './Dialog'
 import ErrorBoundary, { ErrorHandler } from './Error/ErrorBoundary'
 
-const WidgetWrapper = styled.div<{ width?: number | string }>`
+const WidgetWrapper = styled.div`
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -32,16 +32,15 @@ const WidgetWrapper = styled.div<{ width?: number | string }>`
   font-size: 16px;
   font-smooth: always;
   font-variant: none;
-  height: 360px;
-  min-width: 300px;
   padding: 0.25em;
   position: relative;
   user-select: none;
-  width: ${({ width }) => width && (isNaN(Number(width)) ? width : `${width}px`)};
 
   * {
     box-sizing: border-box;
     font-family: ${({ theme }) => (typeof theme.fontFamily === 'string' ? theme.fontFamily : theme.fontFamily.font)};
+    font-feature-settings: normal;
+    font-weight: 500;
 
     @supports (font-variation-settings: normal) {
       font-family: ${({ theme }) => (typeof theme.fontFamily === 'string' ? undefined : theme.fontFamily.variable)};
@@ -61,14 +60,14 @@ const slideOut = keyframes`
 `
 
 const DialogWrapper = styled.div`
-  border-radius: ${({ theme }) => theme.borderRadius * 0.75}em;
-  height: calc(100% - 0.5em);
+  border-radius: 22px;
+  height: 100%;
   left: 0;
   margin: 0.25em;
   overflow: hidden;
   position: absolute;
   top: 0;
-  width: calc(100% - 0.5em);
+  width: 100%;
 
   @supports (overflow: clip) {
     overflow: clip;
@@ -84,7 +83,6 @@ const DialogWrapper = styled.div`
 `
 
 export type WidgetProps = {
-  marketType: 'buy' | 'swap' | 'sell'
   theme?: Theme
   locale?: SupportedLocale
   provider?: Eip1193Provider | JsonRpcProvider
@@ -98,13 +96,13 @@ export type WidgetProps = {
 
 export default function Widget(props: PropsWithChildren<WidgetProps>) {
   const { children, theme, provider, jsonRpcEndpoint, dialog: userDialog, className, onError } = props
-  const width = useMemo(() => {
+  /*const width = useMemo(() => {
     if (props.width && props.width < 300) {
       console.warn(`Widget width must be at least 300px (you set it to ${props.width}). Falling back to 300px.`)
       return 300
     }
     return props.width ?? 360
-  }, [props.width])
+  }, [props.width])*/
   const locale = useMemo(() => {
     if (props.locale && ![...SUPPORTED_LOCALES, 'pseudo'].includes(props.locale)) {
       console.warn(`Unsupported locale: ${props.locale}. Falling back to ${DEFAULT_LOCALE}.`)
@@ -117,7 +115,7 @@ export default function Widget(props: PropsWithChildren<WidgetProps>) {
   return (
     <StrictMode>
       <ThemeProvider theme={theme}>
-        <WidgetWrapper width={width} className={className}>
+        <WidgetWrapper className={className}>
           <I18nProvider locale={locale}>
             <DialogWrapper ref={setDialog} />
             <DialogProvider value={userDialog || dialog}>

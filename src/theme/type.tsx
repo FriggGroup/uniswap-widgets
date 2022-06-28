@@ -6,9 +6,16 @@ import type { Color } from './styled'
 type TextProps = Omit<TextPropsWithCss, 'css' | 'color' | 'userSelect'> & {
   color?: Color
   userSelect?: true
+  orbikular?: boolean
 }
 
-const TextWrapper = styled(Text)<{ color?: Color; lineHeight: string; noWrap?: true; userSelect?: true }>`
+const TextWrapper = styled(Text)<{
+  color?: Color
+  lineHeight: string
+  noWrap?: true
+  userSelect?: true
+  orbikular?: false
+}>`
   color: ${({ color = 'currentColor', theme }) => theme[color as Color]};
   // Avoid the need for placeholders by setting min-height to line-height.
   min-height: ${({ lineHeight }) => lineHeight};
@@ -16,6 +23,9 @@ const TextWrapper = styled(Text)<{ color?: Color; lineHeight: string; noWrap?: t
   // user-select must be configured through styled-components for cross-browser compat (eg to auto-generate prefixed properties).
   user-select: ${({ userSelect }) => userSelect && 'text'};
   white-space: ${({ noWrap }) => noWrap && 'nowrap'};
+  font-family: ${({ orbikular }) => (orbikular ? 'Orbikular !important' : 0)};
+  font-feature-settings: normal;
+  font-weight: 500;
 `
 
 const TransitionTextWrapper = styled(TextWrapper)`
@@ -23,15 +33,11 @@ const TransitionTextWrapper = styled(TextWrapper)`
 `
 
 export function H1(props: TextProps) {
-  return (
-    <TextWrapper className="headline headline-1" fontSize={36} fontWeight={400} lineHeight="36px" noWrap {...props} />
-  )
+  return <TextWrapper className="headline headline-1" fontSize={36} fontWeight={400} lineHeight="36px" {...props} />
 }
 
 export function H2(props: TextProps) {
-  return (
-    <TextWrapper className="headline headline-2" fontSize={32} fontWeight={400} lineHeight="32px" noWrap {...props} />
-  )
+  return <TextWrapper className="headline headline-2" fontSize={32} fontWeight={400} lineHeight="32px" {...props} />
 }
 
 export function H3(props: TextProps) {

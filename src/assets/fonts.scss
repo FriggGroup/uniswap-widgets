@@ -6,3 +6,12 @@
 @include Inter.fontFaceVariable($display: block);
 
 @import '~@fontsource/ibm-plex-mono/400.css';
+
+@font-face {
+  font-family: 'Orbikular';
+  src: url('Orbikular-Regular.woff2') format('woff2'), url('Orbikular-Regular.woff') format('woff');
+  font-style: normal;
+  font-display: swap;
+  font-feature-settings: normal;
+  font-weight: 500;
+}

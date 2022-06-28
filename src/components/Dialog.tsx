@@ -64,7 +64,7 @@ export function Header({ title, children, ruled }: HeaderProps) {
       <Column>
         <BaseHeader title={title}>
           {children}
-          <IconButton color="primary" onClick={useContext(OnCloseContext)} icon={X} />
+          <IconButton color="primary" onClick={useContext(OnCloseContext)} icon={X} style={{ marginTop: 1 }} />
         </BaseHeader>
         {ruled && <Rule padded />}
       </Column>
@@ -74,7 +74,7 @@ export function Header({ title, children, ruled }: HeaderProps) {
 
 export const Modal = styled.div<{ color: Color }>`
   background-color: ${({ color, theme }) => theme[color]};
-  border-radius: ${({ theme }) => theme.borderRadius * 0.75}em;
+  border-radius: 22px;
   display: flex;
   flex-direction: column;
   height: 100%;
