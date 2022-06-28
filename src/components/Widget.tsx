@@ -32,11 +32,9 @@ const WidgetWrapper = styled.div<{ width?: number | string }>`
   font-size: 16px;
   font-smooth: always;
   font-variant: none;
-  min-width: 300px;
   padding: 0.25em;
   position: relative;
   user-select: none;
-  width: ${({ width }) => width && (isNaN(Number(width)) ? width : `${width}px`)};
 
   * {
     box-sizing: border-box;
@@ -62,13 +60,13 @@ const slideOut = keyframes`
 
 const DialogWrapper = styled.div`
   border-radius: 22px;
-  height: calc(100% - 0.5em);
+  height: 100%;
   left: 0;
   margin: 0.25em;
   overflow: hidden;
   position: absolute;
   top: 0;
-  width: calc(100% - 0.5em);
+  width: 100%;
 
   @supports (overflow: clip) {
     overflow: clip;
