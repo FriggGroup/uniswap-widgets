@@ -31,7 +31,7 @@ const Body = styled(Column)`
   }
 `
 
-function ConfirmButton({ onConfirm }: { onConfirm: () => Promise<void> }) {
+function ConfirmButton({ onConfirm, isBuy }: { onConfirm: () => Promise<void>; isBuy: boolean }) {
   const [isPending, setIsPending] = useState(false)
   const onClick = useCallback(async () => {
     setIsPending(true)
@@ -48,7 +48,7 @@ function ConfirmButton({ onConfirm }: { onConfirm: () => Promise<void> }) {
 
   return (
     <ActionButton onClick={onClick} action={action}>
-      <Trans>Confirm buy</Trans>
+      {isBuy ? <Trans>Confirm buy</Trans> : <Trans>Confirm sell</Trans>}
     </ActionButton>
   )
 }
@@ -65,14 +65,17 @@ export function BuySummaryDialog({ trade, inputUSDC, outputUSDC, onConfirm }: Su
 
   return (
     <>
-      <Header title={<Trans>Buy summary</Trans>} ruled />
+      <Header
+        title={trade.investment.marketType === 'buy' ? <Trans>Buy summary</Trans> : <Trans>Sell summary</Trans>}
+        ruled
+      />
       <Body flex align="stretch" padded gap={0.75}>
         <Heading gap={0.75} flex justify="center">
           <BuySummary input={inputAmount} output={outputAmount} inputUSDC={inputUSDC} outputUSDC={outputUSDC} />
           <BuyPrice trade={trade} />
         </Heading>
         <Column gap={0.75} style={{ transition: 'gap 0.25s' }}>
-          <ConfirmButton onConfirm={onConfirm} />
+          <ConfirmButton onConfirm={onConfirm} isBuy={trade.investment.marketType === 'buy'} />
         </Column>
       </Body>
     </>

@@ -167,9 +167,9 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
         return <Trans>Wrap {inputCurrency?.symbol}</Trans>
       case WrapType.NONE:
       default:
-        return <Trans>Review buy</Trans>
+        return trade.trade?.investment.marketType === 'buy' ? <Trans>Review buy</Trans> : <Trans>Review sell</Trans>
     }
-  }, [inputCurrency?.symbol, wrapType])
+  }, [inputCurrency?.symbol, trade, wrapType])
   const onClose = useCallback(() => setOpen(false), [])
 
   const { tokenColorExtraction } = useTheme()
