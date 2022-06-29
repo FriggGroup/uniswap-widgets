@@ -20,7 +20,7 @@ export const brand = brandLight
 
 const stateColors = {
   active: 'hsl(215, 79%, 51.4%)',
-  success: 'hsl(145, 63.4%, 41.8%)',
+  success: 'rgb(113, 188, 146)',
   warning: 'hsl(43, 89.9%, 53.5%)',
   error: 'hsl(0, 98%, 62.2%)',
 }
