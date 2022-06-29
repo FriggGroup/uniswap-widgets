@@ -103,7 +103,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "inputFriggAmount",
+          "name": "inputFriggTokenAmount",
           "type": "uint256"
         }
       ],
