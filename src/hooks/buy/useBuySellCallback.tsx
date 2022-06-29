@@ -1,14 +1,15 @@
 // eslint-disable-next-line no-restricted-imports
 import { TransactionResponse } from '@ethersproject/providers'
 import { Trans } from '@lingui/macro'
-import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
+import { Currency, TradeType } from '@uniswap/sdk-core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useENS from 'hooks/useENS'
 import { SignatureData } from 'hooks/useERC20Permit'
 import { ReactNode, useMemo } from 'react'
 
+import { InvestmentTrade } from '../../state/routing/types'
+import useSendSwapTransaction from '../swap/useSendSwapTransaction'
 import { useBuyCallArguments } from './useBuyCallArguments'
-import useSendBuyTransaction from './useSendBuyTransaction'
 
 export enum BuyCallbackState {
   INVALID,
@@ -22,7 +23,7 @@ interface UseBuyCallbackReturns {
   error?: ReactNode
 }
 interface UseBuyCallbackArgs {
-  amount: CurrencyAmount<Currency> | undefined
+  investmentTrade: InvestmentTrade<Currency, Currency, TradeType> | undefined
   recipientAddressOrName: string | null | undefined // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
   signatureData: SignatureData | null | undefined
 }
@@ -30,14 +31,14 @@ interface UseBuyCallbackArgs {
 // returns a function that will execute a swap, if the parameters are all valid
 // and the user has approved the slippage adjusted input amount for the trade
 export function useBuySellCallback({
-  amount,
+  investmentTrade,
   recipientAddressOrName,
   signatureData,
 }: UseBuyCallbackArgs): UseBuyCallbackReturns {
   const { account, chainId, library } = useActiveWeb3React()
 
-  const swapCalls = useBuyCallArguments(amount, recipientAddressOrName, signatureData)
-  const { callback } = useSendBuyTransaction(account, chainId, library, swapCalls)
+  const buySellCalls = useBuyCallArguments(investmentTrade, recipientAddressOrName, signatureData)
+  const { callback } = useSendSwapTransaction(account, chainId, library, investmentTrade, buySellCalls)
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress

@@ -1,4 +1,5 @@
 import { Currency, CurrencyAmount, Price, TradeType } from '@uniswap/sdk-core'
+import { BigNumber } from 'ethers'
 import { useMemo } from 'react'
 import { InvestmentTrade, TradeState } from 'state/routing/types'
 
@@ -66,18 +67,23 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
       ) => {
         if (
           !result ||
-          (result.issuancePriceInUSDC?.toString() as unknown as string) === '0' ||
-          (result.expiryPriceInUSDC?.toString() as unknown as string) === '0'
+          (result.issuancePrice?.toString() as unknown as string) === '0' ||
+          (result.expiryPrice?.toString() as unknown as string) === '0'
         )
           return currentBest
 
         const price =
           marketType === 'buy'
-            ? new Price(currencyIn, currencyOut, result.issuancePriceInUSDC.toString(), 10 ** currencyOut.decimals)
+            ? new Price(
+                currencyIn,
+                currencyOut,
+                BigNumber.from(10).pow(currencyOut.decimals).div(result.issuancePrice).toString(),
+                10 ** currencyOut.decimals
+              )
             : new Price(
                 currencyOut,
                 currencyIn,
-                result.expiryPriceInUSDC.toString(),
+                BigNumber.from(10).pow(currencyIn.decimals).div(result.expiryPrice).toString(),
                 10 ** currencyIn.decimals
               ).invert()
 
@@ -118,6 +124,7 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
       trade: new InvestmentTrade({
         investment: {
           price,
+          marketType,
           inputAmount: amountIn,
           outputAmount: amountOut,
         },

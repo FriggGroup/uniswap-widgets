@@ -16,7 +16,7 @@
           "type": "uint256"
         }
       ],
-      "name": "successfulExpiration",
+      "name": "SuccessfulExpiration",
       "type": "event"
     },
     {
@@ -35,7 +35,7 @@
           "type": "uint256"
         }
       ],
-      "name": "successfulPurchase",
+      "name": "SuccessfulPurchase",
       "type": "event"
     },
     {
@@ -47,7 +47,7 @@
         },
         {
           "internalType": "address",
-          "name": "_UID_CONTRACT",
+          "name": "_uIdContract",
           "type": "address"
         },
         {
@@ -57,13 +57,18 @@
         },
         {
           "internalType": "uint256",
-          "name": "_issuancePriceInUSDC",
+          "name": "_issuancePrice",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_expiryPriceInUSDC",
+          "name": "_expiryPrice",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_issuanceTokenAddress",
+          "type": "address"
         }
       ],
       "name": "add",
@@ -75,17 +80,12 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "inputTokenAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "outputTokenAddress",
+          "name": "friggTokenAddress",
           "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "inputAmount",
+          "name": "inputTokenAmount",
           "type": "uint256"
         }
       ],
@@ -98,17 +98,12 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "inputTokenAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "outputTokenAddress",
+          "name": "friggTokenAddress",
           "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "inputAmount",
+          "name": "inputFriggAmount",
           "type": "uint256"
         }
       ],
@@ -134,18 +129,23 @@
         },
         {
           "internalType": "address",
-          "name": "UID_CONTRACT",
+          "name": "uIdContract",
           "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "issuancePriceInUSDC",
+          "name": "issuancePrice",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "expiryPriceInUSDC",
+          "name": "expiryPrice",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "issuanceTokenAddress",
+          "type": "address"
         }
       ],
       "stateMutability": "view",

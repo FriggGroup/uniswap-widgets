@@ -11,6 +11,8 @@ import { calculateGasMargin } from 'utils/calculateGasMargin'
 import isZero from 'utils/isZero'
 import { swapErrorToUserReadableMessage } from 'utils/swapErrorToUserReadableMessage'
 
+import { InvestmentTrade } from '../../state/routing/types'
+
 type AnyTrade =
   | V2Trade<Currency, Currency, TradeType>
   | V3Trade<Currency, Currency, TradeType>
@@ -41,7 +43,7 @@ export default function useSendSwapTransaction(
   account: string | null | undefined,
   chainId: number | undefined,
   library: JsonRpcProvider | undefined,
-  trade: AnyTrade | undefined, // trade to execute, required
+  trade: AnyTrade | InvestmentTrade<Currency, Currency, TradeType> | undefined, // trade to execute, required
   swapCalls: SwapCall[]
 ): { callback: null | (() => Promise<TransactionResponse>) } {
   return useMemo(() => {

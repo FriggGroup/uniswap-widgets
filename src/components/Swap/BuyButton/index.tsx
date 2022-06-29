@@ -34,7 +34,7 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
       balance: inputCurrencyBalance,
       usdc: inputUSDC,
     },
-    [Field.OUTPUT]: { amount: outputCurrencyAmount, usdc: outputUSDC },
+    [Field.OUTPUT]: { usdc: outputUSDC },
     trade,
   } = useBuySellInfo()
 
@@ -49,7 +49,7 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
     inputCurrencyAmount
   )
   const { callback: buyCallback } = useBuySellCallback({
-    amount: outputCurrencyAmount,
+    investmentTrade: trade.trade,
     recipientAddressOrName: account ?? null,
     signatureData,
   })
@@ -105,7 +105,7 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
       invariant(trade.trade)
       addTransaction({
         response: transaction,
-        type: TransactionType.BUY,
+        type: trade.trade.investment.marketType === 'buy' ? TransactionType.BUY : TransactionType.SELL,
         tradeType: trade.trade.tradeType,
         inputCurrencyAmount: trade.trade.inputAmount,
         outputCurrencyAmount: trade.trade.outputAmount,

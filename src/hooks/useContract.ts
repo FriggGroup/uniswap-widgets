@@ -19,7 +19,6 @@ import WETH_ABI from 'abis/weth.json'
 import {
   ARGENT_WALLET_DETECTOR_ADDRESS,
   ENS_REGISTRAR_ADDRESSES,
-  FRIGG_ERC20_TOKEN_ADDRESS,
   FRIGG_ROUTER_ADDRESS,
   MULTICALL_ADDRESS,
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
@@ -35,7 +34,6 @@ import { NonfungiblePositionManager, Quoter, TickLens, UniswapInterfaceMulticall
 import { V3Migrator } from 'types/v3/V3Migrator'
 import { getContract } from 'utils'
 
-import FriggErc20TokenJson from './buy/FriggErc20Token.json'
 import FriggRouterJson from './buy/FriggRouter.json'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
@@ -149,12 +147,7 @@ export function useTickLens(): TickLens | null {
  */
 
 const { abi: IFriggRouterABI } = FriggRouterJson
-const { abi: IFriggErc20TokenABI } = FriggErc20TokenJson
 
 export function useFriggRouterContract(): Contract | null {
   return useContract(FRIGG_ROUTER_ADDRESS, IFriggRouterABI, true)
-}
-
-export function useFriggErc20TokenContract(): Contract | null {
-  return useContract(FRIGG_ERC20_TOKEN_ADDRESS, IFriggErc20TokenABI, true)
 }

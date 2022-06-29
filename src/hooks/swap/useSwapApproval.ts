@@ -2,7 +2,7 @@ import { Protocol, Trade } from '@uniswap/router-sdk'
 import { Currency, CurrencyAmount, Percent, Token, TradeType } from '@uniswap/sdk-core'
 import { Pair, Route as V2Route, Trade as V2Trade } from '@uniswap/v2-sdk'
 import { Pool, Route as V3Route, Trade as V3Trade } from '@uniswap/v3-sdk'
-import { AddressMap, SWAP_ROUTER_ADDRESSES, V2_ROUTER_ADDRESS, V3_ROUTER_ADDRESS } from 'constants/addresses'
+import { FRIGG_ROUTER_ADDRESS, SWAP_ROUTER_ADDRESSES, V2_ROUTER_ADDRESS, V3_ROUTER_ADDRESS } from 'constants/addresses'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useERC20PermitFromTrade, UseERC20PermitState } from 'hooks/useERC20Permit'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
@@ -10,7 +10,6 @@ import { useCallback, useMemo } from 'react'
 import { getTxOptimizedSwapRouter, SwapRouterVersion } from 'utils/getTxOptimizedSwapRouter'
 
 import { InvestmentTrade } from '../../state/routing/types'
-import { constructSameAddressMap } from '../../utils/constructSameAddressMap'
 import { ApprovalState, useApproval, useApprovalStateForSpender } from '../useApproval'
 export { ApprovalState } from '../useApproval'
 
@@ -47,9 +46,6 @@ export function useSwapRouterAddress(
 ) {
   const { chainId } = useActiveWeb3React()
 
-  const erc20ContractAddress = '0x1380DB7316f60d4e2A4E6Ca30E0B668a747E567b'
-  const erc20ContractAddressMap: AddressMap = constructSameAddressMap(erc20ContractAddress)
-
   return useMemo(
     () =>
       chainId
@@ -58,10 +54,10 @@ export function useSwapRouterAddress(
           : trade instanceof V3Trade
           ? V3_ROUTER_ADDRESS[chainId]
           : trade instanceof InvestmentTrade
-          ? erc20ContractAddressMap[chainId]
+          ? FRIGG_ROUTER_ADDRESS[chainId]
           : SWAP_ROUTER_ADDRESSES[chainId]
         : undefined,
-    [chainId, erc20ContractAddressMap, trade]
+    [chainId, trade]
   )
 }
 

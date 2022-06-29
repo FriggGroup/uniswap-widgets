@@ -1,12 +1,13 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Trade } from '@uniswap/router-sdk'
-import { Currency, CurrencyAmount, Rounding, TradeType } from '@uniswap/sdk-core'
+import { Currency, TradeType } from '@uniswap/sdk-core'
 import { Trade as V2Trade } from '@uniswap/v2-sdk'
 import { toHex, Trade as V3Trade } from '@uniswap/v3-sdk'
 import { useMemo } from 'react'
 
+import { InvestmentTrade } from '../../state/routing/types'
 import useActiveWeb3React from '../useActiveWeb3React'
-import { useFriggErc20TokenContract } from '../useContract'
+import { useFriggRouterContract } from '../useContract'
 import useENS from '../useENS'
 import { SignatureData } from '../useERC20Permit'
 
@@ -22,7 +23,7 @@ interface BuyCall {
 }
 
 export function useBuyCallArguments(
-  buyAmount: CurrencyAmount<Currency> | undefined,
+  investmentTrade: InvestmentTrade<Currency, Currency, TradeType> | undefined,
   recipientAddressOrName: string | null | undefined,
   signatureData: SignatureData | null | undefined
 ): BuyCall[] {
@@ -31,23 +32,30 @@ export function useBuyCallArguments(
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
 
-  const FriggErc20Contract = useFriggErc20TokenContract()
+  const friggRouterContract = useFriggRouterContract()
 
   return useMemo(() => {
-    if (!buyAmount || !recipient || !account || !chainId || !FriggErc20Contract) return []
+    if (!investmentTrade || !recipient || !account || !chainId || !friggRouterContract) return []
+    if (!investmentTrade.inputAmount.currency?.isToken || !investmentTrade.outputAmount.currency?.isToken) return []
 
-    const calldata = FriggErc20Contract.interface.encodeFunctionData('buyATTWithUSDC', [
-      // todo 10 ** 18
-      // BigNumber.from(buyAmount.quotient.toString()),
-      BigNumber.from(buyAmount.toFixed(0, undefined, Rounding.ROUND_DOWN)),
+    console.log([
+      // function buy(address friggTokenAddress, uint256 inputTokenAmount) external
+      investmentTrade.outputAmount.currency.address,
+      BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
+    ])
+
+    const calldata = friggRouterContract.interface.encodeFunctionData('buy', [
+      // function buy(address friggTokenAddress, uint256 inputTokenAmount) external
+      investmentTrade.outputAmount.currency.address,
+      BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
     ])
 
     return [
       {
-        address: FriggErc20Contract.address,
+        address: friggRouterContract.address,
         calldata,
         value: toHex(0),
       },
     ]
-  }, [buyAmount, recipient, account, chainId, FriggErc20Contract])
+  }, [investmentTrade, recipient, account, chainId, friggRouterContract])
 }

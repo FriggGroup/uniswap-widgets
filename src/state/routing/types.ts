@@ -3,6 +3,8 @@ import { Currency, CurrencyAmount, Percent, Price, Token, TradeType } from '@uni
 import { Route as V2Route } from '@uniswap/v2-sdk'
 import { Route as V3Route } from '@uniswap/v3-sdk'
 
+import { BuySellMarketType } from '../../hooks/buy/useBuySellInfo'
+
 export enum TradeState {
   LOADING,
   INVALID,
@@ -104,6 +106,7 @@ export class InvestmentTrade<TInput extends Currency, TOutput extends Currency, 
   inputAmount: CurrencyAmount<TInput>
   investment: {
     price: Price<TInput, TOutput>
+    marketType: BuySellMarketType
     inputAmount: CurrencyAmount<TInput>
     outputAmount: CurrencyAmount<TOutput>
   }
@@ -131,6 +134,7 @@ export class InvestmentTrade<TInput extends Currency, TOutput extends Currency, 
     gasUseEstimateUSD?: CurrencyAmount<Token> | undefined | null
     investment: {
       price: Price<TInput, TOutput>
+      marketType: BuySellMarketType
       inputAmount: CurrencyAmount<TInput>
       outputAmount: CurrencyAmount<TOutput>
     }
