@@ -23,9 +23,10 @@ import useApprovalData from '../SwapButton/useApprovalData'
 
 interface BuyButtonProps {
   disabled?: boolean
+  marketType: 'buy' | 'sell' | 'swap'
 }
 
-export default memo(function BuyButton({ disabled }: BuyButtonProps) {
+export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps) {
   const { account, chainId } = useActiveWeb3React()
   const {
     [Field.INPUT]: {
@@ -167,9 +168,9 @@ export default memo(function BuyButton({ disabled }: BuyButtonProps) {
         return <Trans>Wrap {inputCurrency?.symbol}</Trans>
       case WrapType.NONE:
       default:
-        return trade.trade?.investment.marketType === 'buy' ? <Trans>Review buy</Trans> : <Trans>Review sell</Trans>
+        return marketType === 'buy' ? <Trans>Review buy</Trans> : <Trans>Review sell</Trans>
     }
-  }, [inputCurrency?.symbol, trade, wrapType])
+  }, [inputCurrency?.symbol, marketType, wrapType])
   const onClose = useCallback(() => setOpen(false), [])
 
   const { tokenColorExtraction } = useTheme()

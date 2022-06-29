@@ -138,7 +138,7 @@ export default function Swap({ marketType, title, subtitle, ...props }: SwapProp
               <BuyArrow />
               <BuyOutput disabled={isDisabled} focused={focused} fixed>
                 <BuyToolbar />
-                <BuyButton disabled={isDisabled} />
+                <BuyButton marketType={marketType} disabled={isDisabled} />
               </BuyOutput>
             </BuySellInfoProvider>
           </BoundaryProvider>
