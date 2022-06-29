@@ -38,17 +38,18 @@ export function useBuyCallArguments(
     if (!investmentTrade || !recipient || !account || !chainId || !friggRouterContract) return []
     if (!investmentTrade.inputAmount.currency?.isToken || !investmentTrade.outputAmount.currency?.isToken) return []
 
-    console.log([
-      // function buy(address friggTokenAddress, uint256 inputTokenAmount) external
-      investmentTrade.outputAmount.currency.address,
-      BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
-    ])
-
-    const calldata = friggRouterContract.interface.encodeFunctionData('buy', [
-      // function buy(address friggTokenAddress, uint256 inputTokenAmount) external
-      investmentTrade.outputAmount.currency.address,
-      BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
-    ])
+    const calldata =
+      investmentTrade.investment.marketType === 'buy'
+        ? friggRouterContract.interface.encodeFunctionData('buy', [
+            // function buy(address friggTokenAddress, uint256 inputTokenAmount) external
+            investmentTrade.outputAmount.currency.address,
+            BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
+          ])
+        : friggRouterContract.interface.encodeFunctionData('sell', [
+            // function sell(address friggTokenAddress, uint256 inputFriggTokenAmount) external
+            investmentTrade.inputAmount.currency.address,
+            BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
+          ])
 
     return [
       {
