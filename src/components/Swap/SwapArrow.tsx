@@ -27,7 +27,7 @@ const Overlay = styled.div`
 `
 
 const StyledReverseButton = styled(Button)`
-  background-color: black;
+  background-color: black !important;
   border-radius: 25px;
   color: rgb(255, 255, 255);
   display: block;
