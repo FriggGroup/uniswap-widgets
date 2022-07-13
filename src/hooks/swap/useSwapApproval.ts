@@ -15,7 +15,7 @@ export { ApprovalState } from '../useApproval'
 
 /** Returns approval state for all known swap routers */
 function useSwapApprovalStates(
-  trade: Trade<Currency, Currency, TradeType> | undefined,
+  trade: Trade<Currency, Currency, TradeType> | InvestmentTrade<Currency, Currency, TradeType> | undefined,
   allowedSlippage: Percent,
   useIsPendingApproval: (token?: Token, spender?: string) => boolean
 ): { v2: ApprovalState; v3: ApprovalState; v2V3: ApprovalState } {
@@ -29,11 +29,13 @@ function useSwapApprovalStates(
   const v2RouterAddress = chainId ? V2_ROUTER_ADDRESS[chainId] : undefined
   const v3RouterAddress = chainId ? V3_ROUTER_ADDRESS[chainId] : undefined
   const swapRouterAddress = chainId ? SWAP_ROUTER_ADDRESSES[chainId] : undefined
+  const friggRouterAddress = chainId ? FRIGG_ROUTER_ADDRESS[chainId] : undefined
   const v2 = useApprovalStateForSpender(amountToApprove, v2RouterAddress, useIsPendingApproval)
   const v3 = useApprovalStateForSpender(amountToApprove, v3RouterAddress, useIsPendingApproval)
   const v2V3 = useApprovalStateForSpender(amountToApprove, swapRouterAddress, useIsPendingApproval)
+  const frg = useApprovalStateForSpender(amountToApprove, friggRouterAddress, useIsPendingApproval)
 
-  return useMemo(() => ({ v2, v3, v2V3 }), [v2, v2V3, v3])
+  return useMemo(() => ({ v2, v3, v2V3, frg }), [v2, v2V3, v3, frg])
 }
 
 export function useSwapRouterAddress(
