@@ -178,7 +178,13 @@ export const useApproveOrPermit = (
   // If permit is supported, trigger a signature, if not create approval transaction.
   const handleApproveOrPermit = useCallback(async () => {
     try {
-      if (signatureState === UseERC20PermitState.NOT_SIGNED && gatherPermitSignature) {
+      if (
+        signatureState === UseERC20PermitState.NOT_SIGNED &&
+        gatherPermitSignature &&
+        // this avoids the permit path for the buy and sell market
+        // todo fix the permit path instead
+        !(trade instanceof InvestmentTrade)
+      ) {
         try {
           return await gatherPermitSignature()
         } catch (error) {
@@ -193,7 +199,7 @@ export const useApproveOrPermit = (
     } catch (e) {
       // Swallow approval errors - user rejections do not need to be displayed.
     }
-  }, [signatureState, gatherPermitSignature, getApproval])
+  }, [signatureState, gatherPermitSignature, trade, getApproval])
 
   const approvalState = useMemo(() => {
     if (approval === ApprovalState.PENDING) {
@@ -202,12 +208,14 @@ export const useApproveOrPermit = (
       return ApproveOrPermitState.PENDING_SIGNATURE
     } else if (approval !== ApprovalState.NOT_APPROVED || signatureState === UseERC20PermitState.SIGNED) {
       return ApproveOrPermitState.APPROVED
-    } else if (gatherPermitSignature) {
+      // this avoids the permit path for the buy and sell market
+      // todo fix the permit path instead
+    } else if (gatherPermitSignature && !(trade instanceof InvestmentTrade)) {
       return ApproveOrPermitState.REQUIRES_SIGNATURE
     } else {
       return ApproveOrPermitState.REQUIRES_APPROVAL
     }
-  }, [approval, gatherPermitSignature, signatureState])
+  }, [approval, gatherPermitSignature, signatureState, trade])
 
   return {
     approvalState,
