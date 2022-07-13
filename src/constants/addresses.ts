@@ -113,4 +113,5 @@ export const TICK_LENS_ADDRESSES: AddressMap = {
   [SupportedChainId.ARBITRUM_RINKEBY]: '0xbfd8137f7d1516D3ea5cA83523914859ec47F573',
 }
 
-export const FRIGG_ROUTER_ADDRESS: AddressMap = constructSameAddressMap('0x477830D21d64b1bc444c0EdCFBfd54f9208d6686')
+// test router: 0x477830D21d64b1bc444c0EdCFBfd54f9208d6686
+export const FRIGG_ROUTER_ADDRESS: AddressMap = constructSameAddressMap('0x50e95615cc32b73f47f3825f620de4e6d29da3c1')
