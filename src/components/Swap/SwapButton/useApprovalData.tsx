@@ -53,6 +53,7 @@ export default function useApprovalData(
 
     switch (approvalState) {
       case ApproveOrPermitState.REQUIRES_APPROVAL:
+        console.log('REQUIRES_APPROVAL')
         if (isPending) {
           return { message: <Trans>Approve in your wallet</Trans>, icon: Spinner }
         }
@@ -62,6 +63,7 @@ export default function useApprovalData(
           children: <Trans>Approve</Trans>,
         }
       case ApproveOrPermitState.REQUIRES_SIGNATURE:
+        console.log('REQUIRES_SIGNATURE')
         if (isPending) {
           return { message: <Trans>Allow in your wallet</Trans>, icon: Spinner }
         }
