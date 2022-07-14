@@ -29,5 +29,5 @@ export default function useJsonRpcEndpoint() {
     }),
     {}
   )
-  return useOption('jsonRpcEndpoint', { options: endpoints, defaultValue: SupportedChainId[SupportedChainId.MAINNET] })
+  return useOption('jsonRpcEndpoint', { options: endpoints, defaultValue: SupportedChainId[SupportedChainId.GOERLI] })
 }

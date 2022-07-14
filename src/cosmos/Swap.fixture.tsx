@@ -39,9 +39,9 @@ function Fixture() {
     CTT: '0x615a28d4367322756400593171CeebA69773303b',
     DTT: '0x0f710556B75091Fb7D54595AE87fBE5d133a197e',
   }
-  const defaultInputToken = useOption('defaultInputToken', { options: currencies, defaultValue: 'Native' })
+  const defaultInputToken = useOption('defaultInputToken', { options: currencies, defaultValue: 'USDC_Goerli' })
   const [defaultInputAmount] = useValue('defaultInputAmount', { defaultValue: 1 })
-  const defaultOutputToken = useOption('defaultOutputToken', { options: currencies })
+  const defaultOutputToken = useOption('defaultOutputToken', { options: currencies, defaultValue: 'CTT' })
   const [defaultOutputAmount] = useValue('defaultOutputAmount', { defaultValue: 0 })
 
   const [width] = useValue('width', { defaultValue: 360 })
@@ -115,20 +115,18 @@ function Fixture() {
   ]
 
   const tokenLists: Record<string, TokenInfo[]> = {
-    Default: friggTokens,
     'Mainnet only': tokens.filter((token) => token.chainId === SupportedChainId.MAINNET),
     'Frigg tokens': friggTokens,
   }
-  const tokenList = useOption('tokenList', { options: tokenLists, defaultValue: 'Default', nullable: false })
+  const tokenList = useOption('tokenList', { options: tokenLists, defaultValue: 'Frigg tokens', nullable: false })
   console.log(tokenList)
 
   const marketTypes: Record<string, MarketType> = {
-    Default: 'buy',
     buy: 'buy',
     swap: 'swap',
     sell: 'sell',
   }
-  const marketType = useOption('marketType', { options: marketTypes, defaultValue: 'Default', nullable: false })
+  const marketType = useOption('marketType', { options: marketTypes, defaultValue: 'buy', nullable: false })
 
   return (
     <SwapWidget
