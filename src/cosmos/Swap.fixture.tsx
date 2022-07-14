@@ -39,9 +39,17 @@ function Fixture() {
     CTT: '0x615a28d4367322756400593171CeebA69773303b',
     DTT: '0x0f710556B75091Fb7D54595AE87fBE5d133a197e',
   }
-  const defaultInputToken = useOption('defaultInputToken', { options: currencies, defaultValue: 'USDC_Goerli' })
+  const defaultInputToken = useOption('defaultInputToken', {
+    options: currencies,
+    // TODO we need to change the default tokens here (see todo comment above)
+    defaultValue: 'CTT',
+  })
   const [defaultInputAmount] = useValue('defaultInputAmount', { defaultValue: 1 })
-  const defaultOutputToken = useOption('defaultOutputToken', { options: currencies, defaultValue: 'CTT' })
+  const defaultOutputToken = useOption('defaultOutputToken', {
+    options: currencies,
+    // TODO we need to change the default tokens here (see todo comment above)
+    defaultValue: 'USDC_Goerli',
+  })
   const [defaultOutputAmount] = useValue('defaultOutputAmount', { defaultValue: 0 })
 
   const [width] = useValue('width', { defaultValue: 360 })
