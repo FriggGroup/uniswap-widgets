@@ -1,8 +1,7 @@
-import MissingTokenIcon from 'assets/missing-token-image.png'
+import { ReactComponent as RouterIcon } from 'assets/svg/auto_router.svg'
 import { ReactComponent as ArrowDownIcon } from 'assets/svg/arrow-down.svg'
 import { ReactComponent as ArrowUpIcon } from 'assets/svg/arrow-up.svg'
 import { ReactComponent as ArrowUpDownIcon } from 'assets/svg/arrow-up-down.svg'
-import { ReactComponent as RouterIcon } from 'assets/svg/auto_router.svg'
 import { ReactComponent as CheckIcon } from 'assets/svg/check.svg'
 import { ReactComponent as ExpandoIcon } from 'assets/svg/expando.svg'
 import { ReactComponent as InlineSpinnerIcon } from 'assets/svg/inline_spinner.svg'
@@ -18,7 +17,8 @@ import {
   ArrowRight as ArrowRightIcon,
   BarChart2 as BarChart2Icon,
   CheckCircle as CheckCircleIcon,
-  ChevronDown as ChevronDownIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
   Clock as ClockIcon,
   ExternalLink as LinkIcon,
   HelpCircle as HelpCircleIcon,
@@ -35,10 +35,6 @@ import { Color } from 'theme'
 
 type SVGIcon = FunctionComponent<SVGProps<SVGSVGElement>>
 
-const StyledImage = styled.img`
-  height: 1em;
-  width: 1em;
-`
 function icon(Icon: FeatherIcon | SVGIcon) {
   return styled(Icon)<{ color?: Color }>`
     clip-path: stroke-box;
@@ -88,7 +84,8 @@ export const ArrowUp = icon(ArrowUpIcon)
 export const ArrowUpDown = icon(ArrowUpDownIcon)
 export const CheckCircle = icon(CheckCircleIcon)
 export const BarChart = icon(BarChart2Icon)
-export const ChevronDown = icon(ChevronDownIcon)
+export const ChevronLeft = icon(ChevronLeftIcon)
+export const ChevronRight = icon(ChevronRightIcon)
 export const Clock = icon(ClockIcon)
 export const HelpCircle = icon(HelpCircleIcon)
 export const Info = icon(InfoIcon)
@@ -100,9 +97,6 @@ export const Trash2 = icon(Trash2Icon)
 export const Wallet = icon(WalletIcon)
 export const X = icon(XIcon)
 export const XOctagon = icon(XOctagonIcon)
-export const MissingToken = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-  <StyledImage src={MissingTokenIcon} alt="Missing token" {...props} />
-)
 
 export const Check = styled(icon(CheckIcon))`
   circle {

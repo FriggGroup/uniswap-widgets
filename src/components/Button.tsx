@@ -22,7 +22,7 @@ export const BaseButton = styled.button`
 
   :disabled {
     cursor: initial;
-    filter: saturate(0) opacity(0.4);
+    filter: opacity(0.4);
   }
 `
 const transitionCss = css`
@@ -30,11 +30,11 @@ const transitionCss = css`
 `
 
 export default styled(BaseButton)<{ color?: Color; transition?: boolean }>`
+  background-color: ${({ color = 'interactive', theme }) => theme[color]};
   border: 1px solid transparent;
   color: ${({ color = 'interactive', theme }) => color === 'interactive' && theme.onInteractive};
 
   :enabled {
-    background-color: ${({ color = 'interactive', theme }) => theme[color]};
     ${({ transition = true }) => transition && transitionCss};
   }
 
@@ -52,6 +52,10 @@ export const TextButton = transparentButton('primary')
 
 const SecondaryButton = transparentButton('secondary')
 
+const StyledIconButton = styled(SecondaryButton)`
+  transform: translateY(1.75px);
+`
+
 interface IconButtonProps {
   icon: Icon
   iconProps?: ComponentProps<Icon>
@@ -60,9 +64,9 @@ interface IconButtonProps {
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps & ComponentProps<typeof BaseButton>>(
   function IconButton({ icon: Icon, iconProps, ...props }: IconButtonProps & ComponentProps<typeof BaseButton>, ref) {
     return (
-      <SecondaryButton {...props} ref={ref}>
+      <StyledIconButton {...props} ref={ref}>
         <Icon {...iconProps} />
-      </SecondaryButton>
+      </StyledIconButton>
     )
   }
 )
