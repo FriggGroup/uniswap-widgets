@@ -56,13 +56,13 @@ export type MarketType = 'buy' | 'swap' | 'sell'
 
 export interface SwapProps extends TokenDefaults, FeeOptions {
   onConnectWallet?: () => void
-  marketType: MarketType
+  marketType?: MarketType
   closeDialogWidget: () => void
   title?: string
   subtitle?: string
 }
 
-export default function Swap({ marketType, title, subtitle, closeDialogWidget, ...props }: SwapProps) {
+export default function Swap({ marketType = 'buy', title, subtitle, closeDialogWidget, ...props }: SwapProps) {
   useValidate(props)
   useSyncConvenienceFee(props)
   useSyncTokenDefaults(props)

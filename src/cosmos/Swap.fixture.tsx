@@ -152,6 +152,7 @@ function Fixture() {
       width={width}
       onConnectWallet={() => console.log('onConnectWallet')} // this handler is included as a test of functionality, but only logs
       marketType={marketType}
+      closeDialogWidget={() => console.log('closeDialogWidget')} // this handler is included as a test of functionality, but only logs
     />
   )
 }

@@ -1,6 +1,6 @@
 import 'wicg-inert'
 
-import { ChevronLeft } from 'icons'
+import { X } from 'icons'
 import { largeIconCss } from 'icons'
 import { createContext, ReactElement, ReactNode, useContext, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
