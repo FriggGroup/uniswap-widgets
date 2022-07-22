@@ -49,7 +49,7 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
     },
     inputCurrencyAmount
   )
-  const { callback: buyCallback } = useBuySellCallback({
+  const { callback: buySellCallback } = useBuySellCallback({
     investmentTrade: trade.trade,
     recipientAddressOrName: account ?? null,
     signatureData,
@@ -99,9 +99,9 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
   // Reset the pending state if user updates the swap.
   useEffect(() => setIsPending(false), [inputCurrencyAmount, trade])
 
-  const onSwap = useCallback(async () => {
+  const onBuySell = useCallback(async () => {
     try {
-      const transaction = await buyCallback?.()
+      const transaction = await buySellCallback?.()
       if (!transaction) return
       invariant(trade.trade)
       addTransaction({
@@ -134,7 +134,7 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
       // TODO(zzmp): Surface errors from swap.
       console.log(e)
     }
-  }, [addTransaction, setDisplayTxHash, setOldestValidBlock, buyCallback, trade.trade])
+  }, [addTransaction, setDisplayTxHash, setOldestValidBlock, buySellCallback, trade.trade])
 
   const disableSwap = useMemo(
     () =>
@@ -181,7 +181,7 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
       </ActionButton>
       {open && trade.trade && (
         <Dialog color="dialog" onClose={onClose}>
-          <BuySummaryDialog trade={trade.trade} inputUSDC={inputUSDC} outputUSDC={outputUSDC} onConfirm={onSwap} />
+          <BuySummaryDialog trade={trade.trade} inputUSDC={inputUSDC} outputUSDC={outputUSDC} onConfirm={onBuySell} />
         </Dialog>
       )}
     </>

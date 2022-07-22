@@ -1,8 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { Trade } from '@uniswap/router-sdk'
 import { Currency, TradeType } from '@uniswap/sdk-core'
-import { Trade as V2Trade } from '@uniswap/v2-sdk'
-import { toHex, Trade as V3Trade } from '@uniswap/v3-sdk'
+import { toHex } from '@uniswap/v3-sdk'
 import { useMemo } from 'react'
 
 import { InvestmentTrade } from '../../state/routing/types'
@@ -11,22 +9,17 @@ import { useFriggRouterContract } from '../useContract'
 import useENS from '../useENS'
 import { SignatureData } from '../useERC20Permit'
 
-export type AnyTrade =
-  | V2Trade<Currency, Currency, TradeType>
-  | V3Trade<Currency, Currency, TradeType>
-  | Trade<Currency, Currency, TradeType>
-
-interface BuyCall {
+interface BuySellCall {
   address: string
   calldata: string
   value: string
 }
 
-export function useBuyCallArguments(
+export function useBuySellCallArguments(
   investmentTrade: InvestmentTrade<Currency, Currency, TradeType> | undefined,
   recipientAddressOrName: string | null | undefined,
   signatureData: SignatureData | null | undefined
-): BuyCall[] {
+): BuySellCall[] {
   const { account, chainId } = useActiveWeb3React()
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)

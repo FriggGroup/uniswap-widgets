@@ -9,7 +9,7 @@ import { ReactNode, useMemo } from 'react'
 
 import { InvestmentTrade } from '../../state/routing/types'
 import useSendSwapTransaction from '../swap/useSendSwapTransaction'
-import { useBuyCallArguments } from './useBuyCallArguments'
+import { useBuySellCallArguments } from './useBuySellCallArguments'
 
 export enum BuyCallbackState {
   INVALID,
@@ -17,7 +17,7 @@ export enum BuyCallbackState {
   VALID,
 }
 
-interface UseBuyCallbackReturns {
+interface UseBuySellCallbackReturns {
   state: BuyCallbackState
   callback?: () => Promise<TransactionResponse>
   error?: ReactNode
@@ -34,10 +34,10 @@ export function useBuySellCallback({
   investmentTrade,
   recipientAddressOrName,
   signatureData,
-}: UseBuyCallbackArgs): UseBuyCallbackReturns {
+}: UseBuyCallbackArgs): UseBuySellCallbackReturns {
   const { account, chainId, library } = useActiveWeb3React()
 
-  const buySellCalls = useBuyCallArguments(investmentTrade, recipientAddressOrName, signatureData)
+  const buySellCalls = useBuySellCallArguments(investmentTrade, recipientAddressOrName, signatureData)
   const { callback } = useSendSwapTransaction(account, chainId, library, investmentTrade, buySellCalls)
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)
