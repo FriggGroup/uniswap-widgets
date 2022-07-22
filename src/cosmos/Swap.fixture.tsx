@@ -42,13 +42,13 @@ function Fixture() {
   const defaultInputToken = useOption('defaultInputToken', {
     options: currencies,
     // TODO we need to change the default tokens here (see todo comment above)
-    defaultValue: 'CTT',
+    defaultValue: 'USDC_Goerli',
   })
   const [defaultInputAmount] = useValue('defaultInputAmount', { defaultValue: 1 })
   const defaultOutputToken = useOption('defaultOutputToken', {
     options: currencies,
     // TODO we need to change the default tokens here (see todo comment above)
-    defaultValue: 'USDC_Goerli',
+    defaultValue: 'CTT',
   })
   const [defaultOutputAmount] = useValue('defaultOutputAmount', { defaultValue: 0 })
 
