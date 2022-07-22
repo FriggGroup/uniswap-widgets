@@ -77,12 +77,14 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
             ? new Price(
                 currencyIn,
                 currencyOut,
+                // consider how we saved the price on contract level
                 BigNumber.from(10).pow(currencyOut.decimals).div(result.issuancePrice).toString(),
                 10 ** currencyOut.decimals
               )
             : new Price(
                 currencyOut,
                 currencyIn,
+                // consider how we saved the price on contract level
                 BigNumber.from(10).pow(currencyIn.decimals).div(result.expiryPrice).toString(),
                 10 ** currencyIn.decimals
               ).invert()
