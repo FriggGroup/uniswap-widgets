@@ -1,7 +1,7 @@
-import { ReactComponent as RouterIcon } from 'assets/svg/auto_router.svg'
 import { ReactComponent as ArrowDownIcon } from 'assets/svg/arrow-down.svg'
 import { ReactComponent as ArrowUpIcon } from 'assets/svg/arrow-up.svg'
 import { ReactComponent as ArrowUpDownIcon } from 'assets/svg/arrow-up-down.svg'
+import { ReactComponent as RouterIcon } from 'assets/svg/auto_router.svg'
 import { ReactComponent as CheckIcon } from 'assets/svg/check.svg'
 import { ReactComponent as ExpandoIcon } from 'assets/svg/expando.svg'
 import { ReactComponent as InlineSpinnerIcon } from 'assets/svg/inline_spinner.svg'
