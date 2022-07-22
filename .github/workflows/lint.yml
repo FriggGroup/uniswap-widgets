@@ -3,10 +3,10 @@ name: Lint
 on:
   push:
     branches:
-      - main
+      - '*'
   pull_request:
     branches:
-      - main
+      - '*'
 
 permissions:
   checks: write
@@ -32,4 +32,4 @@ jobs:
           eslint: true
           eslint_extensions: 'js,jsx,ts,tsx'
           git_email: lint-action@uniswap.org
-          commit_message: "style(lint): lint action with ${linter}"
+          commit_message: 'style(lint): lint action with ${linter}'
