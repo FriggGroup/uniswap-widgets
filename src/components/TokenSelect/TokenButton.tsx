@@ -48,8 +48,11 @@ interface TokenButtonProps {
 }
 
 export default function TokenButton({ value, collapsed, disabled, onClick, fixed }: TokenButtonProps) {
-  const buttonBackgroundColor = useMemo(() => (value || fixed ? 'interactive' : 'accent'), [value])
-  const contentColor = useMemo(() => (value || disabled || fixed ? 'onInteractive' : 'onAccent'), [value, disabled])
+  const buttonBackgroundColor = useMemo(() => (value || fixed ? 'interactive' : 'accent'), [fixed, value])
+  const contentColor = useMemo(
+    () => (value || disabled || fixed ? 'onInteractive' : 'onAccent'),
+    [value, disabled, fixed]
+  )
 
   // Transition the button only if transitioning from a disabled state.
   // This makes initialization cleaner without adding distracting UX to normal swap flows.
