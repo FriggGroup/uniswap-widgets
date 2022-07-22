@@ -24,6 +24,7 @@ jobs:
 
       - run: yarn test
 
-      - run: yarn test:e2e
-        env:
-          JSON_RPC_PROVIDER: ${{ secrets.JSON_RPC_PROVIDER }}
+      # Disabled as this test just tries connecting to the wallet (test manually)
+      # - run: yarn test:e2e
+      #   env:
+      #     JSON_RPC_PROVIDER: ${{ secrets.JSON_RPC_PROVIDER }}
