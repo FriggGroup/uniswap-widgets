@@ -8,7 +8,7 @@ import { InvestmentTrade, TradeState } from 'state/routing/types'
 import { Field, swapAtom } from 'state/swap'
 import tryParseCurrencyAmount from 'utils/tryParseCurrencyAmount'
 
-import { INVALID_TRADE } from '../swap/useBestTrade'
+import { INVALID_TRADE } from '../routing/useRouterTrade'
 import useWrapCallback, { WrapType } from '../swap/useWrapCallback'
 import { useInvestment } from './useInvestment'
 
