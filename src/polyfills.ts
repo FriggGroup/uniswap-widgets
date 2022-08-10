@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer'
 
 // WalletConnect relies on Buffer, so it must be polyfilled.
-if (!('Buffer' in window)) {
+if (typeof window !== 'undefined' && !('Buffer' in window)) {
   window.Buffer = Buffer
 }
