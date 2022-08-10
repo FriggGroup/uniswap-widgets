@@ -133,7 +133,7 @@ export default function Swap({ marketType = 'buy', title, subtitle, closeDialogW
   return (
     <>
       {marketType === 'swap' && true && (
-        <Header title={<Trans>Swap</Trans>}>
+        <Header>
           <Wallet disabled={props.hideConnectionUI} />
           <Settings disabled={isDisabled} />
         </Header>
