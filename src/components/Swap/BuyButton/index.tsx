@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/macro'
 import { Percent } from '@uniswap/sdk-core'
+import { useWeb3React } from '@web3-react/core'
 import useWrapCallback, { WrapType } from 'hooks/swap/useWrapCallback'
 import { useAddTransaction } from 'hooks/transactions'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSetOldestValidBlock } from 'hooks/useIsValidBlock'
 import { Spinner } from 'icons'
 import { useUpdateAtom } from 'jotai/utils'
@@ -27,7 +27,7 @@ interface BuyButtonProps {
 }
 
 export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useWeb3React()
   const {
     [Field.INPUT]: {
       currency: inputCurrency,

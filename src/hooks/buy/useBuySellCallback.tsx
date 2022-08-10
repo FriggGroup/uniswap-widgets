@@ -2,7 +2,7 @@
 import { TransactionResponse } from '@ethersproject/providers'
 import { Trans } from '@lingui/macro'
 import { Currency, TradeType } from '@uniswap/sdk-core'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useWeb3React } from '@web3-react/core'
 import useENS from 'hooks/useENS'
 import { SignatureData } from 'hooks/useERC20Permit'
 import { ReactNode, useMemo } from 'react'
@@ -35,16 +35,16 @@ export function useBuySellCallback({
   recipientAddressOrName,
   signatureData,
 }: UseBuyCallbackArgs): UseBuySellCallbackReturns {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, chainId, provider } = useWeb3React()
 
   const buySellCalls = useBuySellCallArguments(investmentTrade, recipientAddressOrName, signatureData)
-  const { callback } = useSendSwapTransaction(account, chainId, library, investmentTrade, buySellCalls)
+  const { callback } = useSendSwapTransaction(account, chainId, provider, investmentTrade, buySellCalls)
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
 
   return useMemo(() => {
-    if (!library || !account || !chainId || !callback) {
+    if (!provider || !account || !chainId || !callback) {
       return { state: BuyCallbackState.INVALID, error: <Trans>Missing dependencies</Trans> }
     }
     if (!recipient) {
@@ -59,5 +59,5 @@ export function useBuySellCallback({
       state: BuyCallbackState.VALID,
       callback: async () => callback(),
     }
-  }, [library, account, chainId, callback, recipient, recipientAddressOrName])
+  }, [provider, account, chainId, callback, recipient, recipientAddressOrName])
 }

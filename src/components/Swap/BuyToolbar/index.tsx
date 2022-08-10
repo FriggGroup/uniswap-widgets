@@ -1,7 +1,7 @@
+import { useWeb3React } from '@web3-react/core'
 import { ALL_SUPPORTED_CHAIN_IDS } from 'constants/chains'
 import { useIsAmountPopulated } from 'hooks/swap'
 import useWrapCallback, { WrapType } from 'hooks/swap/useWrapCallback'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { largeIconCss } from 'icons'
 import { memo, useMemo } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
@@ -19,7 +19,7 @@ const ToolbarRow = styled(Row)`
 `
 
 export default memo(function BuyToolbar() {
-  const { active, activating, chainId } = useActiveWeb3React()
+  const { isActive, isActivating, chainId } = useWeb3React()
   const {
     [Field.INPUT]: { currency: inputCurrency, balance: inputBalance, amount: inputAmount },
     [Field.OUTPUT]: { currency: outputCurrency, usdc: outputUSDC },
@@ -29,8 +29,8 @@ export default memo(function BuyToolbar() {
   const isAmountPopulated = useIsAmountPopulated()
   const { type: wrapType } = useWrapCallback()
   const caption = useMemo(() => {
-    if (!active || !chainId) {
-      if (activating) return <Caption.Connecting />
+    if (!isActive || !chainId) {
+      if (isActivating) return <Caption.Connecting />
       return <Caption.ConnectWallet />
     }
 
@@ -62,8 +62,8 @@ export default memo(function BuyToolbar() {
 
     return <Caption.Empty />
   }, [
-    activating,
-    active,
+    isActivating,
+    isActive,
     chainId,
     impact,
     inputAmount,

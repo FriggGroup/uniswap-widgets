@@ -1,10 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Currency, TradeType } from '@uniswap/sdk-core'
 import { toHex } from '@uniswap/v3-sdk'
+import { useWeb3React } from '@web3-react/core'
 import { useMemo } from 'react'
 
 import { InvestmentTrade } from '../../state/routing/types'
-import useActiveWeb3React from '../useActiveWeb3React'
 import { useFriggRouterContract } from '../useContract'
 import useENS from '../useENS'
 import { SignatureData } from '../useERC20Permit'
@@ -20,7 +20,7 @@ export function useBuySellCallArguments(
   recipientAddressOrName: string | null | undefined,
   signatureData: SignatureData | null | undefined
 ): BuySellCall[] {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useWeb3React()
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
