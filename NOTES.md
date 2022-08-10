@@ -11,7 +11,7 @@
   - src/components/Swap/Buy... : all files were copied Swap components and adjusted for buy/sell logic
     
 - The fetch price logic
-  - for a swap: useSwapInfo() -> useBestTrade() -> useClientSideSmartOrderRouterTrade() OR useClientSideV3Trade()
+  - for a swap: useSwapInfo() -> useRouterTrade() -> useClientSideSmartOrderRouterTrade() OR useClientSideV3Trade()
   -> useSingleContractWithCallData(quoteCallParameters())
   - for a buy or sell: investmentTrade = useBuySellInfo() -> useInvestment() -> useClientSideInvestment() -> 
     useSingleContractWithCallData(FriggRouterContract.encodeFunctionData('tokenData'))

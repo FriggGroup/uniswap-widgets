@@ -1,4 +1,3 @@
-import MissingTokenIcon from 'assets/missing-token-image.png'
 import { ReactComponent as ArrowDownIcon } from 'assets/svg/arrow-down.svg'
 import { ReactComponent as ArrowUpIcon } from 'assets/svg/arrow-up.svg'
 import { ReactComponent as ArrowUpDownIcon } from 'assets/svg/arrow-up-down.svg'
@@ -9,6 +8,7 @@ import { ReactComponent as InlineSpinnerIcon } from 'assets/svg/inline_spinner.s
 import { ReactComponent as LogoIcon } from 'assets/svg/logo.svg'
 import { ReactComponent as SpinnerIcon } from 'assets/svg/spinner.svg'
 import { ReactComponent as WalletIcon } from 'assets/svg/wallet.svg'
+import { ReactComponent as WalletDisconnectIcon } from 'assets/svg/wallet_disconnect.svg'
 import { loadingCss } from 'css/loading'
 import { FunctionComponent, SVGProps } from 'react'
 /* eslint-disable no-restricted-imports */
@@ -18,7 +18,8 @@ import {
   ArrowRight as ArrowRightIcon,
   BarChart2 as BarChart2Icon,
   CheckCircle as CheckCircleIcon,
-  ChevronDown as ChevronDownIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
   Clock as ClockIcon,
   ExternalLink as LinkIcon,
   HelpCircle as HelpCircleIcon,
@@ -31,14 +32,13 @@ import {
 } from 'react-feather'
 import styled, { css, keyframes } from 'styled-components/macro'
 import { Color } from 'theme'
+
+import IdenticonIcon from './identicon'
+
 /* eslint-enable no-restricted-imports */
 
 type SVGIcon = FunctionComponent<SVGProps<SVGSVGElement>>
 
-const StyledImage = styled.img`
-  height: 1em;
-  width: 1em;
-`
 function icon(Icon: FeatherIcon | SVGIcon) {
   return styled(Icon)<{ color?: Color }>`
     clip-path: stroke-box;
@@ -88,9 +88,11 @@ export const ArrowUp = icon(ArrowUpIcon)
 export const ArrowUpDown = icon(ArrowUpDownIcon)
 export const CheckCircle = icon(CheckCircleIcon)
 export const BarChart = icon(BarChart2Icon)
-export const ChevronDown = icon(ChevronDownIcon)
+export const ChevronLeft = icon(ChevronLeftIcon)
+export const ChevronRight = icon(ChevronRightIcon)
 export const Clock = icon(ClockIcon)
 export const HelpCircle = icon(HelpCircleIcon)
+export const Identicon = icon(IdenticonIcon)
 export const Info = icon(InfoIcon)
 export const Link = icon(LinkIcon)
 export const AutoRouter = icon(RouterIcon)
@@ -100,9 +102,6 @@ export const Trash2 = icon(Trash2Icon)
 export const Wallet = icon(WalletIcon)
 export const X = icon(XIcon)
 export const XOctagon = icon(XOctagonIcon)
-export const MissingToken = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-  <StyledImage src={MissingTokenIcon} alt="Missing token" {...props} />
-)
 
 export const Check = styled(icon(CheckIcon))`
   circle {
@@ -129,6 +128,11 @@ export const Expando = styled(icon(ExpandoIcon))<{ open: boolean }>`
 
 export const Logo = styled(icon(LogoIcon))`
   fill: ${({ theme }) => theme.secondary};
+  stroke: none;
+`
+
+export const WalletDisconnect = styled(icon(WalletDisconnectIcon))<{ color?: Color }>`
+  fill: currentColor;
   stroke: none;
 `
 

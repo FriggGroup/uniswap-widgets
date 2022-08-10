@@ -1,24 +1,27 @@
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
+import { Provider as Eip1193Provider } from '@web3-react/types'
+import Wallet from 'components/ConnectWallet'
+import Rule from 'components/Rule'
 import { SwapInfoProvider } from 'hooks/swap/useSwapInfo'
 import useSyncConvenienceFee, { FeeOptions } from 'hooks/swap/useSyncConvenienceFee'
 import useSyncTokenDefaults, { TokenDefaults } from 'hooks/swap/useSyncTokenDefaults'
 import { usePendingTransactions } from 'hooks/transactions'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useHasFocus from 'hooks/useHasFocus'
 import useOnSupportedNetwork from 'hooks/useOnSupportedNetwork'
 import { useAtom } from 'jotai'
-import { useMemo, useState } from 'react'
-import { displayTxHashAtom } from 'state/swap'
+import { useEffect, useMemo, useState } from 'react'
+import { displayTxHashAtom, onReviewSwapClickAtom } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
+import { onConnectWalletClickAtom } from 'state/wallet'
 import { ThemedText } from 'theme'
 
 import { BuySellInfoProvider } from '../../hooks/buy/useBuySellInfo'
 import Dialog from '../Dialog'
 import Header from '../Header'
 import { BoundaryProvider } from '../Popover'
-import Rule from '../Rule'
 import TextHeader from '../TextHeader'
-import Wallet from '../Wallet'
 import BuyButton from './BuyButton'
 import BuyOutput from './BuyOutput'
 import BuyToolbar from './BuyToolbar'
@@ -54,20 +57,42 @@ function getTransactionFromMap(
 
 export type MarketType = 'buy' | 'swap' | 'sell'
 
+// SwapProps also currently includes props needed for wallet connection, since the wallet connection component exists within the Swap component
+// TODO(kristiehuang): refactor WalletConnection outside of Swap component
 export interface SwapProps extends TokenDefaults, FeeOptions {
-  onConnectWallet?: () => void
-  marketType: MarketType
+  hideConnectionUI?: boolean
+  provider?: Eip1193Provider | JsonRpcProvider
+  routerUrl?: string
+  onConnectWalletClick?: () => void | Promise<boolean>
+  onReviewSwapClick?: () => void | Promise<boolean>
+
+  // frigg custom props
+  marketType?: MarketType
   closeDialogWidget: () => void
   title?: string
   subtitle?: string
 }
 
-export default function Swap({ marketType, title, subtitle, closeDialogWidget, ...props }: SwapProps) {
+export default function Swap({ marketType = 'buy', title, subtitle, closeDialogWidget, ...props }: SwapProps) {
   useValidate(props)
   useSyncConvenienceFee(props)
   useSyncTokenDefaults(props)
 
-  const { active, account } = useActiveWeb3React()
+  const [onReviewSwapClick, setOnReviewSwapClick] = useAtom(onReviewSwapClickAtom)
+  useEffect(() => {
+    if (props.onReviewSwapClick !== onReviewSwapClick) {
+      setOnReviewSwapClick((old: (() => void | Promise<boolean>) | undefined) => (old = props.onReviewSwapClick))
+    }
+  }, [props.onReviewSwapClick, onReviewSwapClick, setOnReviewSwapClick])
+
+  const [onConnectWalletClick, setOnConnectWalletClick] = useAtom(onConnectWalletClickAtom)
+  useEffect(() => {
+    if (props.onConnectWalletClick !== onConnectWalletClick) {
+      setOnConnectWalletClick((old: (() => void | Promise<boolean>) | undefined) => (old = props.onConnectWalletClick))
+    }
+  }, [props.onConnectWalletClick, onConnectWalletClick, setOnConnectWalletClick])
+
+  const { isActive } = useWeb3React()
   const [wrapper, setWrapper] = useState<HTMLDivElement | null>(null)
 
   const [displayTxHash, setDisplayTxHash] = useAtom(displayTxHashAtom)
@@ -75,7 +100,7 @@ export default function Swap({ marketType, title, subtitle, closeDialogWidget, .
   const displayTx = getTransactionFromMap(pendingTxs, displayTxHash)
 
   const onSupportedNetwork = useOnSupportedNetwork()
-  const isDisabled = !(active && onSupportedNetwork)
+  const isDisabled = !(isActive && onSupportedNetwork)
 
   const focused = useHasFocus(wrapper)
 
@@ -107,9 +132,9 @@ export default function Swap({ marketType, title, subtitle, closeDialogWidget, .
 
   return (
     <>
-      <Wallet disabled={!active || Boolean(account)} onClick={props.onConnectWallet} />
       {marketType === 'swap' && true && (
-        <Header>
+        <Header title={<Trans>Swap</Trans>}>
+          <Wallet disabled={props.hideConnectionUI} />
           <Settings disabled={isDisabled} />
         </Header>
       )}
@@ -117,7 +142,7 @@ export default function Swap({ marketType, title, subtitle, closeDialogWidget, .
       {marketType === 'swap' ? (
         <div ref={setWrapper}>
           <BoundaryProvider value={wrapper}>
-            <SwapInfoProvider disabled={isDisabled}>
+            <SwapInfoProvider disabled={isDisabled} routerUrl={props.routerUrl}>
               <Rule padded />
               <Input disabled={isDisabled} focused={focused} />
               <Rule padded />

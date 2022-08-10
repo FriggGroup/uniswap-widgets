@@ -1,5 +1,5 @@
+import { BigNumber } from '@ethersproject/bignumber'
 import { Currency, CurrencyAmount, Price, TradeType } from '@uniswap/sdk-core'
-import { BigNumber } from 'ethers'
 import { useMemo } from 'react'
 import { InvestmentTrade, TradeState } from 'state/routing/types'
 

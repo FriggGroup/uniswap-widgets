@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro'
 import { Currency } from '@uniswap/sdk-core'
-import { ChevronDown } from 'icons'
+import { ChevronRight } from 'icons'
 import { useEffect, useMemo, useState } from 'react'
 import styled, { css } from 'styled-components/macro'
 import { ThemedText } from 'theme'
@@ -48,8 +48,8 @@ interface TokenButtonProps {
 }
 
 export default function TokenButton({ value, collapsed, disabled, onClick, fixed }: TokenButtonProps) {
-  const buttonBackgroundColor = useMemo(() => (value || fixed ? 'interactive' : 'accent'), [value])
-  const contentColor = useMemo(() => (value || disabled || fixed ? 'onInteractive' : 'onAccent'), [value, disabled])
+  const buttonBackgroundColor = useMemo(() => (value || fixed ? 'interactive' : 'accent'), [fixed, value])
+  const contentColor = buttonBackgroundColor === 'accent' ? 'onAccent' : 'currentColor'
 
   // Transition the button only if transitioning from a disabled state.
   // This makes initialization cleaner without adding distracting UX to normal swap flows.
@@ -76,6 +76,7 @@ export default function TokenButton({ value, collapsed, disabled, onClick, fixed
       transition={shouldTransition}
       onTransitionEnd={() => setShouldTransition(false)}
       fixed={fixed}
+      data-testid="token-select"
     >
       <ThemedText.ButtonLarge color={contentColor}>
         <TokenButtonRow
@@ -96,7 +97,7 @@ export default function TokenButton({ value, collapsed, disabled, onClick, fixed
           ) : !fixed ? (
             <Trans>Select a token</Trans>
           ) : null}
-          {!fixed ? <ChevronDown color={contentColor} strokeWidth={3} /> : <></>}
+          {!fixed ? <ChevronRight color={contentColor} strokeWidth={2} /> : <></>}
         </TokenButtonRow>
       </ThemedText.ButtonLarge>
     </StyledTokenButton>
