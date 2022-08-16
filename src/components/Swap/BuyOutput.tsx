@@ -76,6 +76,7 @@ export default function BuyOutput({ disabled, focused, children, fixed }: PropsW
           currency={swapOutputCurrency}
           amount={amount}
           disabled={disabled}
+          field={Field.OUTPUT}
           onChangeInput={updateSwapOutputAmount}
           onChangeCurrency={updateSwapOutputCurrency}
           loading={isLoading}
