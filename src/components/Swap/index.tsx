@@ -10,11 +10,11 @@ import useSyncTokenDefaults, { TokenDefaults } from 'hooks/swap/useSyncTokenDefa
 import { usePendingTransactions } from 'hooks/transactions'
 import useHasFocus from 'hooks/useHasFocus'
 import useOnSupportedNetwork from 'hooks/useOnSupportedNetwork'
+import useSyncEventHandlers from 'hooks/useSyncEventHandlers'
 import { useAtom } from 'jotai'
-import { useEffect, useMemo, useState } from 'react'
-import { displayTxHashAtom, onReviewSwapClickAtom } from 'state/swap'
+import { useMemo, useState } from 'react'
+import { displayTxHashAtom, Field } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
-import { onConnectWalletClickAtom } from 'state/wallet'
 import { ThemedText } from 'theme'
 
 import { BuySellInfoProvider } from '../../hooks/buy/useBuySellInfo'
@@ -65,6 +65,7 @@ export interface SwapProps extends TokenDefaults, FeeOptions {
   routerUrl?: string
   onConnectWalletClick?: () => void | Promise<boolean>
   onReviewSwapClick?: () => void | Promise<boolean>
+  onTokenSelectorClick?: (f: Field) => void | Promise<boolean>
 
   // frigg custom props
   marketType?: MarketType
@@ -77,20 +78,7 @@ export default function Swap({ marketType = 'buy', title, subtitle, closeDialogW
   useValidate(props)
   useSyncConvenienceFee(props)
   useSyncTokenDefaults(props)
-
-  const [onReviewSwapClick, setOnReviewSwapClick] = useAtom(onReviewSwapClickAtom)
-  useEffect(() => {
-    if (props.onReviewSwapClick !== onReviewSwapClick) {
-      setOnReviewSwapClick((old: (() => void | Promise<boolean>) | undefined) => (old = props.onReviewSwapClick))
-    }
-  }, [props.onReviewSwapClick, onReviewSwapClick, setOnReviewSwapClick])
-
-  const [onConnectWalletClick, setOnConnectWalletClick] = useAtom(onConnectWalletClickAtom)
-  useEffect(() => {
-    if (props.onConnectWalletClick !== onConnectWalletClick) {
-      setOnConnectWalletClick((old: (() => void | Promise<boolean>) | undefined) => (old = props.onConnectWalletClick))
-    }
-  }, [props.onConnectWalletClick, onConnectWalletClick, setOnConnectWalletClick])
+  useSyncEventHandlers(props)
 
   const { isActive } = useWeb3React()
   const [wrapper, setWrapper] = useState<HTMLDivElement | null>(null)

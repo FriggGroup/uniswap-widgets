@@ -73,9 +73,10 @@ export default function Output({ disabled, focused, children, fixed }: PropsWith
           </ThemedText.Subhead1>
         </Row>
         <TokenInput
-          currency={swapOutputCurrency}
           amount={amount}
+          currency={swapOutputCurrency}
           disabled={disabled}
+          field={Field.OUTPUT}
           onChangeInput={updateSwapOutputAmount}
           onChangeCurrency={updateSwapOutputCurrency}
           loading={isLoading}

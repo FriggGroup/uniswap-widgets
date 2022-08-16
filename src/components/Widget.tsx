@@ -9,7 +9,7 @@ import { TransactionsUpdater } from 'hooks/transactions'
 import { BlockNumberProvider } from 'hooks/useBlockNumber'
 import { TokenListProvider } from 'hooks/useTokenList'
 import { Provider as I18nProvider } from 'i18n'
-import { Provider as AtomProvider } from 'jotai'
+import { Atom, Provider as AtomProvider } from 'jotai'
 import { PropsWithChildren, StrictMode, useMemo, useState } from 'react'
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from 'state'
@@ -64,9 +64,9 @@ const slideOut = keyframes`
   }
 `
 
-const DialogWrapper = styled.div`
-  border-radius: 22px;
-  height: 100%;
+export const DialogWrapper = styled.div`
+  border-radius: ${({ theme }) => theme.borderRadius * 0.75}em;
+  height: calc(100% - 0.5em);
   left: 0;
   margin: 0.25em;
   overflow: hidden;
@@ -87,7 +87,7 @@ const DialogWrapper = styled.div`
   }
 `
 
-export type WidgetProps = {
+export interface WidgetProps {
   theme?: Theme
   locale?: SupportedLocale
   provider?: Eip1193Provider | JsonRpcProvider
@@ -95,7 +95,7 @@ export type WidgetProps = {
   defaultChainId?: SupportedChainId
   tokenList?: string | TokenInfo[]
   width?: string | number
-  dialog?: HTMLElement | null
+  dialog?: HTMLDivElement | null
   className?: string
   onError?: ErrorHandler
   onTxSubmit?: (txHash: string, data: any) => void
@@ -104,8 +104,19 @@ export type WidgetProps = {
 }
 
 export default function Widget(props: PropsWithChildren<WidgetProps>) {
-  const { children, theme, provider, dialog: userDialog, className, onError } = props
-  /*const width = useMemo(() => {
+  return <TestableWidget {...props} initialAtomValues={undefined} />
+}
+
+export interface TestableWidgetProps extends WidgetProps {
+  initialAtomValues?: Iterable<readonly [Atom<unknown>, unknown]>
+}
+
+export function TestableWidget(props: PropsWithChildren<TestableWidgetProps>) {
+  if (props.initialAtomValues && process.env.NODE_ENV !== 'test') {
+    throw new Error('initialAtomValues may only be used for testing')
+  }
+  /*
+  const width = useMemo(() => {
     if (props.width && props.width < 300) {
       console.warn(`Widget width must be at least 300px (you set it to ${props.width}). Falling back to 300px.`)
       return 300
@@ -141,19 +152,19 @@ export default function Widget(props: PropsWithChildren<WidgetProps>) {
     return props.jsonRpcUrlMap
   }, [props.jsonRpcUrlMap])
 
-  const [dialog, setDialog] = useState<HTMLDivElement | null>(null)
+  const [dialog, setDialog] = useState<HTMLDivElement | null>(props.dialog || null)
   return (
     <StrictMode>
-      <ThemeProvider theme={theme}>
-        <WidgetWrapper className={className}>
+      <ThemeProvider theme={props.theme}>
+        <WidgetWrapper className={props.className}>
           <I18nProvider locale={locale}>
             <DialogWrapper ref={setDialog} />
-            <DialogProvider value={userDialog || dialog}>
-              <ErrorBoundary onError={onError}>
+            <DialogProvider value={props.dialog || dialog}>
+              <ErrorBoundary onError={props.onError}>
                 <ReduxProvider store={store}>
-                  <AtomProvider>
+                  <AtomProvider initialValues={props.initialAtomValues}>
                     <ActiveWeb3Provider
-                      provider={provider}
+                      provider={props.provider}
                       jsonRpcUrlMap={jsonRpcUrlMap}
                       defaultChainId={defaultChainId}
                     >
@@ -164,7 +175,7 @@ export default function Widget(props: PropsWithChildren<WidgetProps>) {
                           onTxSuccess={props.onTxSuccess}
                           onTxFail={props.onTxFail}
                         />
-                        <TokenListProvider list={props.tokenList}>{children}</TokenListProvider>
+                        <TokenListProvider list={props.tokenList}>{props.children}</TokenListProvider>
                       </BlockNumberProvider>
                     </ActiveWeb3Provider>
                   </AtomProvider>

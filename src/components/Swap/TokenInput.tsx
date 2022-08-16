@@ -3,7 +3,8 @@ import 'setimmediate'
 import { Trans } from '@lingui/macro'
 import { Currency } from '@uniswap/sdk-core'
 import { loadingTransitionCss } from 'css/loading'
-import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Field } from 'state/swap'
 import styled, { keyframes } from 'styled-components/macro'
 import { ThemedText } from 'theme'
 
@@ -52,28 +53,29 @@ const MaxButton = styled(Button)`
 `
 
 interface TokenInputProps {
-  currency?: Currency
   amount: string
-  max?: string
+  currency?: Currency
   disabled?: boolean
+  field: Field
+  max?: string
   onChangeInput: (input: string) => void
   onChangeCurrency: (currency: Currency) => void
   loading?: boolean
-  children: ReactNode
   fixed?: boolean
 }
 
 export default function TokenInput({
-  currency,
   amount,
-  max,
+  currency,
   disabled,
+  field,
+  max,
   onChangeInput,
   onChangeCurrency,
   loading,
   children,
   fixed,
-}: TokenInputProps) {
+}: PropsWithChildren<TokenInputProps>) {
   const input = useRef<HTMLInputElement>(null)
   const onSelect = useCallback(
     (currency: Currency) => {
@@ -124,7 +126,14 @@ export default function TokenInput({
             </ThemedText.ButtonMedium>
           </MaxButton>
         )}
-        <TokenSelect value={currency} collapsed={showMax} disabled={disabled} onSelect={onSelect} fixed={fixed} />
+        <TokenSelect
+          value={currency}
+          collapsed={showMax}
+          disabled={disabled}
+          onSelect={onSelect}
+          field={field}
+          fixed={fixed}
+        />
       </TokenInputRow>
       {children}
     </Column>
