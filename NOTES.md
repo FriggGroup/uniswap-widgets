@@ -47,8 +47,6 @@ These are shared files between swap and buy/sell functionality. Here the chances
 - src/hooks/swap/useSendSwapTransaction.tsx: only type change to fix tsc error
 - src/hooks/swap/useSwapApproval.ts: this hook is a shared hook for swap and buy/sell functionality. adjusted the types 
   with the InvestmentTrade type from buy/sell and making sure that the frigg router address is used when we are in buy/sell
-- src/hooks/useActiveWeb3React.tsx: a small change which fixes the bug that the library keeps the mainnet chainId when
-switching the network
   
 ### src/state
 - src/state/transactions.ts: added TransactionType.BUY and TransactionType.SELL
