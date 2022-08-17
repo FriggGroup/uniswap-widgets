@@ -1,4 +1,4 @@
-import 'assets/fonts.scss'
+// import 'assets/fonts.scss'
 import './external'
 
 import { mix, transparentize } from 'polished'
