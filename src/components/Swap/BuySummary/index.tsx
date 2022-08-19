@@ -9,9 +9,7 @@ import styled from 'styled-components/macro'
 
 import { InvestmentTrade } from '../../../state/routing/types'
 import BuyPrice from '../Price'
-import BuySummary from './BuySummary'
-
-export default BuySummary
+import Summary from '../Summary/Summary'
 
 const Content = styled(Column)``
 const Heading = styled(Column)``
@@ -71,7 +69,7 @@ export function BuySummaryDialog({ trade, inputUSDC, outputUSDC, onConfirm }: Su
       />
       <Body flex align="stretch" padded gap={0.75}>
         <Heading gap={0.75} flex justify="center">
-          <BuySummary input={inputAmount} output={outputAmount} inputUSDC={inputUSDC} outputUSDC={outputUSDC} />
+          <Summary input={inputAmount} output={outputAmount} inputUSDC={inputUSDC} outputUSDC={outputUSDC} />
           <BuyPrice trade={trade} />
         </Heading>
         <Column gap={0.75} style={{ transition: 'gap 0.25s' }}>
