@@ -15,13 +15,13 @@ export * as ThemedText from './type'
 const white = 'hsl(0, 0%, 100%)'
 const black = 'hsl(0, 0%, 0%)'
 
-const brandLight = 'rgb(113, 188, 146)'
+const brandLight = 'hsl(331.3, 100%, 50%)'
 const brandDark = 'hsl(215, 79%, 51.4%)'
 export const brand = brandLight
 
 const stateColors = {
   active: 'hsl(215, 79%, 51.4%)',
-  success: 'rgb(113, 188, 146)',
+  success: 'hsl(145, 63.4%, 41.8%)',
   warning: 'hsl(43, 89.9%, 53.5%)',
   error: 'hsl(0, 98%, 62.2%)',
 }
@@ -29,8 +29,8 @@ const stateColors = {
 export const lightTheme: Colors = {
   // surface
   accent: brandLight,
-  container: 'rgb(255, 255, 255)',
-  module: 'rgb(255, 255, 255)',
+  container: 'hsl(220, 23%, 97.5%)',
+  module: 'hsl(231, 14%, 90%)',
   interactive: 'hsl(229, 13%, 83%)',
   outline: 'hsl(225, 7%, 78%)',
   dialog: white,

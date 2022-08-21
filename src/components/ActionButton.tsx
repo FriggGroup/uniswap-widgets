@@ -7,7 +7,7 @@ import Button from './Button'
 import Row, { RowProps } from './Row'
 
 const StyledButton = styled(Button)`
-  border-radius: 40px;
+  border-radius: 2em;
   flex-grow: 1;
   transition: background-color 0.25s ease-out, border-radius 0.25s ease-out, flex-grow 0.25s ease-out;
 
@@ -43,14 +43,14 @@ const actionCss = css`
   }
 
   ${StyledButton} {
-    border-radius: ${({ theme }) => theme.borderRadius}em;
+    border-radius: 2em;
     flex-grow: 0;
-    padding: 0.5em;
+    padding: 0.4em 1em;
   }
 `
 
 export const Overlay = styled(Row)<{ hasAction: boolean }>`
-  border-radius: ${({ theme }) => theme.borderRadius}em;
+  border-radius: 2em;
   flex-direction: row-reverse;
   min-height: 2.5em;
   transition: padding 0.25s ease-out;

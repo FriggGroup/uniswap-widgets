@@ -37,9 +37,11 @@ const WidgetWrapper = styled.div<{ width?: number | string }>`
   font-size: 16px;
   font-smooth: always;
   font-variant: none;
+  min-width: 300px;
   padding: 0.25em;
   position: relative;
   user-select: none;
+  width: ${({ width }) => width && (isNaN(Number(width)) ? width : `${width}px`)};
 
   * {
     box-sizing: border-box;
@@ -72,7 +74,7 @@ export const DialogWrapper = styled.div`
   overflow: hidden;
   position: absolute;
   top: 0;
-  width: 100%;
+  width: calc(100% - 0.5em);
 
   @supports (overflow: clip) {
     overflow: clip;
@@ -115,14 +117,14 @@ export function TestableWidget(props: PropsWithChildren<TestableWidgetProps>) {
   if (props.initialAtomValues && process.env.NODE_ENV !== 'test') {
     throw new Error('initialAtomValues may only be used for testing')
   }
-  /*
+
   const width = useMemo(() => {
     if (props.width && props.width < 300) {
       console.warn(`Widget width must be at least 300px (you set it to ${props.width}). Falling back to 300px.`)
       return 300
     }
     return props.width ?? 360
-  }, [props.width])*/
+  }, [props.width])
   const locale = useMemo(() => {
     if (props.locale && ![...SUPPORTED_LOCALES, 'pseudo'].includes(props.locale)) {
       console.warn(`Unsupported locale: ${props.locale}. Falling back to ${DEFAULT_LOCALE}.`)
@@ -156,7 +158,7 @@ export function TestableWidget(props: PropsWithChildren<TestableWidgetProps>) {
   return (
     <StrictMode>
       <ThemeProvider theme={props.theme}>
-        <WidgetWrapper className={props.className}>
+        <WidgetWrapper width={width} className={props.className}>
           <I18nProvider locale={locale}>
             <DialogWrapper ref={setDialog} />
             <DialogProvider value={props.dialog || dialog}>

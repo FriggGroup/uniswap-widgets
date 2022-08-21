@@ -105,7 +105,7 @@ export const XOctagon = icon(XOctagonIcon)
 
 export const Check = styled(icon(CheckIcon))`
   circle {
-    fill: rgb(0, 0, 0);
+    fill: ${({ theme }) => theme.active};
     stroke: none;
   }
 `

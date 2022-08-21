@@ -21,19 +21,26 @@ const Overlay = styled.div`
 `
 
 const StyledReverseButton = styled(Button)<{ turns: number }>`
-  background-color: rgb(113, 188, 146) !important;
-  border-radius: 25px;
-  color: rgb(255, 255, 255);
-  display: block;
+  background-color: ${({ theme }) => theme.accent};
+  border-radius: 2em;
+  color: ${({ theme }) => theme.onAccent};
   height: 3em;
-  margin: auto;
   position: relative;
   width: 3em;
+
+  :enabled:hover {
+    background-color: ${({ theme }) => theme.onHover(theme.accent)};
+  }
 
   div {
     transform: rotate(${({ turns }) => turns / 2}turn);
     transition: transform 0.25s ease-in-out;
     will-change: transform;
+
+    svg {
+      display: block;
+      margin: auto;
+    }
   }
 `
 

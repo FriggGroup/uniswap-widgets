@@ -149,17 +149,17 @@ export const DecimalInput = forwardRef(function DecimalInput(props: InputProps, 
 
 export const inputCss = css`
   background-color: ${({ theme }) => theme.container};
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.onHover(theme.interactive)};
   border-color: ${({ theme }) => theme.onHover(theme.outline)};
   border-radius: ${({ theme }) => theme.borderRadius}em;
   cursor: text;
   padding: calc(0.5em - 1px);
 
   :hover:not(:focus-within) {
-    border-color: rgb(0, 0, 0);
+    border-color: black;
   }
 
   :focus-within {
-    border-color: rgb(0, 0, 0);
+    border-color: black;
   }
 `
