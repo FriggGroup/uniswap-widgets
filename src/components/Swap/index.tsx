@@ -15,7 +15,7 @@ import useOnSupportedNetwork from 'hooks/useOnSupportedNetwork'
 import useSyncWidgetEventHandlers, { WidgetEventHandlers } from 'hooks/useSyncWidgetEventHandlers'
 import { useAtom } from 'jotai'
 import { useMemo, useState } from 'react'
-import { displayTxHashAtom, Field } from 'state/swap'
+import { displayTxHashAtom } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
 import { ThemedText } from 'theme'
 

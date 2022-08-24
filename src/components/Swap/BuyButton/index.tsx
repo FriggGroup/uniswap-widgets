@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro'
-import { CurrencyAmount, Percent } from '@uniswap/sdk-core'
+import { Percent } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import useWrapCallback from 'hooks/swap/useWrapCallback'
 import { useAddTransaction } from 'hooks/transactions'
