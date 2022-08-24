@@ -11,8 +11,14 @@
         },
         {
           "indexed": false,
+          "internalType": "address",
+          "name": "_friggTokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
           "internalType": "uint256",
-          "name": "amount",
+          "name": "_amount",
           "type": "uint256"
         }
       ],
@@ -30,8 +36,14 @@
         },
         {
           "indexed": false,
+          "internalType": "address",
+          "name": "_friggTokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
           "internalType": "uint256",
-          "name": "amount",
+          "name": "_amount",
           "type": "uint256"
         }
       ],
@@ -42,7 +54,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "outputTokenAddress",
+          "name": "_outputTokenAddress",
           "type": "address"
         },
         {
