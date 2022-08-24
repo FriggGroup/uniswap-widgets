@@ -1,9 +1,10 @@
 import { Trans } from '@lingui/macro'
-import { Percent } from '@uniswap/sdk-core'
+import { CurrencyAmount, Percent } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import useWrapCallback, { WrapType } from 'hooks/swap/useWrapCallback'
+import useWrapCallback from 'hooks/swap/useWrapCallback'
 import { useAddTransaction } from 'hooks/transactions'
 import { useSetOldestValidBlock } from 'hooks/useIsValidBlock'
+import useNativeCurrency from 'hooks/useNativeCurrency'
 import { Spinner } from 'icons'
 import { useUpdateAtom } from 'jotai/utils'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
@@ -39,7 +40,7 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
     trade,
   } = useBuySellInfo()
 
-  const { type: wrapType, callback: wrapCallback } = useWrapCallback()
+  const { type: wrapType, callback: wrapCallback, isWrap } = useWrapCallback()
   const { approvalAction, signatureData } = useApprovalData(
     trade.trade,
     // we set a 0% slippage to re-use the normal approval function
@@ -66,15 +67,16 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
   const setOldestValidBlock = useSetOldestValidBlock()
 
   const [isPending, setIsPending] = useState(false)
+  const native = useNativeCurrency()
   const onWrap = useCallback(async () => {
     setIsPending(true)
     try {
       const transaction = await wrapCallback?.()
       if (!transaction) return
+      invariant(wrapType !== undefined)
       addTransaction({
         response: transaction,
-        type: TransactionType.WRAP,
-        unwrapped: wrapType === WrapType.UNWRAP,
+        type: wrapType,
         currencyAmountRaw: transaction.value?.toString() ?? '0',
         chainId,
       })
@@ -95,7 +97,7 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
     } else {
       postWrap()
     }
-  }, [addTransaction, chainId, setDisplayTxHash, wrapCallback, wrapType])
+  }, [addTransaction, native, setDisplayTxHash, wrapCallback, wrapType])
   // Reset the pending state if user updates the swap.
   useEffect(() => setIsPending(false), [inputCurrencyAmount, trade])
 
@@ -105,8 +107,8 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
       if (!transaction) return
       invariant(trade.trade)
       addTransaction({
-        response: transaction,
         type: trade.trade.investment.marketType === 'buy' ? TransactionType.BUY : TransactionType.SELL,
+        response: transaction,
         tradeType: trade.trade.tradeType,
         inputCurrencyAmount: trade.trade.inputAmount,
         outputCurrencyAmount: trade.trade.outputAmount,
@@ -139,16 +141,16 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
   const disableSwap = useMemo(
     () =>
       disabled ||
+      isWrap ||
       !chainId ||
-      (wrapType === WrapType.NONE && !trade) ||
       !(inputCurrencyAmount && inputCurrencyBalance) ||
       inputCurrencyBalance.lessThan(inputCurrencyAmount),
-    [disabled, chainId, wrapType, trade, inputCurrencyAmount, inputCurrencyBalance]
+    [disabled, isWrap, chainId, inputCurrencyAmount, inputCurrencyBalance]
   )
   const actionProps = useMemo((): Partial<ActionButtonProps> | undefined => {
     if (disableSwap) {
       return { disabled: true }
-    } else if (wrapType === WrapType.NONE) {
+    } else if (isWrap) {
       return approvalAction
         ? { action: approvalAction }
         : trade.state === TradeState.VALID
@@ -159,14 +161,15 @@ export default memo(function BuyButton({ disabled, marketType }: BuyButtonProps)
         ? { action: { message: <Trans>Confirm in your wallet</Trans>, icon: Spinner } }
         : { onClick: onWrap }
     }
-  }, [approvalAction, disableSwap, isPending, onWrap, trade.state, wrapType])
+  }, [approvalAction, disableSwap, isPending, isWrap, onWrap, trade.state])
   const Label = useCallback(() => {
     switch (wrapType) {
-      case WrapType.UNWRAP:
-        return <Trans>Unwrap {inputCurrency?.symbol}</Trans>
-      case WrapType.WRAP:
+      case TransactionType.WRAP:
         return <Trans>Wrap {inputCurrency?.symbol}</Trans>
-      case WrapType.NONE:
+      case TransactionType.UNWRAP:
+        return <Trans>Unwrap {inputCurrency?.symbol}</Trans>
+      case undefined:
+        return <Trans>Review swap</Trans>
       default:
         return marketType === 'buy' ? <Trans>Review buy</Trans> : <Trans>Review sell</Trans>
     }

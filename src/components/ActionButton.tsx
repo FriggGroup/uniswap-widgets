@@ -45,7 +45,7 @@ const actionCss = css`
   ${StyledButton} {
     border-radius: 2em;
     flex-grow: 0;
-    padding: 0.4em 1em;
+    padding: 0 1em;
   }
 `
 

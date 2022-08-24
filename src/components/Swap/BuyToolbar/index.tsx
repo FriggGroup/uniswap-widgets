@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { ALL_SUPPORTED_CHAIN_IDS } from 'constants/chains'
 import { useIsAmountPopulated } from 'hooks/swap'
-import useWrapCallback, { WrapType } from 'hooks/swap/useWrapCallback'
+import { useIsWrap } from 'hooks/swap/useWrapCallback'
 import { largeIconCss } from 'icons'
 import { memo, useMemo } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
@@ -27,7 +27,7 @@ export default memo(function BuyToolbar() {
     impact,
   } = useBuySellInfo()
   const isAmountPopulated = useIsAmountPopulated()
-  const { type: wrapType } = useWrapCallback()
+  const isWrap = useIsWrap()
   const caption = useMemo(() => {
     if (!isActive || !chainId) {
       if (isActivating) return <Caption.Connecting />
@@ -45,10 +45,9 @@ export default memo(function BuyToolbar() {
       if (inputBalance && inputAmount?.greaterThan(inputBalance)) {
         return <Caption.InsufficientBalance currency={inputCurrency} />
       }
-      if (wrapType !== WrapType.NONE) {
+      if (isWrap) {
         return <Caption.WrapCurrency inputCurrency={inputCurrency} outputCurrency={outputCurrency} />
       }
-
       if (state === TradeState.NO_ROUTE_FOUND || (trade && trade instanceof InterfaceTrade && !trade.swaps)) {
         return <Caption.InsufficientLiquidity />
       }
@@ -62,19 +61,19 @@ export default memo(function BuyToolbar() {
 
     return <Caption.Empty />
   }, [
-    isActivating,
     isActive,
     chainId,
-    impact,
-    inputAmount,
-    inputBalance,
     inputCurrency,
-    isAmountPopulated,
     outputCurrency,
-    outputUSDC,
+    isAmountPopulated,
+    isActivating,
     state,
+    inputBalance,
+    inputAmount,
+    isWrap,
     trade,
-    wrapType,
+    outputUSDC,
+    impact,
   ])
 
   return (

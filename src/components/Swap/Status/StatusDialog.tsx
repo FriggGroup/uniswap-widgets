@@ -7,7 +7,7 @@ import useInterval from 'hooks/useInterval'
 import { CheckCircle, Clock, Spinner } from 'icons'
 import ms from 'ms.macro'
 import { useCallback, useMemo, useState } from 'react'
-import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
+import { Transaction, TransactionType } from 'state/transactions'
 import styled from 'styled-components/macro'
 import { ThemedText } from 'theme'
 import { ExplorerDataType } from 'utils/getExplorerLink'
@@ -20,9 +20,7 @@ const TransactionRow = styled(Row)`
   flex-direction: row-reverse;
 `
 
-type PendingTransaction = Transaction<SwapTransactionInfo | WrapTransactionInfo>
-
-function ElapsedTime({ tx }: { tx: PendingTransaction }) {
+function ElapsedTime({ tx }: { tx: Transaction }) {
   const [elapsedMs, setElapsedMs] = useState(0)
 
   useInterval(() => setElapsedMs(Date.now() - tx.addedTime), tx.receipt ? null : ms`1s`)
@@ -50,7 +48,7 @@ function ElapsedTime({ tx }: { tx: PendingTransaction }) {
 }
 
 interface TransactionStatusProps {
-  tx: PendingTransaction
+  tx: Transaction
   onClose: () => void
 }
 
@@ -66,10 +64,9 @@ function TransactionStatus({ tx, onClose }: TransactionStatusProps) {
     } else if (tx.info.type === TransactionType.SELL) {
       return tx.receipt?.status ? <Trans>Sell confirmed</Trans> : <Trans>Sell pending</Trans>
     } else if (tx.info.type === TransactionType.WRAP) {
-      if (tx.info.unwrapped) {
-        return tx.receipt?.status ? <Trans>Unwrap confirmed</Trans> : <Trans>Unwrap pending</Trans>
-      }
-      return tx.receipt?.status ? <Trans>Wrap confirmed</Trans> : <Trans>Wrap pending</Trans>
+      return tx.receipt?.status ? <Trans>Unwrap confirmed</Trans> : <Trans>Unwrap pending</Trans>
+    } else if (tx.info.type === TransactionType.UNWRAP) {
+      return tx.receipt?.status ? <Trans>Unwrap confirmed</Trans> : <Trans>Unwrap pending</Trans>
     }
     return tx.receipt?.status ? <Trans>Transaction confirmed</Trans> : <Trans>Transaction pending</Trans>
   }, [tx.info, tx.receipt?.status])
@@ -81,7 +78,7 @@ function TransactionStatus({ tx, onClose }: TransactionStatusProps) {
         {tx.info.type === TransactionType.SWAP ||
         tx.info.type === TransactionType.BUY ||
         tx.info.type === TransactionType.SELL ? (
-          <SwapSummary input={tx.info.inputCurrencyAmount} output={tx.info.outputCurrencyAmount} />
+          <SwapSummary input={tx.info.trade.inputAmount} output={tx.info.trade.outputAmount} />
         ) : null}
       </StatusHeader>
       <Rule />

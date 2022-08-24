@@ -5,12 +5,14 @@ import { Provider as Eip1193Provider } from '@web3-react/types'
 import Wallet from 'components/ConnectWallet'
 import Rule from 'components/Rule'
 import { SwapInfoProvider } from 'hooks/swap/useSwapInfo'
+import useSyncController, { SwapController, SwapSettingsController } from 'hooks/swap/useSyncController'
 import useSyncConvenienceFee, { FeeOptions } from 'hooks/swap/useSyncConvenienceFee'
+import useSyncSwapEventHandlers, { SwapEventHandlers } from 'hooks/swap/useSyncSwapEventHandlers'
 import useSyncTokenDefaults, { TokenDefaults } from 'hooks/swap/useSyncTokenDefaults'
 import { usePendingTransactions } from 'hooks/transactions'
 import useHasFocus from 'hooks/useHasFocus'
 import useOnSupportedNetwork from 'hooks/useOnSupportedNetwork'
-import useSyncEventHandlers from 'hooks/useSyncEventHandlers'
+import useSyncWidgetEventHandlers, { WidgetEventHandlers } from 'hooks/useSyncWidgetEventHandlers'
 import { useAtom } from 'jotai'
 import { useMemo, useState } from 'react'
 import { displayTxHashAtom, Field } from 'state/swap'
@@ -57,15 +59,16 @@ function getTransactionFromMap(
 
 export type MarketType = 'buy' | 'swap' | 'sell'
 
-// SwapProps also currently includes props needed for wallet connection, since the wallet connection component exists within the Swap component
-// TODO(kristiehuang): refactor WalletConnection outside of Swap component
-export interface SwapProps extends TokenDefaults, FeeOptions {
+// SwapProps also currently includes props needed for wallet connection,
+// since the wallet connection component exists within the Swap component.
+// This includes useSyncWidgetEventHandlers.
+// TODO(zzmp): refactor WalletConnection outside of Swap component
+export interface SwapProps extends FeeOptions, TokenDefaults, SwapEventHandlers, WidgetEventHandlers {
   hideConnectionUI?: boolean
   provider?: Eip1193Provider | JsonRpcProvider
   routerUrl?: string
-  onConnectWalletClick?: () => void | Promise<boolean>
-  onReviewSwapClick?: () => void | Promise<boolean>
-  onTokenSelectorClick?: (f: Field) => void | Promise<boolean>
+  settings?: SwapSettingsController
+  value?: SwapController
 
   // frigg custom props
   marketType?: MarketType
@@ -76,9 +79,11 @@ export interface SwapProps extends TokenDefaults, FeeOptions {
 
 export default function Swap({ marketType = 'buy', title, subtitle, closeDialogWidget, ...props }: SwapProps) {
   useValidate(props)
-  useSyncConvenienceFee(props)
-  useSyncTokenDefaults(props)
-  useSyncEventHandlers(props)
+  useSyncController(props)
+  useSyncConvenienceFee(props as FeeOptions)
+  useSyncSwapEventHandlers(props as SwapEventHandlers)
+  useSyncTokenDefaults(props as TokenDefaults)
+  useSyncWidgetEventHandlers(props as WidgetEventHandlers)
 
   const { isActive } = useWeb3React()
   const [wrapper, setWrapper] = useState<HTMLDivElement | null>(null)

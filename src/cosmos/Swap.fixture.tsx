@@ -9,17 +9,26 @@ import {
   SupportedChainId,
   SwapWidget,
 } from '@uniswap/widgets'
+import Row from 'components/Row'
 import { CHAIN_NAMES_TO_IDS } from 'constants/chains'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useValue } from 'react-cosmos/fixture'
-import { Field } from 'state/swap'
 
 import { MarketType } from '../components/Swap'
 import { DAI, USDC_MAINNET } from '../constants/tokens'
+import EventFeed, { Event } from './EventFeed'
 import useOption from './useOption'
 import useProvider, { INFURA_NETWORK_URLS } from './useProvider'
 
 function Fixture() {
+  const [events, setEvents] = useState<Event[]>([])
+  const useHandleEvent = useCallback(
+    (name: string) =>
+      (...data: unknown[]) =>
+        setEvents((events) => [{ name, data }, ...events]),
+    []
+  )
+
   const [convenienceFee] = useValue('convenienceFee', { defaultValue: 0 })
   const convenienceFeeRecipient = useOption('convenienceFeeRecipient', {
     options: [
@@ -60,11 +69,9 @@ function Fixture() {
   const locales = [...SUPPORTED_LOCALES, 'fa-KE (unsupported)', 'pseudo']
   const locale = useOption('locale', { options: locales, defaultValue: DEFAULT_LOCALE, nullable: false })
 
-  const [theme, setTheme] = useValue('theme', { defaultValue: { ...defaultTheme } })
+  const [theme, setTheme] = useValue('theme', { defaultValue: defaultTheme })
   const [darkMode] = useValue('darkMode', { defaultValue: false })
   useEffect(() => setTheme((theme) => ({ ...theme, ...(darkMode ? darkTheme : lightTheme) })), [darkMode, setTheme])
-
-  const jsonRpcUrlMap = INFURA_NETWORK_URLS
 
   const defaultNetwork = useOption('defaultChainId', {
     options: Object.keys(CHAIN_NAMES_TO_IDS),
@@ -137,7 +144,6 @@ function Fixture() {
     'Frigg tokens': friggTokens,
   }
   const tokenList = useOption('tokenList', { options: tokenLists, defaultValue: 'Frigg tokens', nullable: false })
-  console.log(tokenList)
 
   const marketTypes: Record<string, MarketType> = {
     buy: 'buy',
@@ -147,7 +153,7 @@ function Fixture() {
   const marketType = useOption('marketType', { options: marketTypes, defaultValue: 'buy', nullable: false })
   const [routerUrl] = useValue('routerUrl', { defaultValue: 'https://api.uniswap.org/v1/' })
 
-  return (
+  const widget = (
     <SwapWidget
       convenienceFee={convenienceFee}
       convenienceFeeRecipient={convenienceFeeRecipient}
@@ -157,32 +163,33 @@ function Fixture() {
       defaultOutputAmount={defaultOutputAmount}
       hideConnectionUI={hideConnectionUI}
       locale={locale}
-      jsonRpcUrlMap={jsonRpcUrlMap}
+      jsonRpcUrlMap={INFURA_NETWORK_URLS}
       defaultChainId={defaultChainId}
       provider={connector}
       theme={theme}
       tokenList={tokenList}
       width={width}
       routerUrl={routerUrl}
-      onConnectWalletClick={() =>
-        new Promise((resolve) => {
-          console.log('integrator provided a onConnectWalletClick')
-          resolve(true) // to open our built-in wallet connect flow
-        })
-      }
-      onReviewSwapClick={() => new Promise((resolve) => resolve(true))}
-      onTokenSelectorClick={(f: Field) =>
-        new Promise((resolve) => {
-          console.log('onTokenSelectorClick', f)
-          resolve(true)
-        })
-      }
-      onTxSubmit={(txHash: string, data: any) => console.log('tx submitted:', txHash, data)}
-      onTxSuccess={(txHash: string, data: any) => console.log('tx success:', txHash, data)}
-      onTxFail={(error: Error, data: any) => console.log('tx fail:', error, data)}
       marketType={marketType}
       closeDialogWidget={() => console.log('closeDialogWidget')} // this handler is included as a test of functionality, but only logs
+      onConnectWalletClick={useHandleEvent('onConnectWalletClick')}
+      onReviewSwapClick={useHandleEvent('onReviewSwapClick')}
+      onTokenSelectorClick={useHandleEvent('onTokenSelectorClick')}
+      onTxSubmit={useHandleEvent('onTxSubmit')}
+      onTxSuccess={useHandleEvent('onTxSuccess')}
+      onTxFail={useHandleEvent('onTxFail')}
     />
+  )
+
+  // If framed in a different origin, only display the SwapWidget, without any chrome.
+  // This is done to faciliate iframing in the documentation (https://docs.uniswap.org).
+  if (!window.frameElement) return widget
+
+  return (
+    <Row align="start" justify="space-around">
+      {widget}
+      <EventFeed events={events} onClear={() => setEvents([])} />
+    </Row>
   )
 }
 

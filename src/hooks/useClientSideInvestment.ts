@@ -130,9 +130,11 @@ export function useClientSideInvestment<TTradeType extends TradeType>(
           inputAmount: amountIn,
           outputAmount: amountOut,
         },
-        inputAmount: amountIn,
-        outputAmount: amountOut,
-        tradeType,
+        trade: {
+          inputAmount: amountIn,
+          outputAmount: amountOut,
+          tradeType,
+        },
       }),
     }
   }, [amountSpecified, currencyIn, currencyOut, marketType, quotesResults, tradeType])

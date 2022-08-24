@@ -153,7 +153,7 @@ export const inputCss = css`
   border-color: ${({ theme }) => theme.onHover(theme.outline)};
   border-radius: ${({ theme }) => theme.borderRadius}em;
   cursor: text;
-  padding: calc(0.5em - 1px);
+  padding: calc(0.75em - 1px);
 
   :hover:not(:focus-within) {
     border-color: black;

@@ -1,5 +1,6 @@
 import { Currency, CurrencyAmount, TradeType } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
+import { useIsWrap } from 'hooks/swap/useWrapCallback'
 import { useCurrencyBalances } from 'hooks/useCurrencyBalance'
 import useUSDCPriceImpact, { PriceImpact } from 'hooks/useUSDCPriceImpact'
 import { useAtomValue } from 'jotai/utils'
@@ -9,7 +10,6 @@ import { Field, swapAtom } from 'state/swap'
 import tryParseCurrencyAmount from 'utils/tryParseCurrencyAmount'
 
 import { INVALID_TRADE } from '../routing/useRouterTrade'
-import useWrapCallback, { WrapType } from '../swap/useWrapCallback'
 import { useInvestment } from './useInvestment'
 
 interface BuySellField {
@@ -33,8 +33,7 @@ export type BuySellMarketType = 'buy' | 'sell'
 
 // from the current swap inputs, compute the best trade and return it.
 function useComputeBuySellInfo(marketType: BuySellMarketType): BuySellInfo {
-  const { type: wrapType } = useWrapCallback()
-  const isWrapping = wrapType === WrapType.WRAP || wrapType === WrapType.UNWRAP
+  const isWrap = useIsWrap()
   const { independentField, amount, [Field.INPUT]: currencyIn, [Field.OUTPUT]: currencyOut } = useAtomValue(swapAtom)
   const isExactIn = independentField === Field.INPUT
 
@@ -42,7 +41,7 @@ function useComputeBuySellInfo(marketType: BuySellMarketType): BuySellInfo {
     () => tryParseCurrencyAmount(amount, (isExactIn ? currencyIn : currencyOut) ?? undefined),
     [amount, isExactIn, currencyIn, currencyOut]
   )
-  const hasAmounts = currencyIn && currencyOut && parsedAmount && !isWrapping
+  const hasAmounts = currencyIn && currencyOut && parsedAmount && !isWrap
   const trade = useInvestment(
     isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
     marketType,
@@ -51,12 +50,12 @@ function useComputeBuySellInfo(marketType: BuySellMarketType): BuySellInfo {
   )
 
   const amountIn = useMemo(
-    () => (isWrapping || isExactIn ? parsedAmount : trade.trade?.inputAmount),
-    [isExactIn, isWrapping, parsedAmount, trade.trade?.inputAmount]
+    () => (isWrap || isExactIn ? parsedAmount : trade.trade?.inputAmount),
+    [isExactIn, isWrap, parsedAmount, trade.trade?.inputAmount]
   )
   const amountOut = useMemo(
-    () => (isWrapping || !isExactIn ? parsedAmount : trade.trade?.outputAmount),
-    [isExactIn, isWrapping, parsedAmount, trade.trade?.outputAmount]
+    () => (isWrap || !isExactIn ? parsedAmount : trade.trade?.outputAmount),
+    [isExactIn, isWrap, parsedAmount, trade.trade?.outputAmount]
   )
 
   const { account } = useWeb3React()
