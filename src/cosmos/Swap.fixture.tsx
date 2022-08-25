@@ -9,7 +9,7 @@ import {
   SupportedChainId,
   SwapWidget,
 } from '@uniswap/widgets'
-import { CHAIN_NAMES_TO_IDS } from 'constants/chains'
+import { CHAIN_NAMES_TO_IDS, ChainName } from 'constants/chains'
 import { useEffect } from 'react'
 import { useValue } from 'react-cosmos/fixture'
 import { Field } from 'state/swap'
@@ -35,7 +35,7 @@ function Fixture() {
     DAI: DAI.address,
     USDC_Mainnet: USDC_MAINNET.address,
     USDC_Goerli: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
-    ATT: '0x443AC1EC1d72c7998fbE38cFa47020cBcB72b22d',
+    ATT: '0x3Fa487c032Fc6F0Bb2E0C47977D952D3BF188DA6',
     BTT: '0x85d36Ab8F67533806eFA80982d8A0A6BF8188a98',
     CTT: '0x615a28d4367322756400593171CeebA69773303b',
     DTT: '0x0f710556B75091Fb7D54595AE87fBE5d133a197e',
@@ -49,7 +49,7 @@ function Fixture() {
   const defaultOutputToken = useOption('defaultOutputToken', {
     options: currencies,
     // TODO we need to change the default tokens here (see todo comment above)
-    defaultValue: 'CTT',
+    defaultValue: 'ATT',
   })
   const [defaultOutputAmount] = useValue('defaultOutputAmount', { defaultValue: 0 })
 
@@ -68,7 +68,7 @@ function Fixture() {
 
   const defaultNetwork = useOption('defaultChainId', {
     options: Object.keys(CHAIN_NAMES_TO_IDS),
-    defaultValue: 'mainnet',
+    defaultValue: ChainName.GOERLI,
   })
   const defaultChainId = defaultNetwork ? CHAIN_NAMES_TO_IDS[defaultNetwork] : undefined
 
@@ -77,7 +77,7 @@ function Fixture() {
   const friggTokens = [
     {
       name: 'ATT',
-      address: '0x443AC1EC1d72c7998fbE38cFa47020cBcB72b22d',
+      address: '0x3Fa487c032Fc6F0Bb2E0C47977D952D3BF188DA6',
       symbol: 'ATT',
       decimals: 18,
       chainId: 5,
