@@ -6,6 +6,11 @@
           "internalType": "address",
           "name": "_multisig",
           "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_routerGater",
+          "type": "address"
         }
       ],
       "stateMutability": "nonpayable",
@@ -158,11 +163,6 @@
         },
         {
           "internalType": "address",
-          "name": "_uIdContract",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
           "name": "_issuer",
           "type": "address"
         },
@@ -202,7 +202,7 @@
       ],
       "name": "buy",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -303,6 +303,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "routerGater",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -317,7 +330,7 @@
       ],
       "name": "sell",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -355,11 +368,6 @@
           "type": "address"
         },
         {
-          "internalType": "address",
-          "name": "uIdContract",
-          "type": "address"
-        },
-        {
           "internalType": "uint256",
           "name": "issuancePrice",
           "type": "uint256"
@@ -376,6 +384,19 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_routerGater",
+          "type": "address"
+        }
+      ],
+      "name": "updateRouterGaterAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ]

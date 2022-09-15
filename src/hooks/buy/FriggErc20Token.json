@@ -11,11 +11,6 @@
           "internalType": "address",
           "name": "_router",
           "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_amount",
-          "type": "uint256"
         }
       ],
       "stateMutability": "nonpayable",
@@ -450,6 +445,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "primaryMarketActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "bytes32",
@@ -501,6 +509,19 @@
     {
       "inputs": [],
       "name": "setBondExpiry",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "_setup",
+          "type": "bool"
+        }
+      ],
+      "name": "setPrimaryMarketActive",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
