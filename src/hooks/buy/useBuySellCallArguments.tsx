@@ -34,15 +34,15 @@ export function useBuySellCallArguments(
     const calldata =
       investmentTrade.investment.marketType === 'buy'
         ? friggRouterContract.interface.encodeFunctionData('buy', [
-          // function buy(address friggTokenAddress, uint256 inputTokenAmount) external
-          investmentTrade.outputAmount.currency.address,
-          BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
-        ])
+            // function buy(address friggTokenAddress, uint256 inputTokenAmount) external
+            investmentTrade.outputAmount.currency.address,
+            BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
+          ])
         : friggRouterContract.interface.encodeFunctionData('sell', [
-          // function sell(address friggTokenAddress, uint256 inputFriggTokenAmount) external
-          investmentTrade.inputAmount.currency.address,
-          BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
-        ])
+            // function sell(address friggTokenAddress, uint256 inputFriggTokenAmount) external
+            investmentTrade.inputAmount.currency.address,
+            BigNumber.from(investmentTrade.inputAmount.quotient.toString()),
+          ])
 
     return [
       {
