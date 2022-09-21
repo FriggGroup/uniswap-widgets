@@ -2,7 +2,10 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Currency, TradeType } from '@uniswap/sdk-core'
 import { toHex } from '@uniswap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
+import { hexlify } from 'ethers/lib/utils'
+import { useAtom } from 'jotai'
 import { useMemo } from 'react'
+import { queryFeeAtom } from 'state/swap'
 
 import { InvestmentTrade } from '../../state/routing/types'
 import { useFriggRouterContract } from '../useContract'
@@ -21,6 +24,9 @@ export function useBuySellCallArguments(
   signatureData: SignatureData | null | undefined
 ): BuySellCall[] {
   const { account, chainId } = useWeb3React()
+  const [queryFee] = useAtom(queryFeeAtom)
+
+  console.log(queryFee)
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
@@ -48,8 +54,8 @@ export function useBuySellCallArguments(
       {
         address: friggRouterContract.address,
         calldata,
-        value: toHex(2400000000000000),
+        value: toHex(hexlify(queryFee || 0)),
       },
     ]
-  }, [investmentTrade, recipient, account, chainId, friggRouterContract])
+  }, [investmentTrade, recipient, account, chainId, friggRouterContract, queryFee])
 }

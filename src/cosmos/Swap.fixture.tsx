@@ -35,7 +35,7 @@ function Fixture() {
     DAI: DAI.address,
     USDC_Mainnet: USDC_MAINNET.address,
     USDC_Goerli: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
-    ATT: '0x689dDd83b7e9128d6df10f707e7D347de281B5fD',
+    ATT: '0x25a1dAd9d882c335D100f8E0cb20701376Eeb658',
     BTT: '0x85d36Ab8F67533806eFA80982d8A0A6BF8188a98',
     CTT: '0x615a28d4367322756400593171CeebA69773303b',
     DTT: '0x0f710556B75091Fb7D54595AE87fBE5d133a197e',
@@ -76,9 +76,9 @@ function Fixture() {
 
   const friggTokens = [
     {
-      name: 'ATT300',
-      address: '0x689dDd83b7e9128d6df10f707e7D347de281B5fD',
-      symbol: 'ATT300',
+      name: 'ATT',
+      address: '0x25a1dAd9d882c335D100f8E0cb20701376Eeb658',
+      symbol: 'ATT',
       decimals: 18,
       chainId: 5,
       logoURI:
@@ -182,6 +182,7 @@ function Fixture() {
       onTxFail={(error: Error, data: any) => console.log('tx fail:', error, data)}
       marketType={marketType}
       closeDialogWidget={() => console.log('closeDialogWidget')} // this handler is included as a test of functionality, but only logs
+      queryFee={2400000000000000} // Query Fee is used for quadrata passport check
     />
   )
 }

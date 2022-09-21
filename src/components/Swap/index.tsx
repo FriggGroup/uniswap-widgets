@@ -12,8 +12,8 @@ import useHasFocus from 'hooks/useHasFocus'
 import useOnSupportedNetwork from 'hooks/useOnSupportedNetwork'
 import useSyncEventHandlers from 'hooks/useSyncEventHandlers'
 import { useAtom } from 'jotai'
-import { useMemo, useState } from 'react'
-import { displayTxHashAtom, Field } from 'state/swap'
+import { useEffect, useMemo, useState } from 'react'
+import { displayTxHashAtom, Field, queryFeeAtom } from 'state/swap'
 import { SwapTransactionInfo, Transaction, TransactionType, WrapTransactionInfo } from 'state/transactions'
 import { ThemedText } from 'theme'
 
@@ -72,6 +72,7 @@ export interface SwapProps extends TokenDefaults, FeeOptions {
   closeDialogWidget: () => void
   title?: string
   subtitle?: string
+  queryFee?: number
 }
 
 export default function Swap({ marketType = 'buy', title, subtitle, closeDialogWidget, ...props }: SwapProps) {
@@ -84,6 +85,7 @@ export default function Swap({ marketType = 'buy', title, subtitle, closeDialogW
   const [wrapper, setWrapper] = useState<HTMLDivElement | null>(null)
 
   const [displayTxHash, setDisplayTxHash] = useAtom(displayTxHashAtom)
+  const [, setQueryFee] = useAtom(queryFeeAtom)
   const pendingTxs = usePendingTransactions()
   const displayTx = getTransactionFromMap(pendingTxs, displayTxHash)
 
@@ -91,6 +93,10 @@ export default function Swap({ marketType = 'buy', title, subtitle, closeDialogW
   const isDisabled = !(isActive && onSupportedNetwork)
 
   const focused = useHasFocus(wrapper)
+
+  useEffect(() => {
+    setQueryFee(props.queryFee)
+  }, [props.queryFee, setQueryFee])
 
   const renderDifferentText = useMemo(() => {
     switch (marketType) {
