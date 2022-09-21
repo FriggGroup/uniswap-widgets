@@ -33,3 +33,5 @@ export const onTokenSelectorClickAtom = atom<((field: Field) => void | Promise<b
 export const displayTxHashAtom = atom<string | undefined>(undefined)
 
 export const feeOptionsAtom = atom<FeeOptions | undefined>(undefined)
+
+export const queryFeeAtom = atom<number | undefined>(undefined)
