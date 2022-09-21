@@ -26,8 +26,6 @@ export function useBuySellCallArguments(
   const { account, chainId } = useWeb3React()
   const [queryFee] = useAtom(queryFeeAtom)
 
-  console.log(queryFee)
-
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
 
