@@ -35,7 +35,7 @@ function Fixture() {
     DAI: DAI.address,
     USDC_Mainnet: USDC_MAINNET.address,
     USDC_Goerli: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
-    ATT: '0x25a1dAd9d882c335D100f8E0cb20701376Eeb658',
+    ATT: '0x75524DeDac0Bf8D8714A3E235112d33a78314CAa',
     BTT: '0x85d36Ab8F67533806eFA80982d8A0A6BF8188a98',
     CTT: '0x615a28d4367322756400593171CeebA69773303b',
     DTT: '0x0f710556B75091Fb7D54595AE87fBE5d133a197e',
@@ -77,7 +77,7 @@ function Fixture() {
   const friggTokens = [
     {
       name: 'ATT',
-      address: '0x25a1dAd9d882c335D100f8E0cb20701376Eeb658',
+      address: '0x75524DeDac0Bf8D8714A3E235112d33a78314CAa',
       symbol: 'ATT',
       decimals: 18,
       chainId: 5,
