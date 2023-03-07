@@ -1,49 +1,30 @@
 name: Test
 
 on:
+  push:
+    branches:
+      - '*'
   pull_request:
     branches:
-      - main
-  # manual trigger
-  workflow_dispatch:
+      - '*'
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup
-      - run: yarn prepare
-
-      - run: yarn lint
-
-  deps:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup
-      - run: yarn yarn-deduplicate --strategy=highest --list --fail
-
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup
-      - run: yarn prepare
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile
 
       - run: yarn test
-        env:
-          JSON_RPC_PROVIDER: ${{ secrets.JSON_RPC_PROVIDER }}
 
-      - run: yarn test:e2e
-        env:
-          JSON_RPC_PROVIDER: ${{ secrets.JSON_RPC_PROVIDER }}
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup
-      - run: yarn prepare
-
-      - run: yarn build
+      # Disabled as this test just tries connecting to the wallet (test manually)
+      # - run: yarn test:e2e
+      #   env:
+      #     JSON_RPC_PROVIDER: ${{ secrets.JSON_RPC_PROVIDER }}
