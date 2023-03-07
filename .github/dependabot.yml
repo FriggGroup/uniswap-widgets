@@ -5,6 +5,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    target-branch: "frigg-fork"
     allow:
       - dependency-name: "@uniswap/token-lists"
       - dependency-name: "@uniswap/default-token-list"
